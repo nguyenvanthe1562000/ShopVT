@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Common;
 using Model.Model;
 
 namespace Data.Reponsitory.Interface
@@ -8,9 +9,9 @@ namespace Data.Reponsitory.Interface
 {
     public interface IB10ProductRepository
     {
-       Task<bool> Insert(B10ProductModel model);
+        Task<bool> Insert(B10ProductModel model);
 
-
+        Task<PagedResultBase> Paging(PagingRequestBase pagingRequest);
 
         bool Update(B10ProductModel model);
 

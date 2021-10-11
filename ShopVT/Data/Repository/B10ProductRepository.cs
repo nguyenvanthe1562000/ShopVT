@@ -1,4 +1,5 @@
 ﻿
+using Common;
 using Common.Helper;
 using Data.Reponsitory.Interface;
 using Model.Model;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Data.Reponsitory
 {
-   public class B10ProductRepository : IB10ProductRepository
+    public class B10ProductRepository : IB10ProductRepository
     {
         private IDatabaseHelper _dbHelper;
         public B10ProductRepository(IDatabaseHelper databaseHelper)
@@ -29,7 +30,7 @@ namespace Data.Reponsitory
                 bool flag = true;
                 await Task.Run(() =>
                 {
-                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "B10Product_create", "@code", model.code, "@Name", model.Name, "@Alias", model.Alias, "@ProductCategoryCode", model.ProductCategoryCode, "@UnitCost", model.UnitCost, "@UnitPrice", model.UnitPrice, "@Warranty", model.Warranty, "@Description", model.Description, "@Content", model.Content, "@Information", model.Information, "@user_id",123);
+                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "B10Product_create", "@code", model.code, "@Name", model.Name, "@Alias", model.Alias, "@ProductCategoryCode", model.ProductCategoryCode, "@UnitCost", model.UnitCost, "@UnitPrice", model.UnitPrice, "@Warranty", model.Warranty, "@Description", model.Description, "@Content", model.Content, "@Information", model.Information, "@user_id", 123);
                     if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                     {
                         flag = false;
@@ -96,7 +97,28 @@ namespace Data.Reponsitory
             }
         }
 
-
+        public async Task<PagedResultBase> Paging(PagingRequestBase pagingRequest)
+        {
+            string msgError = "";
+            var result = new PagedResultBase();
+            try
+            {
+                await Task.Run(() =>
+                {
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "usp_sys_PagingForTable", "@PageSize", pagingRequest.PageSize, "@PageIndex", pagingRequest.PageIndex, "@orderby", pagingRequest.OrderBy, "@table", "B10Product");
+                    if (!string.IsNullOrEmpty(msgError))
+                    {
+                        throw new Exception(msgError);
+                    }
+                    result = dt.ConvertTo<PagedResultBase>().ToList().FirstOrDefault();
+                });
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         /// <summary>
         /// Get the information by using id of the table Employee

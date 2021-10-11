@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Model;
 using Newtonsoft.Json;
 using Service.Admin.Interface;
+using ShopVT.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace ShopVT.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class B10ProductController : ControllerBase
+    public class B10ProductController : BaseController
     {
         private readonly IB10ProductService _B10ProductService;
 
@@ -27,6 +29,20 @@ namespace ShopVT.Controllers.Admin
             try
             {
                 var response = await _B10ProductService.Insert(model);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error at method: GetAllForPaging - PostApi," + ex.InnerException.InnerException.Message + "");
+            }
+        }
+        [HttpGet]
+        [Route("Paging")]
+        public async Task<IActionResult> Paging([FromBody] PagingRequestBase pagingRequest)
+        {
+            try
+            {
+                var response = await _B10ProductService.Paging(pagingRequest);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -53,7 +69,7 @@ namespace ShopVT.Controllers.Admin
 
         [HttpDelete]
         [Route("delete/{code}")]
-        public IActionResult  Delete([FromRoute] string code)
+        public IActionResult Delete([FromRoute] string code)
         {
             try
             {
@@ -68,7 +84,7 @@ namespace ShopVT.Controllers.Admin
 
         [HttpGet]
         [Route("get-all")]
-        public IActionResult  GetAll()
+        public IActionResult GetAll()
         {
             try
             {
@@ -87,7 +103,7 @@ namespace ShopVT.Controllers.Admin
 
         [HttpGet]
         [Route("search")]
-        public IActionResult  Search(string data)
+        public IActionResult Search(string data)
         {
             try
             {
@@ -107,7 +123,7 @@ namespace ShopVT.Controllers.Admin
 
         [HttpGet]
         [Route("GetById/{code}")]
-        public IActionResult  GetById([FromRoute] string code)
+        public IActionResult GetById([FromRoute] string code)
         {
             try
             {

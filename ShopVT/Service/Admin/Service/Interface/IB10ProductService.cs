@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Common;
 using Model.Model;
 
 namespace Service.Admin.Interface
@@ -10,7 +11,7 @@ namespace Service.Admin.Interface
     {
         Task<bool> Insert(B10ProductModel model);
 
-
+        Task<PagedResultBase> Paging(PagingRequestBase pagingRequest);
 
         bool Update(B10ProductModel model);
 

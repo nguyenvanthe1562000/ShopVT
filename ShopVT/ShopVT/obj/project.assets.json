@@ -6482,11 +6482,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\ShopVT\\ShopVT\\ShopVT.csproj",
+      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj",
       "projectName": "ShopVT",
-      "projectPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\ShopVT\\ShopVT.csproj",
+      "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj",
       "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\ShopVT\\obj\\",
+      "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6503,14 +6503,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\nguye\\source\\repos\\ShopVT\\Common\\Common.csproj": {
-              "projectPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Common\\Common.csproj"
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
             },
-            "C:\\Users\\nguye\\source\\repos\\ShopVT\\Model\\Model.csproj": {
-              "projectPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Model\\Model.csproj"
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
             },
-            "C:\\Users\\nguye\\source\\repos\\ShopVT\\Service\\Service.csproj": {
-              "projectPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Service\\Service.csproj"
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj"
             }
           }
         }

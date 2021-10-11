@@ -5801,11 +5801,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Common\\Common.csproj",
+      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
       "projectName": "Common",
-      "projectPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Common\\Common.csproj",
+      "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
       "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Common\\obj\\",
+      "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",

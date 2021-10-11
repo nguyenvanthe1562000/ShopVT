@@ -1,4 +1,5 @@
-﻿using Data.Reponsitory.Interface;
+﻿using Common;
+using Data.Reponsitory.Interface;
 using Model.Model;
 using Service.Admin.Interface;
 using System;
@@ -17,7 +18,7 @@ namespace Service.Admin.Service
 
         public async Task<bool> Insert(B10ProductModel model)
         {
-            return  await _B10ProductRepository.Insert(model);
+            return await _B10ProductRepository.Insert(model);
         }
 
 
@@ -37,7 +38,10 @@ namespace Service.Admin.Service
             return _B10ProductRepository.Delete(code);
         }
 
-
+        public async Task<PagedResultBase> Paging(PagingRequestBase pagingRequest)
+        {
+            return await _B10ProductRepository.Paging(pagingRequest);
+        }
         public List<B10ProductModel> GetAll()
         {
             var result = _B10ProductRepository.GetAll();
@@ -55,7 +59,7 @@ namespace Service.Admin.Service
         /// </summary>
         /// <param name="lang">Language used to display data</param> 
         /// <returns></returns>
-       
+
 
 
 

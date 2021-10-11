@@ -28,7 +28,7 @@ namespace ShopVT.Controllers.Client
         [Route("CreatePrivateRoom/{name}")]
         public async Task<IActionResult> CreatePrivateRoom(string name)
         {
-            var id = await _rep.CreatePrivateRoom(GetCustomerIp(), name);
+            var id = await _rep.CreatePrivateRoom(GetIpAddress(), name);
             return Ok();
         }
         [HttpGet]
@@ -36,7 +36,7 @@ namespace ShopVT.Controllers.Client
         public async Task<IActionResult> GetMessage()
         {
 
-            var id = await _rep.GetCustomerChat(GetCustomerIp());
+            var id = await _rep.GetCustomerChat(GetIpAddress());
             return Ok();
         }
         [HttpPost]
@@ -48,7 +48,7 @@ namespace ShopVT.Controllers.Client
            [FromServices] IHubContext<ChatHub> chat)
         {
 
-            var Message = await _rep.CreateMessageFromCustomer(chatId, message, name, GetCustomerIp());
+            var Message = await _rep.CreateMessageFromCustomer(chatId, message, name, GetIpAddress());
             await chat.Clients.Group(chatId.ToString())
                 .SendAsync("RecieveMessage", new
                 {

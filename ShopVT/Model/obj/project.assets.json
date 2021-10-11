@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Model\\Model.csproj",
+      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
       "projectName": "Model",
-      "projectPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Model\\Model.csproj",
+      "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
       "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Model\\obj\\",
+      "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
