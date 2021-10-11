@@ -8,7 +8,7 @@ namespace Model.Model
 
 		public int ID { set; get; }
 		public string userCode { set; get; }
-		public int PermisionCode { set; get; }
+		public string PermisionCode { set; get; }
 		public bool IsActive { set; get; }
 		public int CreatedBy { set; get; }
 		public DateTime CreatedAt { set; get; }

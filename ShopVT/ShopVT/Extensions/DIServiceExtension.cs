@@ -1,14 +1,13 @@
 ﻿using Common.Helper;
-using Data.Reponsitory.Interface;
 using Data.Reponsitory;
+using Data.Reponsitory.Interface;
+using Data.Repository;
+using Data.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Service.Admin.Interface;
 using Service.Admin.Service;
+using Service.Admin.Service.Interface;
 using ShopVT.Infrastructure.Respository;
+
 
 namespace ShopVT.Extensions
 {
@@ -16,11 +15,17 @@ namespace ShopVT.Extensions
     {
         public static IServiceCollection AddDIConllection(this IServiceCollection services)
         {
+            #region reponsitory admin
             services.AddTransient<IDatabaseHelper, DatabaseHelper>();
             services.AddTransient<IB10ProductRepository, B10ProductRepository>();
-            services.AddTransient<IB10ProductService, B10ProductService>();
+            services.AddTransient<ILoginAdminRepository, LoginAdminRepository>();
+            #endregion
 
-            //chat
+            #region service admin
+            services.AddTransient<IB10ProductService, B10ProductService>();
+            services.AddTransient<ILoginAdminService, LoginAdminService>();
+            #endregion
+
             services.AddTransient<IChatRepository, ChatRepository>();
 
             return services;

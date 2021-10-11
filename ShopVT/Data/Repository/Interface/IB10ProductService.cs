@@ -13,17 +13,15 @@ namespace Data.Reponsitory.Interface
 
         Task<PagedResultBase> Paging(PagingRequestBase pagingRequest);
 
-        bool Update(B10ProductModel model);
+        Task<bool> Update(B10ProductModel model);
 
+        Task<bool> Delete(string code);
 
+        Task<List<B10ProductModel>> GetAll();
 
-        bool Delete(string code);
+        Task<List<B10ProductModel>> Search(string Name);
 
-        List<B10ProductModel> GetAll();
-
-        List<B10ProductModel> Search(string Name);
-
-        B10ProductModel GetById(string code);
+        Task<B10ProductModel> GetById(string code);
 
 
     }

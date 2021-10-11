@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Model;
 using Newtonsoft.Json;
-using Service.Admin.Interface;
+
+using Service.Admin.Service.Interface;
 using ShopVT.Extensions;
+using ShopVT.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,7 @@ namespace ShopVT.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(Roles = AppRoles.ADMIN)]
     public class B10ProductController : BaseController
     {
         private readonly IB10ProductService _B10ProductService;
@@ -36,7 +39,7 @@ namespace ShopVT.Controllers.Admin
                 return BadRequest("Error at method: GetAllForPaging - PostApi," + ex.InnerException.InnerException.Message + "");
             }
         }
-        [HttpGet]
+        [HttpPost]
         [Route("Paging")]
         public async Task<IActionResult> Paging([FromBody] PagingRequestBase pagingRequest)
         {
@@ -54,11 +57,11 @@ namespace ShopVT.Controllers.Admin
 
         [HttpPut]
         [Route("Update")]
-        public IActionResult Update([FromBody] B10ProductModel model)
+        public async Task<IActionResult> Update([FromBody] B10ProductModel model)
         {
             try
             {
-                var responseData = _B10ProductService.Update(model);
+                var responseData = await _B10ProductService.Update(model);
                 return Ok(responseData);
             }
             catch (Exception ex)
@@ -69,11 +72,11 @@ namespace ShopVT.Controllers.Admin
 
         [HttpDelete]
         [Route("delete/{code}")]
-        public IActionResult Delete([FromRoute] string code)
+        public async Task<IActionResult> Delete([FromRoute] string code)
         {
             try
             {
-                var response = _B10ProductService.Delete(code);
+                var response = await _B10ProductService.Delete(code);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -84,11 +87,11 @@ namespace ShopVT.Controllers.Admin
 
         [HttpGet]
         [Route("get-all")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var response = _B10ProductService.GetAll();
+                var response = await _B10ProductService.GetAll();
                 return Ok(response);
             }
             catch (Exception ex)
@@ -103,7 +106,7 @@ namespace ShopVT.Controllers.Admin
 
         [HttpGet]
         [Route("search")]
-        public IActionResult Search(string data)
+        public async Task<IActionResult> Search([FromRoute] string data)
         {
             try
             {
@@ -112,7 +115,7 @@ namespace ShopVT.Controllers.Admin
                 if (fromData.Keys.Contains("Name") && fromData["Name"] != null && fromData["Name"].ToString() != "")
                 { _Name = Convert.ToString(fromData["Name"].ToString()); }
 
-                var response = _B10ProductService.Search(_Name);
+                var response = await _B10ProductService.Search(_Name);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -123,11 +126,11 @@ namespace ShopVT.Controllers.Admin
 
         [HttpGet]
         [Route("GetById/{code}")]
-        public IActionResult GetById([FromRoute] string code)
+        public async Task<IActionResult> GetById([FromRoute] string code)
         {
             try
             {
-                var responseData = _B10ProductService.GetById(code);
+                var responseData = await _B10ProductService.GetById(code);
                 return Ok(responseData);
             }
             catch (Exception ex)

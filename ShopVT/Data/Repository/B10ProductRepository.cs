@@ -59,18 +59,24 @@ namespace Data.Reponsitory
         /// </summary>
         /// <param name="model">The record updated</param>
         /// <returns></returns>
-        public bool Update(B10ProductModel model)
+        public async Task<bool> Update(B10ProductModel model)
         {
             string msgError = "";
             try
             {
-                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "B10Product_update", "@code", model.code, "@Name", model.Name, "@Alias", model.Alias, "@ProductCategoryCode", model.ProductCategoryCode, "@UnitCost", model.UnitCost, "@UnitPrice", model.UnitPrice, "@Warranty", model.Warranty, "@Description", model.Description, "@Content", model.Content, "@Information", model.Information, "@IsActive", model.IsActive
-                );
-                if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
+                bool flag = true;
+                await Task.Run(() =>
                 {
-                    throw new Exception(Convert.ToString(result) + msgError);
-                }
-                return true;
+                    var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "B10Product_update", "@code", model.code, "@Name", model.Name, "@Alias", model.Alias, "@ProductCategoryCode", model.ProductCategoryCode, "@UnitCost", model.UnitCost, "@UnitPrice", model.UnitPrice, "@Warranty", model.Warranty, "@Description", model.Description, "@Content", model.Content, "@Information", model.Information, "@IsActive", model.IsActive
+                );
+                    if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
+                    {
+                        flag = false;
+                        throw new Exception(Convert.ToString(result) + msgError);
+                    }
+                    flag = true;
+                });
+                return flag;
             }
             catch (Exception ex)
             {
@@ -79,17 +85,23 @@ namespace Data.Reponsitory
         }
 
 
-        public bool Delete(string code)
+        public async Task<bool> Delete(string code)
         {
             string msgError = "";
             try
             {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "B10Product_delete", "@code", code);
-                if (!string.IsNullOrEmpty(msgError))
+                bool flag = true;
+                await Task.Run(() =>
                 {
-                    throw new Exception(msgError);
-                }
-                return true;
+                    var result = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "B10Product_delete", "@code", code);
+                    if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
+                    {
+                        flag = false;
+                        throw new Exception(Convert.ToString(result) + msgError);
+                    }
+                    flag = true;
+                });
+                return flag;
             }
             catch (Exception ex)
             {
@@ -100,9 +112,9 @@ namespace Data.Reponsitory
         public async Task<PagedResultBase> Paging(PagingRequestBase pagingRequest)
         {
             string msgError = "";
-            var result = new PagedResultBase();
             try
             {
+                var result = new PagedResultBase();
                 await Task.Run(() =>
                 {
                     var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "usp_sys_PagingForTable", "@PageSize", pagingRequest.PageSize, "@PageIndex", pagingRequest.PageIndex, "@orderby", pagingRequest.OrderBy, "@table", "B10Product");
@@ -124,17 +136,22 @@ namespace Data.Reponsitory
         /// Get the information by using id of the table Employee
         /// </summary>
         /// <returns></returns>
-        public List<B10ProductModel> GetAll()
+        public async Task<List<B10ProductModel>> GetAll()
         {
             string msgError = "";
             try
             {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "B10Product_get_all");
-                if (!string.IsNullOrEmpty(msgError))
+                var result = new List<B10ProductModel>();
+                await Task.Run(() =>
                 {
-                    throw new Exception(msgError);
-                }
-                return dt.ConvertTo<B10ProductModel>().ToList();
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "B10Product_get_all");
+                    if (!string.IsNullOrEmpty(msgError))
+                    {
+                        throw new Exception(msgError);
+                    }
+                    result = dt.ConvertTo<B10ProductModel>().ToList();
+                });
+                return result;
             }
             catch (Exception ex)
             {
@@ -143,17 +160,23 @@ namespace Data.Reponsitory
         }
 
 
-        public List<B10ProductModel> Search(string Name)
+        public async Task<List<B10ProductModel>> Search(string Name)
         {
             string msgError = "";
             try
             {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "B10Product_search", "@Name", Name
-
+                var result = new List<B10ProductModel>();
+                await Task.Run(() =>
+                {
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "B10Product_search", "@Name", Name
                     );
-                if (!string.IsNullOrEmpty(msgError))
-                    throw new Exception(msgError);
-                return dt.ConvertTo<B10ProductModel>().ToList();
+                    if (!string.IsNullOrEmpty(msgError))
+                    {
+                        throw new Exception(msgError);
+                    }
+                    result = dt.ConvertTo<B10ProductModel>().ToList();
+                });
+                return result;
             }
             catch (Exception ex)
             {
@@ -172,17 +195,23 @@ namespace Data.Reponsitory
         /// </summary>
         /// <param name="id">Id used to get the information</param>
         /// <returns></returns>
-        public B10ProductModel GetById(string code)
+        public async Task<B10ProductModel> GetById( string code)
         {
             string msgError = "";
             try
             {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "B10Product_get_by_id", "@code", code);
-                if (!string.IsNullOrEmpty(msgError))
+                var result = new B10ProductModel();
+                await Task.Run(() =>
                 {
-                    throw new Exception(msgError);
-                }
-                return dt.ConvertTo<B10ProductModel>().ToList().FirstOrDefault();
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "B10Product_get_by_id", "@code", code);
+                    if (!string.IsNullOrEmpty(msgError))
+                    {
+                        throw new Exception(msgError);
+                    }
+                    result = dt.ConvertTo<B10ProductModel>().ToList().FirstOrDefault();
+                });
+                return result;
+
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Service.Admin.Service
 {
-    class LoginAdminService : ILoginAdminService
+    public class LoginAdminService : ILoginAdminService
     {
         private ILoginAdminRepository _rep;
 
@@ -18,9 +18,9 @@ namespace Service.Admin.Service
         {
             _rep = rep;
         }
-        public async Task<IdentityModel> Login(string userName, string passWord, string IpAddress)
+        public async Task<IdentityModel> Login(LoginRequest request)
         {
-            return await _rep.Login(userName, passWord, IpAddress);
+            return await _rep.Login(request);
         }
     }
 }

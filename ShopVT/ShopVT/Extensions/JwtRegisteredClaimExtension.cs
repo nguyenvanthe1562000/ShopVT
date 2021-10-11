@@ -8,7 +8,8 @@ namespace ShopVT.Extensions
     public struct JwtRegisteredClaimExtension
     {
         public const string UserId = "UserId";
-        public const string UserCode = "UserCode";◘
+        public const string UserCode = "UserCode";
         public const string EmpCode = "EmployeeCode";
+        public const string FulName = "FullName";
     }
 }

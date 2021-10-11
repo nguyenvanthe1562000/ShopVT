@@ -1,4 +1,5 @@
-﻿using Common.Helper;
+﻿using Common;
+using Common.Helper;
 using Data.Repository.Interface;
 using Model.ExtensionModel;
 using System;
@@ -24,21 +25,23 @@ namespace Data.Repository
         public async Task<IdentityModel> Login(LoginRequest model)
         {
             string msgError = "";
+
+           
             try
             {
-                IdentityModel model = new IdentityModel();
+                IdentityModel identity = new IdentityModel();
                 await Task.Run(() =>
                {
-                   var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "B10Product_create", "@userName",
+                   var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "usp_Login", "@userName",
                       model.UserName, "@passWord",
                        model.PassWord);
                    if (!string.IsNullOrEmpty(msgError))
                    {
                        throw new Exception(msgError);
                    }
-                   model = dt.ConvertTo<IdentityModel>().ToList().FirstOrDefault();
+                   identity = dt.ConvertTo<IdentityModel>().ToList().FirstOrDefault();
                });
-                return model;
+                return identity;
             }
             catch (Exception ex)
             {

@@ -10,3 +10,15 @@ C:\Users\nguye\source\repos\ShopVT\Model\obj\Debug\net5.0\Model.csproj.CoreCompi
 C:\Users\nguye\source\repos\ShopVT\Model\obj\Debug\net5.0\Model.dll
 C:\Users\nguye\source\repos\ShopVT\Model\obj\Debug\net5.0\ref\Model.dll
 C:\Users\nguye\source\repos\ShopVT\Model\obj\Debug\net5.0\Model.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\bin\Debug\net5.0\Model.deps.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\bin\Debug\net5.0\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\bin\Debug\net5.0\ref\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\bin\Debug\net5.0\Model.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.csprojAssemblyReference.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.AssemblyInfoInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.AssemblyInfo.cs
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.csproj.CoreCompileInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\ref\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.pdb

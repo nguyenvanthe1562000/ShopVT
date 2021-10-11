@@ -21,11 +21,11 @@ namespace ShopVT.Controllers
             _ctx = ctx;
             _rep = repository;
         }
-        [HttpGet]
-        public IActionResult actionResult()
-        {
-            var model = _ctx.B10ProductCategorys.ToList();
-            return Ok(model);
-        }
+        //[HttpGet]
+        //public IActionResult actionResult()
+        //{
+        //    var model = _ctx.B10ProductCategorys.ToList();
+        //    return Ok(model);
+        //}
     }
 }

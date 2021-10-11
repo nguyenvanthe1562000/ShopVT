@@ -32,7 +32,7 @@ namespace Common.Helper
                 foreach (PropertyInfo pro in temp.GetProperties())
                 {
 
-                    if (pro.Name == column.ColumnName)
+                    if (pro.Name.ToUpper() == column.ColumnName.ToUpper())
                     {
                         if (string.IsNullOrEmpty(dr[column.ColumnName].ToString()))
                         {

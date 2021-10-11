@@ -8,7 +8,7 @@ namespace Model.ExtensionModel
 {
     public class RolesModel
     {
-        public string Function { get; set; }
+        public string FunctionCode { get; set; }
         public bool CanRead { get; set; }
         public bool CanCreate { get; set; }
         public bool CanUpdate { get; set; }

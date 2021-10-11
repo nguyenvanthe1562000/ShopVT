@@ -7,7 +7,7 @@ namespace Model.Model
        	
 	public int ID { set; get; }
 	public string Code { set; get; }
-	public int Name { set; get; }
+	public string Name { set; get; }
 	public bool IsActive { set; get; }
 	public int CreatedBy { set; get; }
 	public DateTime CreatedAt { set; get; }

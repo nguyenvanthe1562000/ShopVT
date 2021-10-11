@@ -1,4 +1,5 @@
-﻿using Model.ExtensionModel;
+﻿using Common;
+using Model.ExtensionModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Data.Repository.Interface
 {
      public interface ILoginAdminRepository
     {
-        Task<IdentityModel> Login(string userName, string passWord, string IpAddress);
+        Task<IdentityModel> Login(LoginRequest loginRequest);
     }
 }
