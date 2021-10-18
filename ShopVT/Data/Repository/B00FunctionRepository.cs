@@ -5,13 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Model.Reponsitory
+namespace Data.Reponsitory
 {
-    class B00FunctionRepository : IB00FunctionRpository
+    public class B00FunctionRepository : IB00FunctionRpository
     {
 
-        private DatabaseHelper _dbHelper;
-        public B00FunctionRepository(DatabaseHelper databaseHelper)
+        private IDatabaseHelper _dbHelper;
+        public B00FunctionRepository(IDatabaseHelper databaseHelper)
         {
             _dbHelper = databaseHelper;
         }
@@ -25,7 +25,7 @@ namespace Model.Reponsitory
             string msgError = "";
             try
             {
-                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "usp_B00Function_create", "@IsGroup", model.IsGroup, "@ParentId", model.ParentId, "@Code", model.Code, "@CategoryFunc", model.CategoryFunc, "@Name", model.Name, "@Url", model.Url, "@DisplayOrder", model.DisplayOrder,, "@user_id", userId);
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "usp_B00Function_create", "@IsGroup", model.IsGroup, "@ParentId", model.ParentId, "@Code", model.Code, "@CategoryFunc", model.CategoryFunc, "@Name", model.Name, "@Url", model.Url, "@DisplayOrder", model.DisplayOrder, "@user_id", userId);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
                     throw new Exception(Convert.ToString(result) + msgError);

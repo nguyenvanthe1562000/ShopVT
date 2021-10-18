@@ -14,42 +14,46 @@ namespace ShopVT.EF
             : base(options)
         {
         }
-        public virtual DbSet<B00ActionsPermisionModel> B00ActionsPermisions { get; set; }
-        public DbSet<B00AppUserModel> B00AppUsers { get; set; }
-        public DbSet<B00CommandLogModel> B00CommandLogs { get; set; }
-        public DbSet<B00ContactModel> B00Contacts { get; set; }
-        public DbSet<B00EventLogModel> B00EventLogs { get; set; }
-        public DbSet<B00FooterModel> B00Footers { get; set; }
-        public DbSet<B00FunctionModel> B00Functions { get; set; }
-        public DbSet<B00UserPermisionModel> B00UserPermisions { get; set; }
-        public DbSet<B10CustomerModel> B10Customers { get; set; }
-        public DbSet<B10CustomerAccountModel> B10CustomerAccounts { get; set; }
-        public DbSet<B10CustomerAddressModel> B10CustomerAddresss { get; set; }
-        public DbSet<B10EmployeeModel> B10Employees { get; set; }
-        public DbSet<B10HomePageModel> B10HomePages { get; set; }
-        public DbSet<B10PostModel> B10Posts { get; set; }
-        public DbSet<B10PostCategoryModel> B10PostCategorys { get; set; }
-        public DbSet<B10PostTagModel> B10PostTags { get; set; }
-        public DbSet<B10ProductModel> B10Products { get; set; }
-        public DbSet<B10ProductCategoryModel> B10ProductCategorys { get; set; }
-        public DbSet<B10ProductImgModel> B10ProductImgs { get; set; }
-        public DbSet<B10ProductInformationModel> B10ProductInformations { get; set; }
-        public DbSet<B10ProductTagModel> B10ProductTags { get; set; }
-        public DbSet<B10SlideModel> B10Slides { get; set; }
-        public DbSet<B10TagModel> B10Tags { get; set; }
-        public DbSet<B20AnnouncementModel> B20Announcements { get; set; }
-        public DbSet<B20ChatsModel> B20Chatss { get; set; }
-        public DbSet<B20ChatUserModel> B20ChatUsers { get; set; }
-        public DbSet<B20FlashsaleModel> B20Flashsales { get; set; }
-        public DbSet<B20FlashSaleDetailModel> B20FlashSaleDetails { get; set; }
-        public DbSet<B20messageModel> B20messages { get; set; }
-        public DbSet<B20OpenInventoryModel> B20OpenInventorys { get; set; }
-        public DbSet<B20OrderModel> B20Orders { get; set; }
-        public DbSet<B20OrderDetailModel> B20OrderDetails { get; set; }
-        public DbSet<B20ProductPromotionModel> B20ProductPromotions { get; set; }
-        public DbSet<B20ProductReturnModel> B20ProductReturns { get; set; }
-        public DbSet<B20PromotionModel> B20Promotions { get; set; }
-        public DbSet<B20StockLedgerModel> B20StockLedgers { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+        public virtual DbSet<B00PermisionDetailModel> B00PermisionDetail { get; set; }
+        public virtual DbSet<B00AppUserModel> B00AppUser { get; set; }
+        public virtual DbSet<B00CommandLogModel> B00CommandLog { get; set; }
+        public virtual DbSet<B00ContactModel> B00Contact { get; set; }
+        public virtual DbSet<B00EventLogModel> B00EventLog { get; set; }
+        public virtual DbSet<B00FooterModel> B00Footer { get; set; }
+        public virtual DbSet<B00FunctionModel> B00Function { get; set; }
+        public virtual DbSet<B00UserPermisionModel> B00UserPermision { get; set; }
+        public virtual DbSet<B10CustomerModel> B10Customer { get; set; }
+        public virtual DbSet<B10CustomerAccountModel> B10CustomerAccount { get; set; }
+        public virtual DbSet<B10CustomerAddressModel> B10CustomerAddress { get; set; }
+        public virtual DbSet<B10EmployeeModel> B10Employee { get; set; }
+        public virtual DbSet<B10HomePageModel> B10HomePage { get; set; }
+        public virtual DbSet<B10PostModel> B10Post { get; set; }
+        public virtual DbSet<B10PostCategoryModel> B10PostCategory { get; set; }
+        public virtual DbSet<B10PostTagModel> B10PostTag { get; set; }
+        public virtual DbSet<B10ProductModel> B10Product { get; set; }
+        public virtual DbSet<B10ProductCategoryModel> B10ProductCategory { get; set; }
+        public virtual DbSet<B10ProductImgModel> B10ProductImg { get; set; }
+        public virtual DbSet<B10ProductInformationModel> B10ProductInformation { get; set; }
+        public virtual DbSet<B10ProductTagModel> B10ProductTag { get; set; }
+        public virtual DbSet<B10SlideModel> B10Slide { get; set; }
+        public virtual DbSet<B10TagModel> B10Tag { get; set; }
+        public virtual DbSet<B20AnnouncementModel> B20Announcement { get; set; }
+        public virtual DbSet<B20ChatsModel> B20Chats { get; set; }
+        public virtual DbSet<B20ChatUserModel> B20ChatUser { get; set; }
+        public virtual DbSet<B20FlashsaleModel> B20Flashsale { get; set; }
+        public virtual DbSet<B20FlashSaleDetailModel> B20FlashSaleDetail { get; set; }
+        public virtual DbSet<B20messageModel> B20message { get; set; }
+        public virtual DbSet<B20OpenInventoryModel> B20OpenInventory { get; set; }
+        public virtual DbSet<B20OrderModel> B20Order { get; set; }
+        public virtual DbSet<B20OrderDetailModel> B20OrderDetail { get; set; }
+        public virtual DbSet<B20ProductPromotionModel> B20ProductPromotion { get; set; }
+        public virtual DbSet<B20ProductReturnModel> B20ProductReturn { get; set; }
+        public virtual DbSet<B20PromotionModel> B20Promotion { get; set; }
+        public virtual DbSet<B20StockLedgerModel> B20StockLedger { get; set; }
 
     }
 }

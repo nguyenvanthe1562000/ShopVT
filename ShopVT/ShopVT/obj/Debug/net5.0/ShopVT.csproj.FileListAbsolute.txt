@@ -92,12 +92,10 @@ C:\Users\nguye\source\repos\ShopVT\ShopVT\bin\Debug\net5.0\HotChocolate.Utilitie
 C:\Users\nguye\source\repos\ShopVT\ShopVT\bin\Debug\net5.0\HotChocolate.Validation.dll
 C:\Users\nguye\source\repos\ShopVT\ShopVT\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\nguye\source\repos\ShopVT\ShopVT\bin\Debug\net5.0\Microsoft.Extensions.DiagnosticAdapter.dll
-C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.csprojAssemblyReference.cache
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.AssemblyInfoInputs.cache
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.AssemblyInfo.cs
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.csproj.CoreCompileInputs.cache
-C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\appsettings.json
@@ -186,3 +184,7 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ref\ShopVT.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.genruntimeconfig.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GraphQL.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GraphQL-Parser.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.csprojAssemblyReference.cache

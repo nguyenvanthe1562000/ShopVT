@@ -4,7 +4,6 @@ namespace Model.Model
 {
      public class B00AppUserModel 
      {
-       	
 		public int ID { set; get; }
 		public string code { set; get; }
 		public string username { set; get; }

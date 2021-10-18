@@ -13,11 +13,18 @@ namespace TodoListGQL.GraphQL
 {
     public class Query
     {
-        [UseDbContext(typeof(ShopVTDbContext))]
-        [UseProjection]
-        public IQueryable<B10ProductModel> GetLists([ScopedService] ShopVTDbContext ctx)
+        private ShopVTDbContext ctor;
+
+        //[UseDbContext(typeof(ShopVTDbContext))]
+        //[UseProjection]
+        public Query(ShopVTDbContext shopVTDbContext)
         {
-            return ctx.B10Products;
+            ctor = shopVTDbContext;
+        }
+        public IQueryable<B10ProductModel> GetProducts([Service] ShopVTDbContext ctx)
+        {
+            var s = ctor.B10Product.ToList();
+            return ctx.B10Product;
         }
         //[UseDbContext(typeof(ApiDbContext))]
         //[UseProjection]

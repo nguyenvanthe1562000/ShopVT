@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Common.Helper
 {
@@ -14,11 +15,13 @@ namespace Common.Helper
     public interface IDatabaseHelper
     {
         void SetConnectionString(string connectionString);
+        void SetConnectionStringAsync(string connectionString);
         /// <summary>
         /// Open Connection to PostGresDB
         /// </summary>
         /// <returns></returns>
         string OpenConnection();
+        Task<string> OpenConnectionAsync();
         /// <summary>
         /// Open Connection and Begin Transaction
         /// </summary>
@@ -48,6 +51,7 @@ namespace Common.Helper
         /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
         /// <returns>String.Empty when run query success or Message Error when run query happen issue</returns>
         string ExecuteSProcedure(string sprocedureName, params object[] paramObjects);
+        Task<string> ExecuteSProcedureAsync(string sprocedureName, params object[] paramObjects);
         /// <summary>
         /// Execute Procedure return DataTale
         /// </summary>
@@ -56,6 +60,14 @@ namespace Common.Helper
         /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
         /// <returns>Table result</returns>
         DataTable ExecuteSProcedureReturnDataTable(out string msgError, string sprocedureName, params object[] paramObjects);
+        /// <summary>
+        /// Execute Procedure return DataTale async
+        /// </summary>
+        /// <param name="msgError">String.Empty when run query success or Message Error when run query happen issue</param>
+        /// <param name="sprocedureName">Procedure Name</param>
+        /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
+        /// <returns>Table result</returns>
+        Task<(string message, DataTable)> ExecuteSProcedureReturnDataTableAsync(string sprocedureName, params object[] paramObjects);
         /// <summary>
         /// Execute Procedure return DataSet
         /// </summary>
@@ -72,6 +84,7 @@ namespace Common.Helper
         /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
         /// <returns>String.Empty when run query success or Message Error when run query happen issue</returns>
         string ExecuteSProcedure(SqlConnection sqlConnection, string sprocedureName, params object[] paramObjects);
+
         /// <summary>
         /// Execute Procedure None Query with transaction
         /// </summary>
@@ -108,6 +121,7 @@ namespace Common.Helper
         /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
         /// <returns>Value return from Store</returns>
         object ExecuteScalarSProcedureWithTransaction(out string msgError, string sprocedureName, params object[] paramObjects);
+        Task<(string message, object dataResult)> ExecuteScalarSProcedureWithTransactionAsync(string sprocedureName, params object[] paramObjects);
         /// <summary>
         /// Execute Scalar Procedure query List store and command
         /// </summary>

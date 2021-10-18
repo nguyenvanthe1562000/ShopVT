@@ -28,7 +28,6 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Common.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Model.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Common.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Model.pdb
-C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.csprojAssemblyReference.cache
 C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.AssemblyInfoInputs.cache
 C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.AssemblyInfo.cs
@@ -38,3 +37,4 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\ref\Data.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.genruntimeconfig.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.csprojAssemblyReference.cache

@@ -2,6 +2,30 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "GraphQL/4.6.1": {
+        "type": "package",
+        "dependencies": {
+          "GraphQL-Parser": "7.2.0",
+          "Microsoft.CSharp": "4.7.0",
+          "System.ComponentModel.Annotations": "4.7.0",
+          "System.Runtime.CompilerServices.Unsafe": "4.7.1"
+        },
+        "compile": {
+          "lib/netstandard2.1/GraphQL.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/GraphQL.dll": {}
+        }
+      },
+      "GraphQL-Parser/7.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/GraphQL-Parser.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/GraphQL-Parser.dll": {}
+        }
+      },
       "GraphQL.Server.Ui.Voyager/5.0.2": {
         "type": "package",
         "compile": {
@@ -1430,6 +1454,15 @@
           }
         }
       },
+      "System.Runtime.CompilerServices.Unsafe/4.7.1": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        }
+      },
       "System.Runtime.Extensions/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -1911,6 +1944,38 @@
     }
   },
   "libraries": {
+    "GraphQL/4.6.1": {
+      "sha512": "/mky7HM3ytJMdJ3Yalp9f7ovgPiVQslqjyiLTjto/G5wFRcDM+YQGW/JWWX3gsLIu69yi6prn5OlO+jita+s9g==",
+      "type": "package",
+      "path": "graphql/4.6.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "graphql.4.6.1.nupkg.sha512",
+        "graphql.nuspec",
+        "lib/netstandard2.0/GraphQL.dll",
+        "lib/netstandard2.0/GraphQL.xml",
+        "lib/netstandard2.1/GraphQL.dll",
+        "lib/netstandard2.1/GraphQL.xml",
+        "logo.64x64.png"
+      ]
+    },
+    "GraphQL-Parser/7.2.0": {
+      "sha512": "38qDxnwdUHK5zkWL28UhkmytkSSwDvX+dBhOVN1USgpZg7E2PUVNixbyG8JKEuRw/vqnhBWhk4JwkqA6jvHaFA==",
+      "type": "package",
+      "path": "graphql-parser/7.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "graphql-parser.7.2.0.nupkg.sha512",
+        "graphql-parser.nuspec",
+        "lib/netstandard2.0/GraphQL-Parser.dll",
+        "lib/netstandard2.0/GraphQL-Parser.xml",
+        "lib/netstandard2.1/GraphQL-Parser.dll",
+        "lib/netstandard2.1/GraphQL-Parser.xml",
+        "logo.64x64.png"
+      ]
+    },
     "GraphQL.Server.Ui.Voyager/5.0.2": {
       "sha512": "CPkfJrVo5JEdrDvG6BNTSMcbIHz/GKCOiDJfAzqGbME/bHSReuJ6vHyEbbwmcPeUJVrVMpz3enWAkpNbPYpdgg==",
       "type": "package",
@@ -5011,6 +5076,36 @@
         "version.txt"
       ]
     },
+    "System.Runtime.CompilerServices.Unsafe/4.7.1": {
+      "sha512": "zOHkQmzPCn5zm/BH+cxC1XbUS3P4Yoi3xzW7eRgVpDR2tPGSzyMZ17Ig1iRkfJuY0nhxkQQde8pgePNiA7z7TQ==",
+      "type": "package",
+      "path": "system.runtime.compilerservices.unsafe/4.7.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "ref/net461/System.Runtime.CompilerServices.Unsafe.dll",
+        "ref/net461/System.Runtime.CompilerServices.Unsafe.xml",
+        "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "system.runtime.compilerservices.unsafe.4.7.1.nupkg.sha512",
+        "system.runtime.compilerservices.unsafe.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Runtime.Extensions/4.3.0": {
       "sha512": "guW0uK0fn5fcJJ1tJVXYd7/1h5F+pea1r7FLSOz/f8vPEqbR2ZAknuRDvTQ8PzAilDveOxNjSfr0CHfIQfFk8g==",
       "type": "package",
@@ -6464,6 +6559,7 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "Common >= 1.0.0",
+      "GraphQL >= 4.6.1",
       "GraphQL.Server.Ui.Voyager >= 5.0.2",
       "HotChocolate.AspNetCore >= 11.2.2",
       "HotChocolate.Data.EntityFramework >= 11.2.2",
@@ -6525,6 +6621,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "GraphQL": {
+            "target": "Package",
+            "version": "[4.6.1, )"
+          },
           "GraphQL.Server.Ui.Voyager": {
             "target": "Package",
             "version": "[5.0.2, )"

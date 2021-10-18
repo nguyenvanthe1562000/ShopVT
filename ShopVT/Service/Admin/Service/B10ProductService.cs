@@ -17,15 +17,15 @@ namespace Service.Admin.Service
             _B10ProductRepository = B10Product;
         }
 
-        public  Task<bool> Insert(B10ProductModel model)
+        public  Task<bool> Insert(B10ProductModel model,int userId)
         {
-            return  _B10ProductRepository.Insert(model);
+            return  _B10ProductRepository.Insert(model, userId);
         }
 
 
-        public  Task<bool> Update(B10ProductModel model)
+        public  Task<bool> Update(B10ProductModel model, int userId)
         {
-            return  _B10ProductRepository.Update(model);
+            return  _B10ProductRepository.Update(model, userId);
         }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace Service.Admin.Service
         /// <param name="json_list_id">List id want to delete</param>
         /// <param name="updated_by">User made the deletion</param>
         /// <returns></returns>
-        public  Task<bool> Delete(string code)
+        public  Task<bool> Delete(string code, int userId)
         {
-            return  _B10ProductRepository.Delete(code);
+            return  _B10ProductRepository.Delete(code, userId);
         }
 
         public  Task<PagedResultBase> Paging(PagingRequestBase pagingRequest)

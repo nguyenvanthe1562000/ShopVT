@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Data.Repository.Interface;
 using Model.Model;
-using Model.Reponsitory;
+using Data.Reponsitory;
 using Service.Admin.Service.Interface;
 
 namespace Service.Admin.Service

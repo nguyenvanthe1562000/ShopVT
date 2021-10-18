@@ -78,11 +78,15 @@ namespace ShopVT.Controllers.Admin
         [HttpGet]
         [Route("get-all")]
         [ClaimRequirement(ClaimFunction.FUNCTION, ClaimAction.CANREAD)]
+        
         public IActionResult GetAll()
         {
             try
             {
                 var response = _B00FunctionService.GetAll();
+                int j = 0;
+               
+
                 return Ok(response);
             }
             catch (Exception ex)

@@ -19,7 +19,6 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\Common\bin\Debug\net5.0\Common.runtimeco
 C:\Users\nguye\source\repos\DoAn\ShopVT\Common\bin\Debug\net5.0\Common.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Common\bin\Debug\net5.0\ref\Common.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Common\bin\Debug\net5.0\Common.pdb
-C:\Users\nguye\source\repos\DoAn\ShopVT\Common\obj\Debug\net5.0\Common.csprojAssemblyReference.cache
 C:\Users\nguye\source\repos\DoAn\ShopVT\Common\obj\Debug\net5.0\Common.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\nguye\source\repos\DoAn\ShopVT\Common\obj\Debug\net5.0\Common.AssemblyInfoInputs.cache
 C:\Users\nguye\source\repos\DoAn\ShopVT\Common\obj\Debug\net5.0\Common.AssemblyInfo.cs
@@ -28,3 +27,4 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\Common\obj\Debug\net5.0\Common.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Common\obj\Debug\net5.0\ref\Common.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Common\obj\Debug\net5.0\Common.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\Common\obj\Debug\net5.0\Common.genruntimeconfig.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Common\obj\Debug\net5.0\Common.csprojAssemblyReference.cache

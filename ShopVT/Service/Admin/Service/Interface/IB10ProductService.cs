@@ -9,13 +9,13 @@ namespace Service.Admin.Service.Interface
 {
     public interface IB10ProductService
     {
-        Task<bool> Insert(B10ProductModel model);
+        Task<bool> Insert(B10ProductModel model, int userId);
 
         Task<PagedResultBase> Paging(PagingRequestBase pagingRequest);
 
-        Task<bool> Update(B10ProductModel model);
+        Task<bool> Update(B10ProductModel model, int userId);
 
-        Task<bool> Delete(string code);
+        Task<bool> Delete(string code, int userId);
 
         Task<List<B10ProductModel>> GetAll();
 

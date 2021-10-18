@@ -31,7 +31,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var response = await _B10ProductService.Insert(model);
+                var response = await _B10ProductService.Insert(model, GetUserId());
                 return Ok(response);
             }
             catch (Exception ex)
@@ -61,7 +61,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var responseData = await _B10ProductService.Update(model);
+                var responseData = await _B10ProductService.Update(model, GetUserId());
                 return Ok(responseData);
             }
             catch (Exception ex)
@@ -76,7 +76,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var response = await _B10ProductService.Delete(code);
+                var response = await _B10ProductService.Delete(code, GetUserId());
                 return Ok(response);
             }
             catch (Exception ex)

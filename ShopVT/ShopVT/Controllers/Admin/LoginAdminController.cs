@@ -40,7 +40,7 @@ namespace ShopVT.Controllers.Admin
             {
                 var result = await _ser.Login(request);
                 string token = await GenerateJSONWebToken(result);
-                Thread.Sleep(5000);
+
                 return Ok(new { token });
             }
             catch (Exception)
@@ -51,48 +51,44 @@ namespace ShopVT.Controllers.Admin
 
         }
 
-        private Task<string> GenerateJSONWebToken(IdentityModel identity)
+        private async Task<string> GenerateJSONWebToken(IdentityModel identity)
         {
-            Task<string> task = Task<string>.Factory.StartNew(() =>
-            {
-                var rolesModel = JsonConvert.DeserializeObject<List<RolesModel>>(identity.Roles);
-                List<Roles> listRoles = new List<Roles>();
-                foreach (var item in rolesModel)
-                {
-                    Roles roles = new Roles();
-                    roles.Function = item.FunctionCode;
-                    roles.CanRead = item.CanRead ? ClaimAction.CANREAD : "";
-                    roles.CanCreate = item.CanCreate ? ClaimAction.CANCREATE : "";
-                    roles.CanUpdate = item.CanUpdate ? ClaimAction.CANUPDATE : "";
-                    roles.CanDelete = item.CanDelete ? ClaimAction.CANDELETE : "";
-                    roles.CanReport = item.CanReport ? ClaimAction.CANREPORT : "";
-                    listRoles.Add(roles);
 
-                }
+            var json = Task.Run(() =>
+                 {
+                     var rolesModel = JsonConvert.DeserializeObject<List<RolesModel>>(identity.Roles);
+                     List<Roles> listRoles = new List<Roles>();
+                     foreach (var item in rolesModel)
+                     {
+                         Roles roles = new Roles();
+                         roles.Function = item.FunctionCode;
+                         roles.CanRead = item.CanRead ? ClaimAction.CANREAD : "";
+                         roles.CanCreate = item.CanCreate ? ClaimAction.CANCREATE : "";
+                         roles.CanUpdate = item.CanUpdate ? ClaimAction.CANUPDATE : "";
+                         roles.CanDelete = item.CanDelete ? ClaimAction.CANDELETE : "";
+                         roles.CanReport = item.CanReport ? ClaimAction.CANREPORT : "";
+                         listRoles.Add(roles);
+
+                     }
+                     return JsonConvert.SerializeObject(listRoles);
+                 });
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
                 var claims = new List<Claim>() {
-                new Claim(JwtRegisteredClaimExtension.UserCode, identity.Code),
-                new Claim(JwtRegisteredClaimExtension.EmpCode, identity.EmployeeCode),
-                new Claim(JwtRegisteredClaimExtension.UserId, identity.Id.ToString()),
-                new Claim(JwtRegisteredClaimExtension.FulName, identity.FullName),
-                new Claim(JwtRegisteredClaimNames.NameId,identity.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-                string json = JsonConvert.SerializeObject(listRoles);
-                claims.Add(new Claim(ClaimTypes.Role, json));
+                    new Claim(JwtRegisteredClaimExtension.UserCode, identity.Code),
+                    new Claim(JwtRegisteredClaimExtension.EmpCode, identity.EmployeeCode),
+                    new Claim(JwtRegisteredClaimExtension.UserId, identity.Id.ToString()),
+                    new Claim(JwtRegisteredClaimExtension.FulName, identity.FullName),
+                    new Claim(JwtRegisteredClaimNames.NameId,identity.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                 };
+                claims.Add(new Claim(ClaimTypes.Role,await json));
                 var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                   _config["Jwt:Issuer"],
                   claims,
                   expires: DateTime.Now.AddMinutes(120),
                   signingCredentials: credentials);
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            });
-            return task;
-
-
-
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
