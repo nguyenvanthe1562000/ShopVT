@@ -30,7 +30,7 @@ namespace ShopVT
         }
 
         public static IConfiguration Configuration { get; private set; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -42,10 +42,10 @@ namespace ShopVT
             services.AddMvc();
             services.AddSignalR();
             services.AddGraphQLServer()
-                    .AddQueryType<Query>()
-                    .AddProjections()
-                    .AddFiltering()
-                    .AddSorting(); 
+                    .AddQueryType<Query>();
+                    //.AddProjections()
+                    //.AddFiltering()
+                    //.AddSorting();
 
         }
 

@@ -34,6 +34,7 @@
       "ShopVT/1.0.0": {
         "dependencies": {
           "Common": "1.0.0",
+          "GraphQL": "4.6.1",
           "GraphQL.Server.Ui.Voyager": "5.0.2",
           "HotChocolate.AspNetCore": "11.2.2",
           "HotChocolate.Data.EntityFramework": "11.2.2",
@@ -261,7 +262,7 @@
           "System.Resources.Reader": "5.0.0.0",
           "System.Resources.ResourceManager.Reference": "5.0.0.0",
           "System.Resources.Writer": "5.0.0.0",
-          "System.Runtime.CompilerServices.Unsafe": "5.0.0.0",
+          "System.Runtime.CompilerServices.Unsafe.Reference": "5.0.0.0",
           "System.Runtime.CompilerServices.VisualC": "5.0.0.0",
           "System.Runtime.Reference": "5.0.0.0",
           "System.Runtime.Extensions.Reference": "5.0.0.0",
@@ -331,6 +332,34 @@
         },
         "compile": {
           "ShopVT.dll": {}
+        }
+      },
+      "GraphQL/4.6.1": {
+        "dependencies": {
+          "GraphQL-Parser": "7.2.0",
+          "Microsoft.CSharp": "4.7.0",
+          "System.ComponentModel.Annotations": "5.0.0",
+          "System.Runtime.CompilerServices.Unsafe": "4.7.1"
+        },
+        "runtime": {
+          "lib/netstandard2.1/GraphQL.dll": {
+            "assemblyVersion": "4.6.1.0",
+            "fileVersion": "4.6.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/GraphQL.dll": {}
+        }
+      },
+      "GraphQL-Parser/7.2.0": {
+        "runtime": {
+          "lib/netstandard2.1/GraphQL-Parser.dll": {
+            "assemblyVersion": "7.2.0.0",
+            "fileVersion": "7.2.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/GraphQL-Parser.dll": {}
         }
       },
       "GraphQL.Server.Ui.Voyager/5.0.2": {
@@ -1461,6 +1490,7 @@
           }
         }
       },
+      "System.Runtime.CompilerServices.Unsafe/4.7.1": {},
       "System.Runtime.Extensions/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
@@ -3024,7 +3054,7 @@
         },
         "compileOnly": true
       },
-      "System.Runtime.CompilerServices.Unsafe/5.0.0.0": {
+      "System.Runtime.CompilerServices.Unsafe.Reference/5.0.0.0": {
         "compile": {
           "System.Runtime.CompilerServices.Unsafe.dll": {}
         },
@@ -3415,6 +3445,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "GraphQL/4.6.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/mky7HM3ytJMdJ3Yalp9f7ovgPiVQslqjyiLTjto/G5wFRcDM+YQGW/JWWX3gsLIu69yi6prn5OlO+jita+s9g==",
+      "path": "graphql/4.6.1",
+      "hashPath": "graphql.4.6.1.nupkg.sha512"
+    },
+    "GraphQL-Parser/7.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-38qDxnwdUHK5zkWL28UhkmytkSSwDvX+dBhOVN1USgpZg7E2PUVNixbyG8JKEuRw/vqnhBWhk4JwkqA6jvHaFA==",
+      "path": "graphql-parser/7.2.0",
+      "hashPath": "graphql-parser.7.2.0.nupkg.sha512"
     },
     "GraphQL.Server.Ui.Voyager/5.0.2": {
       "type": "package",
@@ -4122,6 +4166,13 @@
       "sha512": "sha512-NdvNRjTPxYvIEhXQszT9L9vJhdQoX6AQ0AlhjTU+5NqFQVuacJTfhPVAvtGWNA2OJCqRiR/okBcZgMwI6MqcZg==",
       "path": "system.runtime.caching/4.7.0",
       "hashPath": "system.runtime.caching.4.7.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.7.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zOHkQmzPCn5zm/BH+cxC1XbUS3P4Yoi3xzW7eRgVpDR2tPGSzyMZ17Ig1iRkfJuY0nhxkQQde8pgePNiA7z7TQ==",
+      "path": "system.runtime.compilerservices.unsafe/4.7.1",
+      "hashPath": "system.runtime.compilerservices.unsafe.4.7.1.nupkg.sha512"
     },
     "System.Runtime.Extensions/4.3.0": {
       "type": "package",
@@ -5417,7 +5468,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Runtime.CompilerServices.Unsafe/5.0.0.0": {
+    "System.Runtime.CompilerServices.Unsafe.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

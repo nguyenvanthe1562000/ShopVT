@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "lSK7j+lVoiqLpHjXgsrEKf3RmaR0Q71puM+Np8ZEOMTKp6bkjsRtksvgcRYBzffuIeRZM9772d0TM3xyLbxpQQ==",
+  "dgSpecHash": "HxKbUiSd8EV7nTjhX9lNMVSt51adJqHhGsmF0iJ4+pInlhhWvSjZe7WTd/OgvMaOD8qoYk0Jphpi0+90zZ8Z0g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\ShopVT\\ShopVT.csproj",
+  "projectFilePath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\nguye\\.nuget\\packages\\graphql\\4.6.1\\graphql.4.6.1.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\graphql-parser\\7.2.0\\graphql-parser.7.2.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\graphql.server.ui.voyager\\5.0.2\\graphql.server.ui.voyager.5.0.2.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\greendonut\\11.2.2\\greendonut.11.2.2.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\hotchocolate\\11.2.2\\hotchocolate.11.2.2.nupkg.sha512",
@@ -105,6 +107,7 @@
     "C:\\Users\\nguye\\.nuget\\packages\\system.resources.resourcemanager\\4.3.0\\system.resources.resourcemanager.4.3.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\system.runtime.caching\\4.7.0\\system.runtime.caching.4.7.0.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.7.1\\system.runtime.compilerservices.unsafe.4.7.1.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\system.runtime.extensions\\4.3.0\\system.runtime.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\system.runtime.handles\\4.3.0\\system.runtime.handles.4.3.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\system.runtime.interopservices\\4.3.0\\system.runtime.interopservices.4.3.0.nupkg.sha512",

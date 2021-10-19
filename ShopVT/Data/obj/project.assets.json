@@ -5836,11 +5836,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Data\\Data.csproj",
+      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj",
       "projectName": "Data",
-      "projectPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Data\\Data.csproj",
+      "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj",
       "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Data\\obj\\",
+      "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5857,11 +5857,11 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\nguye\\source\\repos\\ShopVT\\Common\\Common.csproj": {
-              "projectPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Common\\Common.csproj"
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
             },
-            "C:\\Users\\nguye\\source\\repos\\ShopVT\\Model\\Model.csproj": {
-              "projectPath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Model\\Model.csproj"
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
             }
           }
         }

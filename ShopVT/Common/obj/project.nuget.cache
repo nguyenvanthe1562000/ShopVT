@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jE0OwQ6SUE3gZkvY5QaInUya0HSGhuNzyefYxrRObpdGRK8ziAfT157JIDJVxUcoWfibgiVj3ciXYp2aEaiioQ==",
+  "dgSpecHash": "RWyBLn3edaiJZelqyayEZroy36CEAh04yDghKvj0Ahb43ztHkxw2sMF8QTZbB6tFY7DPrUl/xuLG/765/FNlcQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nguye\\source\\repos\\ShopVT\\Common\\Common.csproj",
+  "projectFilePath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nguye\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

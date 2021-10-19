@@ -1,6 +1,8 @@
-﻿using Data.Reponsitory.Interface;
+﻿using Common;
+using Data.Reponsitory.Interface;
 using Model.Model;
-using Service.Admin.Interface;
+
+using Service.Admin.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,15 +17,15 @@ namespace Service.Admin.Service
             _B10ProductRepository = B10Product;
         }
 
-        public async Task<bool> Insert(B10ProductModel model)
+        public  Task<bool> Insert(B10ProductModel model,int userId)
         {
-            return  await _B10ProductRepository.Insert(model);
+            return  _B10ProductRepository.Insert(model, userId);
         }
 
 
-        public bool Update(B10ProductModel model)
+        public  Task<bool> Update(B10ProductModel model, int userId)
         {
-            return _B10ProductRepository.Update(model);
+            return  _B10ProductRepository.Update(model, userId);
         }
 
         /// <summary>
@@ -32,22 +34,25 @@ namespace Service.Admin.Service
         /// <param name="json_list_id">List id want to delete</param>
         /// <param name="updated_by">User made the deletion</param>
         /// <returns></returns>
-        public bool Delete(string code)
+        public  Task<bool> Delete(string code, int userId)
         {
-            return _B10ProductRepository.Delete(code);
+            return  _B10ProductRepository.Delete(code, userId);
         }
 
-
-        public List<B10ProductModel> GetAll()
+        public  Task<PagedResultBase> Paging(PagingRequestBase pagingRequest)
         {
-            var result = _B10ProductRepository.GetAll();
+            return  _B10ProductRepository.Paging(pagingRequest);
+        }
+        public  Task<List<B10ProductModel>> GetAll()
+        {
+            var result =  _B10ProductRepository.GetAll();
             return result;
         }
 
 
-        public List<B10ProductModel> Search(string Name)
+        public  Task<List<B10ProductModel>> Search(string Name)
         {
-            return _B10ProductRepository.Search(Name);
+            return  _B10ProductRepository.Search(Name);
         }
 
         /// <summary>
@@ -55,13 +60,9 @@ namespace Service.Admin.Service
         /// </summary>
         /// <param name="lang">Language used to display data</param> 
         /// <returns></returns>
-       
 
 
-
-
-
-        public B10ProductModel GetById(string code)
+        public  Task<B10ProductModel> GetById(string code)
         {
             var result = _B10ProductRepository.GetById(code);
             return result;
