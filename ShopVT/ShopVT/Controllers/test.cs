@@ -22,10 +22,16 @@ namespace ShopVT.Controllers
             _rep = repository;
         }
         [HttpGet]
+        [Route("gettest")]
         public IActionResult actionResult()
         {
-            var model = _ctx.B10ProductCategorys.ToList();
-            return Ok(model);
+            var model = _ctx.B10Product.ToList();
+            var s = model.FirstOrDefault();
+            if (model==null )
+            {
+                return BadRequest("den vc");
+            }
+            return Ok(model.Count);
         }
     }
 }

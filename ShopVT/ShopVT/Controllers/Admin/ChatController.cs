@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace ShopVT.Controllers.Admin
 {
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = AppRoles.ADMIN)]
     [ApiController]
     public class ChatController : BaseController
     {
@@ -48,7 +48,6 @@ namespace ShopVT.Controllers.Admin
         }
         [HttpPost]
         [Route("JoinChatRoom/{chat}")]
-        //      [Authorize(Roles = AppRoles.ADMIN)]
         [ClaimRequirement(ClaimFunction.CHAT, ClaimAction.CANCREATE)]
         public async Task<IActionResult> JoinChatRoom(int chatId)
         {
@@ -81,7 +80,8 @@ namespace ShopVT.Controllers.Admin
             }
 
         }
-
+        [HttpGet]
+        [Route("sendMessage/{id}")]
         public async Task<IActionResult> SendMessage(
          int chatId,
          string message,

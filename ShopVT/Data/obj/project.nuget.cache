@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "XoEgDnFyPJ0TkoUZ4RpvhAo9evx0PSW5NRQXH9QmWyN3VJE7ljVq32u9wBz2hIuBUTjOrdwhCTKi325eciQKYg==",
   "success": true,
   "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Data\\Data.csproj",
+=======
+  "dgSpecHash": "xIKWv8SRadG/gFWDgxpPNQDwZHkuvacy4LO6lxp9mB1OHUrxdDKI/ytco/RuGdKIfF6OviSGSgHGAE+ZLl3Gow==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj",
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
   "expectedPackageFiles": [
     "C:\\Users\\LaptopPro\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

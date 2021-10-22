@@ -9,5 +9,6 @@ namespace ShopVT.Model
     {
         public const string CHAT = "CHAT";
         public const string PRODUCT = "PRODUCT";
+        public const string FUNCTION = "FUNCTION";
     }
 }

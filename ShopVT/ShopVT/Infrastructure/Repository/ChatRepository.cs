@@ -25,7 +25,7 @@ namespace ShopVT.Infrastructure.Respository
                 CreatedAt = DateTime.Now
             };
 
-            _ctx.B20messages.Add(Message);
+            _ctx.B20message.Add(Message);
             await _ctx.SaveChangesAsync();
 
             return Message;
@@ -41,7 +41,7 @@ namespace ShopVT.Infrastructure.Respository
                 CreatedAt = DateTime.Now
             };
 
-            _ctx.B20messages.Add(Message);
+            _ctx.B20message.Add(Message);
             await _ctx.SaveChangesAsync();
 
             return Message;
@@ -54,14 +54,14 @@ namespace ShopVT.Infrastructure.Respository
                 Name = name,
                 Type = ChatType.Private
             };
-            _ctx.B20Chatss.Add(chat);
+            _ctx.B20Chats.Add(chat);
             B20ChatUserModel user = new B20ChatUserModel
             {
                 ChatId = chat.ID,
                 IpAddress = CustomerIp,
                 Role = UserRole.Member
             };
-            _ctx.B20ChatUsers.Add(user);
+            _ctx.B20ChatUser.Add(user);
             await _ctx.SaveChangesAsync();
 
             return chat.ID;
@@ -70,8 +70,8 @@ namespace ShopVT.Infrastructure.Respository
         {
             IEnumerable<B20messageModel> models = new List<B20messageModel>();
 
-            B20ChatUserModel b20ChatUserModel = await _ctx.B20ChatUsers.FindAsync(CustomerIp);        
-            models = _ctx.B20messages.Where(x => x.ChatsId == b20ChatUserModel.ChatId).ToList();
+            B20ChatUserModel b20ChatUserModel = await _ctx.B20ChatUser.FindAsync(CustomerIp);        
+            models = _ctx.B20message.Where(x => x.ChatsId == b20ChatUserModel.ChatId).ToList();
 
             return models;
         }
@@ -82,7 +82,7 @@ namespace ShopVT.Infrastructure.Respository
             IEnumerable<B20messageModel> models = new List<B20messageModel>();
             await Task.Run(() =>
                 {
-                    models = _ctx.B20messages.Where(x => x.ChatsId == chatId).ToList();
+                    models = _ctx.B20message.Where(x => x.ChatsId == chatId).ToList();
                 });
             return models;
 
@@ -93,14 +93,14 @@ namespace ShopVT.Infrastructure.Respository
             IEnumerable<B20ChatsModel> models = new List<B20ChatsModel>();
             await Task.Run(() =>
             {
-                models = _ctx.B20Chatss.Where(x => x.Type == ChatType.Private).ToList();
+                models = _ctx.B20Chats.Where(x => x.Type == ChatType.Private).ToList();
             });
             return models;
 
         }
         public async Task JoinRoom(int userId, int chatId)
         {
-            var exist = _ctx.B20ChatUsers.FirstOrDefault(x => x.ChatId == chatId && x.UserId == userId);
+            var exist = _ctx.B20ChatUser.FirstOrDefault(x => x.ChatId == chatId && x.UserId == userId);
             if (exist == null)
             {
                 var chatUser = new B20ChatUserModel
@@ -109,7 +109,7 @@ namespace ShopVT.Infrastructure.Respository
                     UserId = userId,
                     Role = UserRole.Admin
                 };
-                _ctx.B20ChatUsers.Add(chatUser);
+                _ctx.B20ChatUser.Add(chatUser);
                 await _ctx.SaveChangesAsync();
             }
 

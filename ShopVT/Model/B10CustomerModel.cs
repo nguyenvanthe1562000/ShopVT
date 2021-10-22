@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace Model.Model
+namespace Model.Model.Model
 {
      public class B10CustomerModel 
      {
@@ -16,7 +16,7 @@ namespace Model.Model
 	public DateTime CreatedAt { set; get; }
 	public int ModifiedBy { set; get; }
 	public DateTime ModifiedAt { set; get; }
-	public string Code { set; get; }
+	public int AccountId { set; get; }
 	
 
      }

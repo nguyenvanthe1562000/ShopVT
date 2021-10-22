@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Data\\Data.csproj": {}
   },
   "projects": {
@@ -12,6 +13,19 @@
         "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj",
         "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\obj\\",
+=======
+    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
+        "projectName": "Common",
+        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\obj\\",
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -70,6 +84,7 @@
         }
       }
     },
+<<<<<<< HEAD
     "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -78,6 +93,16 @@
         "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Data\\Data.csproj",
         "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Data\\obj\\",
+=======
+    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj",
+        "projectName": "Data",
+        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\obj\\",
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -94,11 +119,19 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
+<<<<<<< HEAD
               "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj": {
                 "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj"
               },
               "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj": {
                 "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj"
+=======
+              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
+              },
+              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
+                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
               }
             }
           }
@@ -143,6 +176,7 @@
         }
       }
     },
+<<<<<<< HEAD
     "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -151,6 +185,16 @@
         "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
         "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\obj\\",
+=======
+    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
+        "projectName": "Model",
+        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\obj\\",
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",

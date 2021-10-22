@@ -5857,11 +5857,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\Service.csproj",
       "projectName": "Service",
       "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\Service.csproj",
       "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj",
+      "projectName": "Service",
+      "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj",
+      "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\obj\\",
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5878,6 +5886,7 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
+<<<<<<< HEAD
             "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj": {
               "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj"
             },
@@ -5886,6 +5895,16 @@
             },
             "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj": {
               "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj"
+=======
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
+            },
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj"
+            },
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
             }
           }
         }
