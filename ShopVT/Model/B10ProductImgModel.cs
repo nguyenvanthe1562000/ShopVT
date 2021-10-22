@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace Model.Model
+namespace Model.Model.Model
 {
      public class B10ProductImgModel 
      {
@@ -8,11 +8,9 @@ namespace Model.Model
 	public int ID { set; get; }
 	public bool IsGroup { set; get; }
 	public int ParentId { set; get; }
-	public string code { set; get; }
 	public string ProductCode { set; get; }
 	public string ImagePath { set; get; }
 	public string Caption { set; get; }
-	public string ImageDefault { set; get; }
 	public int SortOrder { set; get; }
 	public int ImglengthSize { set; get; }
 	public bool IsActive { set; get; }
@@ -20,6 +18,7 @@ namespace Model.Model
 	public DateTime CreatedAt { set; get; }
 	public int ModifiedBy { set; get; }
 	public DateTime ModifiedAt { set; get; }
+	public bool ImageDefault { set; get; }
 	
 
      }
