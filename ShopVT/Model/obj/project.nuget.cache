@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "Y1heUHFu2lvuszF/JRkss+UTwThw2UbygptX7MgAAEbfy92bBx305xVq1AEtYbhssxgOgFKBMRQBcQEr9x5xaw==",
   "success": true,
   "projectFilePath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
+=======
+  "dgSpecHash": "nwLz20XfHYtWllhXPYYrPTQCs7H0CkuBF/jVu+77/BTtZz+9bVPY7tokkXjfZgXxAPQ+V80IuTiCeFlF2fHD0w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
+>>>>>>> origin/Khai1
   "expectedPackageFiles": [],
   "logs": []
 }
