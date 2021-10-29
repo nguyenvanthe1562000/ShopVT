@@ -6,8 +6,3 @@ build_property.ProjectTypeGuids =
 build_property.PublishSingleFile = 
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
-<<<<<<< HEAD
-=======
-build_property.RootNamespace = ShopVT
-build_property.ProjectDir = C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\
->>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242

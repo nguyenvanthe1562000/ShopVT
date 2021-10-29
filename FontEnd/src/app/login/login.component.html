@@ -1,0 +1,29 @@
+<div class="page-container" style="background: url(../assets/images/LOGIN_BG_AiO.png) center no-repeat; background-size: cover">
+    <div class="page-login-box">
+        <div class="page-login-widget animated fadeInRight">
+            <h1>Đăng nhập</h1>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="ui-form-group">
+                    <input type="text" formControlName="username" placeholder="Tên tài khoản">
+                </div>
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Chưa nhập tài khoản!</div>
+                </div>
+                <div class="ui-form-group">
+                    <input type="password" formControlName="password" placeholder="Mật khẩu">
+                </div>
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Chưa nhập mật khẩu!</div>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input formControlName="remember" type="checkbox" class="ace">
+                        <span class="lbl">Ghi nhớ</span>
+                    </label>
+                </div>
+                <button [disabled]="loginForm.invalid || loading" type="submit">
+                    Đăng nhập</button>
+            </form> 
+        </div>
+    </div>
+</div>

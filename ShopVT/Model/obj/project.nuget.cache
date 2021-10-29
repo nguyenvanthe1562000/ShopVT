@@ -1,14 +1,15 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "nwLz20XfHYtWllhXPYYrPTQCs7H0CkuBF/jVu+77/BTtZz+9bVPY7tokkXjfZgXxAPQ+V80IuTiCeFlF2fHD0w==",
   "success": true,
   "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
-=======
-  "dgSpecHash": "Y1heUHFu2lvuszF/JRkss+UTwThw2UbygptX7MgAAEbfy92bBx305xVq1AEtYbhssxgOgFKBMRQBcQEr9x5xaw==",
-  "success": true,
-  "projectFilePath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
->>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
   "expectedPackageFiles": [],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

@@ -33,3 +33,7 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\ref\Model.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.csprojAssemblyReference.cache
 >>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\bin\Debug\net5.0\Model.deps.json
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\bin\Debug\net5.0\Model.dll
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\bin\Debug\net5.0\ref\Model.dll
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\bin\Debug\net5.0\Model.pdb

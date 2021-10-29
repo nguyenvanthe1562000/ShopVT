@@ -1,0 +1,39 @@
+<div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed" data-sidebar="true" data-sidebar-scroll="true"
+  data-sidebar-hover="true">
+    <ul class="nav nav-list">
+      <li class="">
+        <a routerLink="/">
+          <i class="menu-icon fa fa-tachometer"></i>
+          <span class="menu-text"> Bàn làm việc </span>
+        </a>
+
+        <b class="arrow"></b>
+      </li> 
+      <ng-container *ngFor="let mn of menus">
+        <li class="">
+          <a href="#" class="dropdown-toggle">
+            <i class="menu-icon fa fa-{{mn.icon}}"></i>
+            <span class="menu-text"> {{mn.name}} </span>
+            <b class="arrow fa fa-angle-down"></b>
+          </a>
+          <b class="arrow"></b>
+          <ul class="submenu">
+            <ng-container  *ngFor="let m of mn.childs" >
+              <li class="">
+                <a routerLink ="{{m.url}}">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                   {{m.name}}
+                </a> 
+                <b class="arrow"></b>
+              </li>
+            </ng-container> 
+          </ul>
+        </li> 
+      </ng-container>
+     
+    </ul><!-- /.nav-list -->
+
+    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+      <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+    </div> 
+  </div>
