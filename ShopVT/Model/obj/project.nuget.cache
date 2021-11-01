@@ -2,6 +2,7 @@
   "version": 2,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "dgSpecHash": "nwLz20XfHYtWllhXPYYrPTQCs7H0CkuBF/jVu+77/BTtZz+9bVPY7tokkXjfZgXxAPQ+V80IuTiCeFlF2fHD0w==",
   "success": true,
   "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
@@ -20,6 +21,18 @@
   "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+  "dgSpecHash": "nwLz20XfHYtWllhXPYYrPTQCs7H0CkuBF/jVu+77/BTtZz+9bVPY7tokkXjfZgXxAPQ+V80IuTiCeFlF2fHD0w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
   "expectedPackageFiles": [],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

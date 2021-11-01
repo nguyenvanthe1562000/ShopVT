@@ -8024,6 +8024,7 @@
     "restore": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\UnitTest\\UnitTest.csproj",
       "projectName": "UnitTest",
@@ -8032,11 +8033,14 @@
       "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\UnitTest\\obj\\",
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
       "projectUniqueName": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\UnitTest\\UnitTest.csproj",
       "projectName": "UnitTest",
       "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\UnitTest\\UnitTest.csproj",
       "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\UnitTest\\obj\\",
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\UnitTest\\UnitTest.csproj",
@@ -8048,6 +8052,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -8066,6 +8072,7 @@
           "projectReferences": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
               "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
@@ -8083,6 +8090,8 @@
               "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj"
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
             "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj": {
               "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj"
             },
@@ -8097,6 +8106,7 @@
             },
             "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj": {
               "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj"
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
             "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
@@ -8117,6 +8127,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
             }
           }
         }
@@ -8172,5 +8184,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\UnitTest\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

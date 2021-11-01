@@ -2,10 +2,16 @@
   "version": 2,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "dgSpecHash": "QAEV8CqD+vIQlG16SjX+vS68WJDBatwUIH/mdByNf722f12GfxwSrMDrc8zMJpYKTTf2YfOF3o82RwsnQacHnw==",
+=======
+  "dgSpecHash": "UhT8jGVx5tSScrD0fxIYqCQ3FCnU7UYz8awGq3lZNI9d3F4+cCEnoxehWJF5hjCwwK86rBbljWe8ph7QrrGSig==",
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
   "success": true,
   "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\UnitTest\\UnitTest.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\LaptopPro\\.nuget\\packages\\graphql\\4.6.1\\graphql.4.6.1.nupkg.sha512",
+    "C:\\Users\\LaptopPro\\.nuget\\packages\\graphql-parser\\7.2.0\\graphql-parser.7.2.0.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\graphql.server.ui.voyager\\5.0.2\\graphql.server.ui.voyager.5.0.2.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\greendonut\\11.2.2\\greendonut.11.2.2.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\hotchocolate\\11.2.2\\hotchocolate.11.2.2.nupkg.sha512",
@@ -120,6 +126,7 @@
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.resources.resourcemanager\\4.3.0\\system.resources.resourcemanager.4.3.0.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.runtime.caching\\4.7.0\\system.runtime.caching.4.7.0.nupkg.sha512",
+    "C:\\Users\\LaptopPro\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.7.1\\system.runtime.compilerservices.unsafe.4.7.1.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.runtime.extensions\\4.3.0\\system.runtime.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.runtime.handles\\4.3.0\\system.runtime.handles.4.3.0.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.runtime.interopservices\\4.3.0\\system.runtime.interopservices.4.3.0.nupkg.sha512",
@@ -152,6 +159,7 @@
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> Khai
@@ -464,6 +472,15 @@
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\UnitTest\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

@@ -9,6 +9,7 @@
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.11.0</NuGetToolVersion>
   </PropertyGroup>
@@ -16,10 +17,13 @@
     <SourceRoot Include="C:\Users\nguye\.nuget\packages\" />
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.9.1</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="C:\Users\LaptopPro\.nuget\packages\" />
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.11.0</NuGetToolVersion>
@@ -30,6 +34,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
   </ItemGroup>
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>

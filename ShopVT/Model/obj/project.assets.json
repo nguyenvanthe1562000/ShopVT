@@ -15,6 +15,7 @@
     "restore": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
       "projectName": "Model",
@@ -23,11 +24,14 @@
       "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\obj\\",
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
       "projectUniqueName": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
       "projectName": "Model",
       "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
       "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\obj\\",
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
@@ -39,6 +43,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -84,5 +90,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

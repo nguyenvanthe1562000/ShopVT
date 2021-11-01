@@ -8,6 +8,7 @@ build_property.IncludeAllContentForSelfExtract =
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 build_property.RootNamespace = UnitTest
 build_property.ProjectDir = C:\Users\nguye\source\repos\DoAn\ShopVT\UnitTest\
@@ -18,3 +19,5 @@ build_property.ProjectDir = C:\Users\nguye\source\repos\DoAn\ShopVT\UnitTest\
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0

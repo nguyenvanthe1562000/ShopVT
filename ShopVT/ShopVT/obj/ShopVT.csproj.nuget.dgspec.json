@@ -3,6 +3,7 @@
   "restore": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj": {}
   },
@@ -17,6 +18,8 @@
         "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\obj\\",
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
     "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj": {}
   },
   "projects": {
@@ -29,6 +32,7 @@
         "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\obj\\",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj": {}
   },
@@ -45,6 +49,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -105,6 +111,7 @@
     },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj": {
       "version": "1.0.0",
@@ -116,6 +123,8 @@
         "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\obj\\",
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
     "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -125,6 +134,7 @@
         "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Data\\obj\\",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj": {
       "version": "1.0.0",
@@ -138,6 +148,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -156,6 +168,7 @@
             "projectReferences": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
               "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
                 "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
@@ -164,11 +177,14 @@
                 "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
               "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj": {
                 "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj"
               },
               "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj": {
                 "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj"
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
               "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
@@ -180,6 +196,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
               }
             }
           }
@@ -226,6 +244,7 @@
     },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
       "version": "1.0.0",
@@ -237,6 +256,8 @@
         "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\obj\\",
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
     "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -245,6 +266,7 @@
         "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
         "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\obj\\",
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
@@ -259,6 +281,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -307,6 +331,7 @@
     },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj": {
       "version": "1.0.0",
@@ -318,6 +343,8 @@
         "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\obj\\",
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
     "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -326,6 +353,7 @@
         "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\Service.csproj",
         "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\obj\\",
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj": {
@@ -340,6 +368,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -358,6 +388,7 @@
             "projectReferences": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
               "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
                 "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
@@ -369,6 +400,8 @@
                 "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
               "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj": {
                 "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj"
               },
@@ -377,6 +410,7 @@
               },
               "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj": {
                 "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj"
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
               "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
@@ -391,6 +425,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
               }
             }
           }
@@ -437,6 +473,7 @@
     },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj": {
       "version": "1.0.0",
@@ -448,6 +485,8 @@
         "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\obj\\",
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
     "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -456,6 +495,7 @@
         "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj",
         "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\ShopVT\\obj\\",
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj": {
@@ -470,6 +510,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -488,6 +530,7 @@
             "projectReferences": {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
               "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
                 "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
@@ -499,6 +542,8 @@
                 "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj"
 =======
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
               "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj": {
                 "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj"
               },
@@ -507,6 +552,7 @@
               },
               "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\Service.csproj": {
                 "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\Service.csproj"
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
               "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
@@ -521,6 +567,8 @@
 =======
 >>>>>>> origin/Khai1
 >>>>>>> Khai
+=======
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
               }
             }
           }
