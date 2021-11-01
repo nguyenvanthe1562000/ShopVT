@@ -1,6 +1,7 @@
 {
   "version": 2,
 <<<<<<< HEAD
+<<<<<<< HEAD
   "dgSpecHash": "UWaSQftUgEJZUl+VfXpApRxdQR9gP66Xhg18arw54oQlzNXuU64F5C3Jzii40UwPtuKBuZKuFV9FpzgT0Hsn2w==",
   "success": true,
   "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\Service.csproj",
@@ -9,6 +10,16 @@
   "success": true,
   "projectFilePath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj",
 >>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
+=======
+  "dgSpecHash": "DjKo0PobBBrF4Dd4LGTf2exvEGl2PTXzcYnupMUXc19ZXtIcOK82iTbq3m7riOGHlfXqQ5dLFX9PMmSrasOR+w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj",
+=======
+  "dgSpecHash": "UWaSQftUgEJZUl+VfXpApRxdQR9gP66Xhg18arw54oQlzNXuU64F5C3Jzii40UwPtuKBuZKuFV9FpzgT0Hsn2w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Service\\Service.csproj",
+>>>>>>> origin/Khai1
+>>>>>>> Khai
   "expectedPackageFiles": [
     "C:\\Users\\LaptopPro\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

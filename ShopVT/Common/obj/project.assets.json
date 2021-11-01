@@ -5802,11 +5802,21 @@
     "version": "1.0.0",
     "restore": {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+      "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
+      "projectName": "Common",
+      "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
+      "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\obj\\",
+=======
+>>>>>>> Khai
       "projectUniqueName": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj",
       "projectName": "Common",
       "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj",
       "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\obj\\",
+<<<<<<< HEAD
 =======
       "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
       "projectName": "Common",
@@ -5814,6 +5824,9 @@
       "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\obj\\",
 >>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
+=======
+>>>>>>> origin/Khai1
+>>>>>>> Khai
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -93,6 +93,7 @@ C:\Users\nguye\source\repos\ShopVT\ShopVT\bin\Debug\net5.0\HotChocolate.Validati
 C:\Users\nguye\source\repos\ShopVT\ShopVT\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\nguye\source\repos\ShopVT\ShopVT\bin\Debug\net5.0\Microsoft.Extensions.DiagnosticAdapter.dll
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.csprojAssemblyReference.cache
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.AssemblyInfoInputs.cache
@@ -104,6 +105,8 @@ C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.dll
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ref\ShopVT.dll
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.pdb
 =======
+=======
+>>>>>>> Khai
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.AssemblyInfoInputs.cache
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.AssemblyInfo.cs
@@ -200,4 +203,19 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GraphQL.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GraphQL-Parser.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.csprojAssemblyReference.cache
+<<<<<<< HEAD
 >>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
+=======
+=======
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.csprojAssemblyReference.cache
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.AssemblyInfoInputs.cache
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.AssemblyInfo.cs
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.csproj.CoreCompileInputs.cache
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.dll
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ref\ShopVT.dll
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.pdb
+>>>>>>> origin/Khai1
+>>>>>>> Khai
