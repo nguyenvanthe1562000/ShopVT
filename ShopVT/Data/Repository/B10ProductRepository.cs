@@ -27,11 +27,11 @@ namespace Data.Reponsitory
 
             try
             {
-
+                model=await SetObjectValueDefault.SetValueDefault<B10ProductModel>(model);
 
 
                 var result = await _dbHelper.ExecuteScalarSProcedureWithTransactionAsync("B10Product_create", "@code", model.code, "@Name", model.Name, "@Alias", model.Alias, "@ProductCategoryCode", model.ProductCategoryCode, "@UnitCost", model.UnitCost, "@UnitPrice", model.UnitPrice, "@Warranty", model.Warranty, "@Description", model.Description, "@Content", model.Content, "@Information", model.Information, "@user_id", userId);
-                if (!string.IsNullOrEmpty(result.dataResult.ToString())||string.IsNullOrEmpty( result.message))
+                if (string.IsNullOrEmpty( result.message))
                 {
                     return false;
                     throw new Exception(Convert.ToString(result));

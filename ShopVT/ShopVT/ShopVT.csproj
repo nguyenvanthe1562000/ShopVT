@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="ModelRequest\NewFolder\" />
+    <Folder Include="Common\" />
     <Folder Include="wwwroot\Img\" />
+    <Folder Include="wwwroot\user-content\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +30,7 @@
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
+    <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

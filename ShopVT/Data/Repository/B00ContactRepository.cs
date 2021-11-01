@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 
 namespace Data.Reponsitory
 {
-   class B00ContactRepository:IB00ContactRepository,IDisposable
-   {
+  public  class B00ContactRepository : IB00ContactRepository, IDisposable
+    {
         private IDatabaseHelper _dbHelper;
         public B00ContactRepository(IDatabaseHelper databaseHelper)
         {
             _dbHelper = databaseHelper;
         }
-        
- public async Task<bool> Insert(B00ContactModel model, int userId)
+
+        public async Task<bool> Insert(B00ContactModel model, int userId)
         {
-                  try
-            {                  
-                var result =  await _dbHelper.ExecuteScalarSProcedureWithTransactionAsync("B00Contact_create","@code", model.code, "@Name", model.Name, "@Email", model.Email, "@PhoneNumber", model.PhoneNumber, "@Facebook", model.Facebook, "@address", model.address,"@user_id", userId);
+            try
+            {
+                var result = await _dbHelper.ExecuteScalarSProcedureWithTransactionAsync("B00Contact_create", "@code", model.code, "@Name", model.Name, "@Email", model.Email, "@PhoneNumber", model.PhoneNumber, "@Facebook", model.Facebook, "@address", model.address, "@user_id", userId);
                 if (!string.IsNullOrEmpty(result.message.ToString()))
                 {
                     return false;
@@ -35,7 +35,6 @@ namespace Data.Reponsitory
                 throw ex;
             }
         }
-   
 
 
 
@@ -45,14 +44,15 @@ namespace Data.Reponsitory
 
 
 
-        
- public async Task<bool>  Update(B00ContactModel model, int userId)
+
+
+        public async Task<bool> Update(B00ContactModel model, int userId)
         {
-        
+
             try
             {
-                var result = await _dbHelper.ExecuteScalarSProcedureWithTransactionAsync("B00Contact_update","@code", model.code, "@Name", model.Name, "@Email", model.Email, "@PhoneNumber", model.PhoneNumber, "@Facebook", model.Facebook, "@address", model.address, "@IsActive", model.IsActive, "@CreatedBy", model.CreatedBy, "@CreatedAt", model.CreatedAt, "@ModifiedBy", model.ModifiedBy, "@ModifiedAt", model.ModifiedAt
-                ,"@user_id", userId);
+                var result = await _dbHelper.ExecuteScalarSProcedureWithTransactionAsync("B00Contact_update", "@code", model.code, "@Name", model.Name, "@Email", model.Email, "@PhoneNumber", model.PhoneNumber, "@Facebook", model.Facebook, "@address", model.address, "@IsActive", model.IsActive, "@CreatedBy", model.CreatedBy, "@CreatedAt", model.CreatedAt, "@ModifiedBy", model.ModifiedBy, "@ModifiedAt", model.ModifiedAt
+                , "@user_id", userId);
                 if (!string.IsNullOrEmpty(result.message.ToString()))
                 {
                     return false;
@@ -62,39 +62,39 @@ namespace Data.Reponsitory
             }
             catch (Exception ex)
             {
-                throw ex; 
+                throw ex;
             }
-}
+        }
 
-        
-public async Task<bool>  Delete(string code, int userId)
-{
 
-        try
+        public async Task<bool> Delete(string code, int userId)
         {
-                var result =await _dbHelper.ExecuteScalarSProcedureWithTransactionAsync( "B00Contact_delete","@code", code,"@user_id", userId);
+
+            try
+            {
+                var result = await _dbHelper.ExecuteScalarSProcedureWithTransactionAsync("B00Contact_delete", "@code", code, "@user_id", userId);
                 if (!string.IsNullOrEmpty(result.message.ToString()))
                 {
                     return false;
                     throw new Exception(result.message);
                 }
-                 return true;
+                return true;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-}
+        }
 
 
 
-        
-        public async Task<List<B00ContactModel>>GetAll()
+
+        public async Task<List<B00ContactModel>> GetAll()
         {
             try
             {
-                var dt =await  _dbHelper.ExecuteSProcedureReturnDataTableAsync("B00Contact_get_all");
-             if (!string.IsNullOrEmpty(dt.message))
+                var dt = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("B00Contact_get_all");
+                if (!string.IsNullOrEmpty(dt.message))
                 {
                     throw new Exception(dt.message);
                 }
@@ -108,28 +108,12 @@ public async Task<bool>  Delete(string code, int userId)
         }
 
 
-        
-        public async Task<List<B00ContactModel>> Search( )
-        {
-             try
-            {
-                var dt = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("B00Contact_search", );
-                if (!string.IsNullOrEmpty(dt.message))
-                {
-                    throw new Exception(dt.message);
-                }
-                 var list = await dt.Item2.ConvertToAsync<B00ContactModel>();
-                return list.ToList();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
 
 
-	public async Task<PagedResultBase> Paging(PagingRequestBase pagingRequest)
+
+
+        public async Task<PagedResultBase> Paging(PagingRequestBase pagingRequest)
         {
             try
             {
@@ -152,20 +136,20 @@ public async Task<bool>  Delete(string code, int userId)
 
 
 
-        
-        public  async Task<B00ContactModel> GetById(string code)
+
+        public async Task<B00ContactModel> GetById(string code)
         {
             string msgError = "";
             try
             {
-                var dt = await _dbHelper.ExecuteSProcedureReturnDataTableAsync( "B00Contact_get_by_id","@code", code);
-               if (!string.IsNullOrEmpty(dt.message))
+                var dt = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("B00Contact_get_by_id", "@code", code);
+                if (!string.IsNullOrEmpty(dt.message))
                 {
                     throw new Exception(dt.message);
                 }
- var list = await dt.Item2.ConvertToAsync<B00ContactModel>();
+                var list = await dt.Item2.ConvertToAsync<B00ContactModel>();
                 return list.ToList().FirstOrDefault();
-            
+
             }
             catch (Exception ex)
             {
@@ -176,8 +160,8 @@ public async Task<bool>  Delete(string code, int userId)
 
 
 
-	
-  private bool disposed = false;
+
+        private bool disposed = false;
         public void Dispose()
         {
             Dispose(true);
@@ -203,7 +187,7 @@ public async Task<bool>  Delete(string code, int userId)
             Dispose(false);
 
         }
-   }
+    }
 }
 
 

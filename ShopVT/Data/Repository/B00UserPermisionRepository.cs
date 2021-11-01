@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace 
+namespace Data.Reponsitory
 {
    class B00UserPermisionRepository:IB00UserPermisionRepository,IDisposable
    {

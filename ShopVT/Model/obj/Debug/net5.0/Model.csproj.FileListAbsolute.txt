@@ -21,4 +21,4 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.csproj.Core
 C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\ref\Model.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.pdb
-C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.csprojAssemblyReference.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.csproj.AssemblyReference.cache

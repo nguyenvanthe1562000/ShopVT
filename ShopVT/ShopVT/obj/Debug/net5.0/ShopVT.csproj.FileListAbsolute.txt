@@ -106,6 +106,8 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\ShopVT.runtimeco
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\ShopVT.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\ref\ShopVT.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\ShopVT.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GraphQL.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GraphQL-Parser.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GraphQL.Server.Ui.Voyager.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GreenDonut.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\HotChocolate.dll
@@ -175,6 +177,7 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\Common.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\Model.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\Service.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\Data.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\staticwebassets\ShopVT.StaticWebAssets.Manifest.cache
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\staticwebassets\ShopVT.StaticWebAssets.xml
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\scopedcss\bundle\ShopVT.styles.css
@@ -184,7 +187,6 @@ C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ref\ShopVT.dll
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.genruntimeconfig.cache
-C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GraphQL.dll
-C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\GraphQL-Parser.dll
-C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\ViewModel.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\bin\Debug\net5.0\ViewModel.pdb
 C:\Users\nguye\source\repos\DoAn\ShopVT\ShopVT\obj\Debug\net5.0\ShopVT.csprojAssemblyReference.cache
