@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ShopVT.Extensions
 {
-    public struct JwtRegisteredClaimExtension
+    public static class JwtRegisteredClaimExtension
     {
         public const string UserId = "UserId";
         public const string UserCode = "UserCode";

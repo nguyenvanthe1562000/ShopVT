@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\UnitTest\\UnitTest.csproj": {}
+    "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\UnitTest\\UnitTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
+    "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
+        "projectUniqueName": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj",
         "projectName": "Common",
-        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\obj\\",
+        "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj",
+        "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\truon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +40,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Hosting": {
+              "target": "Package",
+              "version": "[2.2.7, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[5.0.10, )"
@@ -66,21 +70,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj": {
+    "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj",
+        "projectUniqueName": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\obj\\",
+        "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\Data.csproj",
+        "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\truon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -94,11 +98,11 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj"
               },
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj"
               }
             }
           }
@@ -139,21 +143,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
+    "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
+        "projectUniqueName": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj",
         "projectName": "Model",
-        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\obj\\",
+        "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj",
+        "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\truon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -193,21 +197,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj": {
+    "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj",
+        "projectUniqueName": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\obj\\",
+        "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\Service.csproj",
+        "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\truon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -221,14 +225,17 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj"
               },
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\Data.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\Data.csproj"
               },
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj"
+              },
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj"
               }
             }
           }
@@ -269,21 +276,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj": {
+    "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj",
+        "projectUniqueName": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj",
         "projectName": "ShopVT",
-        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\obj\\",
+        "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj",
+        "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ShopVT\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\truon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -297,14 +304,17 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj"
               },
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj"
               },
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\Service.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\Service.csproj"
+              },
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj"
               }
             }
           }
@@ -376,21 +386,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\UnitTest\\UnitTest.csproj": {
+    "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\UnitTest\\UnitTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\UnitTest\\UnitTest.csproj",
+        "projectUniqueName": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\UnitTest\\UnitTest.csproj",
         "projectName": "UnitTest",
-        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\UnitTest\\UnitTest.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\UnitTest\\obj\\",
+        "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\UnitTest\\UnitTest.csproj",
+        "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\UnitTest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\truon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -404,20 +414,20 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj"
               },
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Data\\Data.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\Data.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\Data.csproj"
               },
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj"
               },
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\Service.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\Service.csproj"
               },
-              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj": {
-                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ShopVT\\ShopVT.csproj"
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ShopVT\\ShopVT.csproj"
               }
             }
           }
@@ -466,14 +476,72 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj",
+        "projectName": "ViewModel",
+        "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj",
+        "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
+        "outputPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\truon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj"
+              },
+              "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj": {
+                "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

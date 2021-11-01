@@ -1,5 +1,7 @@
 ﻿using Common;
+using Common.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Model;
 using Newtonsoft.Json;
@@ -9,8 +11,11 @@ using ShopVT.Extensions;
 using ShopVT.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using ViewModel.catalog.Product;
 
 namespace ShopVT.Controllers.Admin
 {
@@ -19,15 +24,18 @@ namespace ShopVT.Controllers.Admin
     //[Authorize(Roles = AppRoles.ADMIN)]
     public class B10ProductController : BaseController
     {
+        private IStorageService _storageService;
         private readonly IB10ProductService _B10ProductService;
+        private const string USER_CONTENT_FOLDER_NAME = "user-content";
 
-        public B10ProductController(IB10ProductService B10Product)
+        public B10ProductController(IB10ProductService B10Product, IStorageService storageService)
         {
+            _storageService = storageService;
             _B10ProductService = B10Product;
         }
         [HttpPost]
         [Route("insert")]
-        public async Task<IActionResult> Insert([FromBody] B10ProductModel model)
+        public async Task<IActionResult> Insert([FromForm] ProductCreateRequest model)
         {
             try
             {
@@ -50,14 +58,14 @@ namespace ShopVT.Controllers.Admin
             }
             catch (Exception ex)
             {
-                return BadRequest("Error at method: GetAllForPaging - PostApi," + ex.InnerException.InnerException.Message + "");
+                return BadRequest("Error at method: GetAllForPaging - Product," + ex.InnerException.InnerException.Message + "");
             }
         }
 
 
         [HttpPut]
         [Route("Update")]
-        public async Task<IActionResult> Update([FromBody] B10ProductModel model)
+        public async Task<IActionResult> Update([FromForm] ProductUpdateRequest model)
         {
             try
             {
@@ -110,12 +118,12 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var fromData = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
-                string _Name = "";
-                if (fromData.Keys.Contains("Name") && fromData["Name"] != null && fromData["Name"].ToString() != "")
-                { _Name = Convert.ToString(fromData["Name"].ToString()); }
+            //    var fromData = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
+            //    string _Name = "";
+            //    if (fromData.Keys.Contains("Name") && fromData["Name"] != null && fromData["Name"].ToString() != "")
+            //    { _Name = Convert.ToString(fromData["Name"].ToString()); }
 
-                var response = await _B10ProductService.Search(_Name);
+                var response = await _B10ProductService.Search(data);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -138,7 +146,6 @@ namespace ShopVT.Controllers.Admin
                 return BadRequest("Error at method: GetById - B10ProductApi," + ex.InnerException.InnerException.Message + "");
             }
         }
-
     }
 }
 

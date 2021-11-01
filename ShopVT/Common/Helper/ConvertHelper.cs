@@ -85,7 +85,7 @@ namespace Common.Helper
                 }
                 foreach (DataRow row in table.Rows)
                 {
-                    T item = GetItem<T>(row);
+                    T item = GetItemAsync<T>(row).Result;
                     data.Add(item);
                 }
                 return data;

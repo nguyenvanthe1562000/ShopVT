@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace Model.Model.Model
+namespace Model.Model
 {
      public class B10CustomerModel 
      {

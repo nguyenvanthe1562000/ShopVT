@@ -89,11 +89,11 @@ namespace Data.Reponsitory
 
 
 
-        public async Task<List<B10ProductInformationModel>> GetAll()
+        public async Task<List<B10ProductInformationModel>> GetAllParent()
         {
             try
             {
-                var dt = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("B10ProductInformation_get_all");
+                var dt = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("B10ProductInformation_GetAllParent");
                 if (!string.IsNullOrEmpty(dt.message))
                 {
                     throw new Exception(dt.message);
@@ -173,7 +173,23 @@ namespace Data.Reponsitory
             }
         }
 
-
+        public async Task<List<B10ProductInformationModel>> GetChild(string code)
+        {
+            try
+            {
+                var dt = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("B10ProductInformation_GetChild","@code",code);
+                if (!string.IsNullOrEmpty(dt.message))
+                {
+                    throw new Exception(dt.message);
+                }
+                var list = await dt.Item2.ConvertToAsync<B10ProductInformationModel>();
+                return list.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
 
@@ -198,6 +214,9 @@ namespace Data.Reponsitory
             }
 
         }
+
+     
+
         ~B10ProductInformationRepository()
         {
             Dispose(false);

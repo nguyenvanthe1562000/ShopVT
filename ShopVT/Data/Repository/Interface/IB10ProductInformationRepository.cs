@@ -15,7 +15,8 @@ namespace Data.Reponsitory.Interface
         Task<bool> Delete(string code, int userId);
 
 
-        Task<List<B10ProductInformationModel>> GetAll();
+        Task<List<B10ProductInformationModel>> GetAllParent();
+        Task<List<B10ProductInformationModel>> GetChild(string code);
 
         Task<List<B10ProductInformationModel>> Search(string name);
 
