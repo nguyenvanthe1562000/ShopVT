@@ -18,6 +18,31 @@ C:\Users\nguye\source\repos\ShopVT\Data\obj\Debug\net5.0\Data.pdb
 C:\Users\nguye\source\repos\ShopVT\Data\bin\Debug\net5.0\Data.runtimeconfig.json
 C:\Users\nguye\source\repos\ShopVT\Data\bin\Debug\net5.0\Data.runtimeconfig.dev.json
 C:\Users\nguye\source\repos\ShopVT\Data\obj\Debug\net5.0\Data.genruntimeconfig.cache
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.deps.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.runtimeconfig.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.runtimeconfig.dev.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\ref\Data.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Common.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Common.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Model.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.AssemblyInfoInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.AssemblyInfo.cs
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.csproj.CoreCompileInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.csproj.CopyComplete
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\ref\Data.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.genruntimeconfig.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.csprojAssemblyReference.cache
+=======
+>>>>>>> Khai
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Data\bin\Debug\net5.0\Data.deps.json
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Data\bin\Debug\net5.0\Data.runtimeconfig.json
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Data\bin\Debug\net5.0\Data.runtimeconfig.dev.json
@@ -38,3 +63,29 @@ C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Data\obj\Debug\net5.0\Data.dll
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Data\obj\Debug\net5.0\ref\Data.dll
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Data\obj\Debug\net5.0\Data.pdb
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Data\obj\Debug\net5.0\Data.genruntimeconfig.cache
+<<<<<<< HEAD
+=======
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.deps.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.runtimeconfig.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.runtimeconfig.dev.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\ref\Data.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Data.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Common.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Common.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\bin\Debug\net5.0\Model.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.AssemblyInfoInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.AssemblyInfo.cs
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.csproj.CoreCompileInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.csproj.CopyComplete
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\ref\Data.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.genruntimeconfig.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Data\obj\Debug\net5.0\Data.csprojAssemblyReference.cache
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
+=======
+>>>>>>> origin/Khai1
+>>>>>>> Khai

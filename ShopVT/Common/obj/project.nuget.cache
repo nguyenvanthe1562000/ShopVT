@@ -1,8 +1,31 @@
 {
   "version": 2,
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
   "dgSpecHash": "6/fGoDWxU25AMiCK6YuxTc8O+0V7o2tLpDs69ZkW1/+aN/t+oPzYh6g7jm5F/GVAbnCLa+YDYxHVWqWvcAd7PQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj",
+=======
+  "dgSpecHash": "RWyBLn3edaiJZelqyayEZroy36CEAh04yDghKvj0Ahb43ztHkxw2sMF8QTZbB6tFY7DPrUl/xuLG/765/FNlcQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
+=======
+  "dgSpecHash": "RWyBLn3edaiJZelqyayEZroy36CEAh04yDghKvj0Ahb43ztHkxw2sMF8QTZbB6tFY7DPrUl/xuLG/765/FNlcQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj",
+=======
+  "dgSpecHash": "6/fGoDWxU25AMiCK6YuxTc8O+0V7o2tLpDs69ZkW1/+aN/t+oPzYh6g7jm5F/GVAbnCLa+YDYxHVWqWvcAd7PQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj",
+>>>>>>> origin/Khai1
+>>>>>>> Khai
+=======
+  "dgSpecHash": "6/fGoDWxU25AMiCK6YuxTc8O+0V7o2tLpDs69ZkW1/+aN/t+oPzYh6g7jm5F/GVAbnCLa+YDYxHVWqWvcAd7PQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\Common.csproj",
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0
   "expectedPackageFiles": [
     "C:\\Users\\LaptopPro\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
@@ -102,5 +125,12 @@
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\LaptopPro\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Common\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

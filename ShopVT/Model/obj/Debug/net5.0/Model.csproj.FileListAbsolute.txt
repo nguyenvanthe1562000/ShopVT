@@ -10,6 +10,8 @@ C:\Users\nguye\source\repos\ShopVT\Model\obj\Debug\net5.0\Model.csproj.CoreCompi
 C:\Users\nguye\source\repos\ShopVT\Model\obj\Debug\net5.0\Model.dll
 C:\Users\nguye\source\repos\ShopVT\Model\obj\Debug\net5.0\ref\Model.dll
 C:\Users\nguye\source\repos\ShopVT\Model\obj\Debug\net5.0\Model.pdb
+<<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.csprojAssemblyReference.cache
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.AssemblyInfoInputs.cache
@@ -18,3 +20,39 @@ C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.csproj.Cor
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.dll
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\ref\Model.dll
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.pdb
+=======
+=======
+>>>>>>> Khai
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\bin\Debug\net5.0\Model.deps.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\bin\Debug\net5.0\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\bin\Debug\net5.0\ref\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\bin\Debug\net5.0\Model.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.AssemblyInfoInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.AssemblyInfo.cs
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.csproj.CoreCompileInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\ref\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Model\obj\Debug\net5.0\Model.csprojAssemblyReference.cache
+<<<<<<< HEAD
+>>>>>>> 0d0e18dfa2553b023f6d826de19e189544e9e242
+<<<<<<< HEAD
+=======
+=======
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.csprojAssemblyReference.cache
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.AssemblyInfoInputs.cache
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.AssemblyInfo.cs
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.csproj.CoreCompileInputs.cache
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.dll
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\ref\Model.dll
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\obj\Debug\net5.0\Model.pdb
+>>>>>>> origin/Khai1
+>>>>>>> Khai
+=======
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\bin\Debug\net5.0\Model.deps.json
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\bin\Debug\net5.0\Model.dll
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\bin\Debug\net5.0\ref\Model.dll
+C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Model\bin\Debug\net5.0\Model.pdb
+>>>>>>> 09957b71905cf680dc72d8887a26a24b202c85d0

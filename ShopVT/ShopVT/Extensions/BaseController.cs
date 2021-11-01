@@ -11,7 +11,7 @@ namespace ShopVT.Extensions
     {
         protected int GetUserId()
         {
-          
+        
             return  Convert.ToInt32( User.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
         protected string GetUserCode()
@@ -19,7 +19,7 @@ namespace ShopVT.Extensions
           
             return  User.FindFirst(ClaimTypes.UserData).Value;
         } 
-        protected string GetCustomerIp()
+        protected string GetIpAddress()
         {
             var ip = HttpContext.Connection.RemoteIpAddress.ToString();
             return ip;
