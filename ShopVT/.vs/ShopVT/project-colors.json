@@ -5,7 +5,27 @@
       "ProjectGuid": "19eaa124-369b-4dfb-b576-9d47df2e2e42",
       "DisplayName": "ShopVT",
       "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "b8e1ee64-3aa6-48f6-a7fb-8986e1a80b87": {
+      "ProjectGuid": "b8e1ee64-3aa6-48f6-a7fb-8986e1a80b87",
+      "DisplayName": "Service",
+      "ColorIndex": 1
+    },
+    "d8461638-9a0d-464b-aa55-37913fed3086": {
+      "ProjectGuid": "d8461638-9a0d-464b-aa55-37913fed3086",
+      "DisplayName": "Common",
+      "ColorIndex": 2
+    },
+    "bb49b78a-ea06-4c48-9c33-9a4f974efc52": {
+      "ProjectGuid": "bb49b78a-ea06-4c48-9c33-9a4f974efc52",
+      "DisplayName": "Data",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 4
 }
