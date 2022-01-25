@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\LaptopPro\\.nuget\\packages\\": {}
+    "C:\\Users\\truon\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
+      "projectUniqueName": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj",
       "projectName": "Model",
-      "projectPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\Model.csproj",
-      "packagesPath": "C:\\Users\\LaptopPro\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\LaptopPro\\Desktop\\ShopVT\\ShopVT\\Model\\obj\\",
+      "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj",
+      "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
+      "outputPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\LaptopPro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\truon\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -60,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }
