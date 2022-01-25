@@ -6453,8 +6453,16 @@
             "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj": {
               "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj"
             },
+<<<<<<< HEAD
             "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj": {
               "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj"
+=======
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
+            },
+            "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\ViewModel.csproj": {
+              "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\ViewModel.csproj"
+>>>>>>> ab1c2c4c3e15824973f67f9a970fa3dec03f6a2e
             }
           }
         }

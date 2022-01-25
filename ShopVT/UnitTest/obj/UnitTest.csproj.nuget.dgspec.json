@@ -231,11 +231,19 @@
               "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\Data.csproj": {
                 "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Data\\Data.csproj"
               },
+<<<<<<< HEAD
               "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj": {
                 "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj"
               },
               "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj": {
                 "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj"
+=======
+              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
+                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
+              },
+              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\ViewModel.csproj": {
+                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\ViewModel.csproj"
+>>>>>>> ab1c2c4c3e15824973f67f9a970fa3dec03f6a2e
               }
             }
           }
@@ -313,8 +321,16 @@
               "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\Service.csproj": {
                 "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Service\\Service.csproj"
               },
+<<<<<<< HEAD
               "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj": {
                 "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj"
+=======
+              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj": {
+                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Service\\Service.csproj"
+              },
+              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\ViewModel.csproj": {
+                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\ViewModel.csproj"
+>>>>>>> ab1c2c4c3e15824973f67f9a970fa3dec03f6a2e
               }
             }
           }
@@ -542,6 +558,67 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\ViewModel.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\ViewModel.csproj",
+        "projectName": "ViewModel",
+        "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\ViewModel.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\ViewModel\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Common\\Common.csproj"
+              },
+              "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj": {
+                "projectPath": "C:\\Users\\nguye\\source\\repos\\DoAn\\ShopVT\\Model\\Model.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
