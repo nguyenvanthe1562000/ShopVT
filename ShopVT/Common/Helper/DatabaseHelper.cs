@@ -3,13 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
-using System.Text;
-
-
+using System.Threading.Tasks;
 
 namespace Common.Helper
 {
-    public class DatabaseHelper : IDatabaseHelper
+    public class DatabaseHelper : IDatabaseHelper, IDisposable
     {
 
         //Connection String
@@ -31,6 +29,12 @@ namespace Common.Helper
         {
             StrConnection = connectionString;
         }
+        public void SetConnectionStringAsync(string connectionString)
+        {
+            return;
+        }
+
+
         /// <summary>
         /// Open Connect to PostGres DB
         /// </summary>
@@ -44,6 +48,23 @@ namespace Common.Helper
 
                 if (sqlConnection.State != ConnectionState.Open)
                     sqlConnection.Open();
+
+                return "";
+            }
+            catch (Exception exception)
+            {
+                return exception.Message;
+            }
+        }
+        public async Task<string> OpenConnectionAsync()
+        {
+            try
+            {
+                if (sqlConnection == null)
+                    sqlConnection = new SqlConnection(StrConnection);
+
+                if (sqlConnection.State != ConnectionState.Open)
+                    await sqlConnection.OpenAsync();
 
                 return "";
             }
@@ -229,6 +250,59 @@ namespace Common.Helper
             finally
             {
                 connection.Close();
+            }
+            return result;
+        }
+        /// <summary>
+        /// Execute Procedure None Query
+        /// </summary>
+        /// <param name="sprocedureName">Procedure Name</param>
+        /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
+        /// <returns>String.Empty when run query success or Message Error when run query happen issue</returns>
+        public async Task<string> ExecuteSProcedureAsync(string sprocedureName, params object[] paramObjects)
+        {
+            string result = "";
+            SqlConnection connection = new SqlConnection(StrConnection);
+            try
+            {
+
+                SqlCommand cmd = new SqlCommand { CommandType = CommandType.StoredProcedure, CommandText = sprocedureName };
+                await connection.OpenAsync();
+                cmd.Connection = connection;
+
+                int parameterInput = (paramObjects.Length) / 2;
+                int j = 0;
+                for (int i = 0; i < parameterInput; i++)
+                {
+                    string paramName = Convert.ToString(paramObjects[j++]);
+                    object value = paramObjects[j++];
+                    if (paramName.ToLower().Contains("json"))
+                    {
+                        cmd.Parameters.Add(new SqlParameter()
+                        {
+                            ParameterName = paramName,
+                            Value = value ?? DBNull.Value,
+                            SqlDbType = SqlDbType.NVarChar
+                        });
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
+                    }
+                }
+
+
+                await cmd.ExecuteNonQueryAsync();
+                await cmd.DisposeAsync();
+
+            }
+            catch (Exception exception)
+            {
+                result = exception.ToString();
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
             return result;
         }
@@ -633,6 +707,7 @@ namespace Common.Helper
         /// <param name="sprocedureName">Procedure Name</param>
         /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
         /// <returns>Value return from Store</returns>
+        /// 
         public object ExecuteScalarSProcedureWithTransaction(out string msgError, string sprocedureName, params object[] paramObjects)
         {
             msgError = "";
@@ -694,6 +769,77 @@ namespace Common.Helper
             }
             return result;
         }
+
+        /// <summary>
+        ///  Execute Scalar Procedure query with transaction async
+        /// </summary>
+        /// <param name="msgError">String.Empty when run query success or Message Error when run query happen issue</param>        
+        /// <param name="sprocedureName">Procedure Name</param>
+        /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
+        /// <returns>Value return from Store</returns>
+        /// 
+        public async Task<(string message, object dataResult)> ExecuteScalarSProcedureWithTransactionAsync(string sprocedureName, params object[] paramObjects)
+        {
+
+            object result = null;
+            string msgError = "";
+            using (SqlConnection connection = new SqlConnection(StrConnection))
+            {
+                await connection.OpenAsync();
+                using (SqlTransaction transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        SqlCommand cmd = connection.CreateCommand();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = sprocedureName;
+                        cmd.Transaction = transaction;
+                        cmd.Connection = connection;
+
+                        int parameterInput = (paramObjects.Length) / 2;
+                        int j = 0;
+                        for (int i = 0; i < parameterInput; i++)
+                        {
+                            string paramName = Convert.ToString(paramObjects[j++]);
+                            object value = paramObjects[j++];
+                            if (paramName.ToLower().Contains("json"))
+                            {
+                                cmd.Parameters.Add(new SqlParameter()
+                                {
+                                    ParameterName = paramName,
+                                    Value = value ?? DBNull.Value,
+                                    SqlDbType = SqlDbType.NVarChar
+                                });
+                            }
+                            else
+                            {
+                                cmd.Parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
+                            }
+                        }
+
+                        result = await cmd.ExecuteScalarAsync();
+                        await cmd.DisposeAsync();
+                        transaction.Commit();
+                    }
+                    catch (Exception exception)
+                    {
+
+                        result = null;
+                        msgError = exception.ToString();
+                        try
+                        {
+                            await transaction.RollbackAsync();
+                        }
+                        catch (Exception ex) { }
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+            return (msgError, result);
+        }
         /// <summary>
         /// Execute Procedure return DataTale
         /// </summary>
@@ -746,6 +892,67 @@ namespace Common.Helper
                 msgError = exception.ToString();
             }
             return tb;
+        }
+        /// <summary>
+        /// Execute Procedure return DataTale
+        /// </summary>
+        /// <param name="msgError">String.Empty when run query success or Message Error when run query happen issue</param>
+        /// <param name="sprocedureName">Procedure Name</param>
+        /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
+        /// <returns>Table result</returns>
+
+        public async Task<(string message, DataTable)> ExecuteSProcedureReturnDataTableAsync(string sprocedureName, params object[] paramObjects)
+        {
+
+            DataTable tbResult = new DataTable();
+            string msgError = "";
+            try
+            {
+
+                tbResult = await Task.Run(() =>
+                       {
+                           DataTable tb = new DataTable();
+                           SqlCommand cmd = new SqlCommand { CommandType = CommandType.StoredProcedure, CommandText = sprocedureName };
+                           SqlConnection connection = new SqlConnection(StrConnection);
+                           cmd.Connection = connection;
+                           int parameterInput = (paramObjects.Length) / 2;
+
+                           int j = 0;
+                           for (int i = 0; i < parameterInput; i++)
+                           {
+                               string paramName = Convert.ToString(paramObjects[j++]).Trim();
+                               object value = paramObjects[j++];
+                               if (paramName.ToLower().Contains("json"))
+                               {
+                                   cmd.Parameters.Add(new SqlParameter()
+                                   {
+                                       ParameterName = paramName,
+                                       Value = value ?? DBNull.Value,
+                                       SqlDbType = SqlDbType.NVarChar
+                                   });
+                               }
+                               else
+                               {
+                                   cmd.Parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
+                               }
+                           }
+
+                           SqlDataAdapter ad = new SqlDataAdapter(cmd);
+                           ad.Fill(tb);
+                           cmd.DisposeAsync();
+                           ad.Dispose();
+                           connection.DisposeAsync();
+                           return tb;
+                       });
+
+            }
+            catch (Exception exception)
+            {
+                tbResult = null;
+                msgError = exception.ToString();
+            }
+
+            return (msgError, tbResult);
         }
         /// <summary>
         /// Execute Procedure return DataSet
@@ -918,6 +1125,41 @@ namespace Common.Helper
             }
             return result;
         }
+
+        private bool disposed = false;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+
+                if (sqlTransaction != null)
+                {
+                    sqlTransaction = null;
+
+                    //GC.Collect();
+                }
+                if (sqlConnection != null)
+                {
+                    sqlTransaction = null;
+
+                    //GC.Collect();
+                }
+                disposed = true;
+            }
+
+        }
+        ~DatabaseHelper()
+        {
+            Dispose(false);
+
+        }
+
+
         #endregion
     }
 

@@ -20,6 +20,7 @@ C:\Users\nguye\source\repos\ShopVT\Service\obj\Debug\net5.0\Service.pdb
 C:\Users\nguye\source\repos\ShopVT\Service\bin\Debug\net5.0\Service.runtimeconfig.json
 C:\Users\nguye\source\repos\ShopVT\Service\bin\Debug\net5.0\Service.runtimeconfig.dev.json
 C:\Users\nguye\source\repos\ShopVT\Service\obj\Debug\net5.0\Service.genruntimeconfig.cache
+<<<<<<< HEAD
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Service\bin\Debug\net5.0\Service.deps.json
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Service\bin\Debug\net5.0\Service.runtimeconfig.json
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Service\bin\Debug\net5.0\Service.runtimeconfig.dev.json
@@ -42,3 +43,29 @@ C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Service\obj\Debug\net5.0\Service.dll
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Service\obj\Debug\net5.0\ref\Service.dll
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Service\obj\Debug\net5.0\Service.pdb
 C:\Users\LaptopPro\Desktop\ShopVT\ShopVT\Service\obj\Debug\net5.0\Service.genruntimeconfig.cache
+=======
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\Service.AssemblyInfoInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\Service.AssemblyInfo.cs
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\Service.csproj.CoreCompileInputs.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Service.deps.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Service.runtimeconfig.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Service.runtimeconfig.dev.json
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Service.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\ref\Service.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Service.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Common.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Data.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Model.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Common.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Data.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\Model.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\Service.csproj.CopyComplete
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\Service.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\ref\Service.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\Service.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\Service.genruntimeconfig.cache
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\ViewModel.dll
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\bin\Debug\net5.0\ViewModel.pdb
+C:\Users\nguye\source\repos\DoAn\ShopVT\Service\obj\Debug\net5.0\Service.csprojAssemblyReference.cache
+>>>>>>> Develop

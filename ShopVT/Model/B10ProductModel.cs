@@ -6,13 +6,13 @@ namespace Model.Model
      {
        	
 	public int ID { set; get; }
-	public string code { set; get; }
-	public string Name { set; get; }
-	public string Alias { set; get; }
+	public string code				{ set; get; }
+	public string Name				{ set; get; }
+	public string Alias				{ set; get; }
 	public string ProductCategoryCode { set; get; }
-	public decimal UnitCost { set; get; }
-	public decimal UnitPrice { set; get; }
-	public int Warranty { set; get; }
+	public decimal UnitCost			 { set; get; }
+	public decimal UnitPrice			{ set; get; }
+	public int		Warranty			 {			 set; get; }
 	public string Description { set; get; }
 	public string Content { set; get; }
 	public string Information { set; get; }

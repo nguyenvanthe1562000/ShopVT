@@ -41,11 +41,7 @@ namespace ShopVT
             services.AddDIConllection();
             services.AddMvc();
             services.AddSignalR();
-            services.AddGraphQLServer()
-                    .AddQueryType<Query>()
-                    .AddProjections()
-                    .AddFiltering()
-                    .AddSorting(); 
+            services.AddGrapQLExtension();
 
         }
 
@@ -65,12 +61,12 @@ namespace ShopVT
              .AllowAnyHeader());
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
             app.UseRouting();
 
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
