@@ -41,6 +41,7 @@ namespace Common.Helper
         string ExecuteNoneQuery(string strquery);
 
         DataTable ExecuteQueryToDataTable(string strquery, out string msgError);
+        Task<DataTable>  ExecuteQueryToDataTableAsync(string strquery, out string msgError);
 
         object ExecuteScalar(string strquery, out string msgError);
         #region Execute StoreProcedure
@@ -52,6 +53,7 @@ namespace Common.Helper
         /// <returns>String.Empty when run query success or Message Error when run query happen issue</returns>
         string ExecuteSProcedure(string sprocedureName, params object[] paramObjects);
         Task<string> ExecuteSProcedureAsync(string sprocedureName, params object[] paramObjects);
+          Task<(string msgError, object result)> ExecuteScalarSProcedureAsync(string sprocedureName, params object[] paramObjects);
         /// <summary>
         /// Execute Procedure return DataTale
         /// </summary>

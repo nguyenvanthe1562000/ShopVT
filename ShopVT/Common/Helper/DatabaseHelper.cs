@@ -185,6 +185,32 @@ namespace Common.Helper
             }
             return result;
         }
+        public Task<DataTable> ExecuteQueryToDataTableAsync(string strquery, out string msgError)
+        {
+            var result = new DataTable();
+            msgError = "";
+            var sqlDataAdapter = new SqlDataAdapter(strquery, StrConnection);
+
+            try
+            {
+                return Task.Run(() =>
+                {
+                    sqlDataAdapter.Fill(result);
+                    return result;
+                });
+
+            }
+            catch (Exception exception)
+            {
+                msgError = exception.ToString();
+                result = null;
+            }
+            finally
+            {
+                sqlDataAdapter.Dispose();
+            }
+            return null;
+        }
 
         public object ExecuteScalar(string strquery, out string msgError)
         {
@@ -562,6 +588,69 @@ namespace Common.Helper
                 connection.Close();
             }
             return result;
+        }
+
+        /// <summary>
+        ///  Execute Scalar Procedure query
+        /// </summary>
+        /// <param name="msgError">String.Empty when run query success or Message Error when run query happen issue</param>        
+        /// <param name="sprocedureName">Procedure Name</param>
+        /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
+        /// <returns>Value return from Store</returns>
+        public async Task<(string msgError, object result)> ExecuteScalarSProcedureAsync(string sprocedureName, params object[] paramObjects)
+        {
+            string msgError = "";
+            object result = null;
+            SqlConnection connection = new SqlConnection(StrConnection);
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand { CommandType = CommandType.StoredProcedure, CommandText = sprocedureName };
+                connection.Open();
+                cmd.Connection = connection;
+                int parameterInput = (paramObjects.Length) / 2;
+                int j = 0;
+                for (int i = 0; i < parameterInput; i++)
+                {
+                    string paramName = Convert.ToString(paramObjects[j++]);
+                    object value = paramObjects[j++];
+                    if (paramName.ToLower().Contains("jsonb"))
+                    {
+                        cmd.Parameters.Add(new SqlParameter()
+                        {
+                            ParameterName = paramName,
+                            Value = value ?? DBNull.Value,
+                            SqlDbType = SqlDbType.NVarChar
+                        });
+                    }
+                    else if (paramName.ToLower().Contains("json"))
+                    {
+                        cmd.Parameters.Add(new SqlParameter()
+                        {
+                            ParameterName = paramName,
+                            Value = value ?? DBNull.Value,
+                            SqlDbType = SqlDbType.NVarChar
+                        });
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
+                    }
+                }
+
+                result = await cmd.ExecuteScalarAsync();
+               await cmd.DisposeAsync();
+            }
+            catch (Exception exception)
+            {
+                result = null;
+                msgError = exception.ToString();
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return (msgError, result);
         }
         /// <summary>
         /// Execute Scalar Procedure query List store and command

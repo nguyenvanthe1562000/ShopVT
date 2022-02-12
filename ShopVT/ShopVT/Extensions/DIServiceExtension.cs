@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.Helper;
 using Common.Interface;
+using Data.Command;
 using Data.Reponsitory;
 using Data.Reponsitory.Interface;
 using Data.Repository;
@@ -9,6 +10,8 @@ using GraphQL;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Admin.Service;
 using Service.Admin.Service.Interface;
+using Service.Command;
+using Service.Command.Interface;
 using ShopVT.Infrastructure.Respository;
 
 
@@ -25,6 +28,7 @@ namespace ShopVT.Extensions
             services.AddTransient<IB00ContactRepository, B00ContactRepository>();
             services.AddTransient<ILoginAdminRepository, LoginAdminRepository>();
             services.AddTransient<IB10ProductImgRepository, B10ProductImgRepository>();
+            services.AddTransient<IDataEditorRepository, DataEditorRepository>();
             #endregion
             
             #region service admin
@@ -32,8 +36,11 @@ namespace ShopVT.Extensions
             services.AddTransient<IB00FunctionService, B00FunctionService>();
             services.AddTransient<IB00ContactService, B00ContactService>();
             services.AddTransient<ILoginAdminService, LoginAdminService>();
+            services.AddTransient<ILoginAdminService, LoginAdminService>();
+
+            services.AddTransient<IDataEdtitorService, DataEdtitorService>();
             #endregion
-          //  services.AddTransient<IServiceCollection>();
+            //  services.AddTransient<IServiceCollection>();
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IChatRepository, ChatRepository>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();

@@ -5,8 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ModelRequest\NewFolder\" />
-    <Folder Include="Common\" />
+    <Compile Remove="Common\**" />
+    <Compile Remove="ModelRequest\**" />
+    <Content Remove="Common\**" />
+    <Content Remove="ModelRequest\**" />
+    <EmbeddedResource Remove="Common\**" />
+    <EmbeddedResource Remove="ModelRequest\**" />
+    <None Remove="Common\**" />
+    <None Remove="ModelRequest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AutoMapper\" />
     <Folder Include="wwwroot\Img\" />
     <Folder Include="wwwroot\user-content\" />
   </ItemGroup>
