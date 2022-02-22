@@ -20,11 +20,16 @@ namespace Data.Command
         public async Task<ResponseMessageDto> Add(DataEditorAddRequestModel model)
         {
 
-
+                
             var result = await _dbHelper.ExecuteScalarSProcedureAsync("[usp_sys_DataEditorAdd]", "@userId", model.UserId, "@table", model.TableName, "@columnArray", model.ColumnArray, "@data", model.ColumnValue, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
-            if (!string.IsNullOrEmpty(result.msgError.ToString()) || !string.IsNullOrEmpty(result.result.ToString()))
+            if (!string.IsNullOrEmpty(result.msgError.ToString()) )
             {
-                return new ResponseMessageDto(MessageType.Error, result.msgError + " - " + result.result.ToString());
+                
+                return new ResponseMessageDto(MessageType.Error, result.msgError );
+            }
+            if (!(result.result is null))
+            {
+                return new ResponseMessageDto(MessageType.Warning, result.result.ToString());
             }
             return new ResponseMessageDto(MessageType.Success, "Thêm dữ liệu thành công");
 
@@ -33,13 +38,45 @@ namespace Data.Command
         public async Task<ResponseMessageDto> Update(DataEditorUpdateRequestModel model)
         {
             var result = await _dbHelper.ExecuteScalarSProcedureAsync("[usp_sys_DataEditorUpdateOneRow]", "@userId", model.UserId, "@table", model.TableName, "@queryUpdateData", model.QueryUpdateData, "@rowId", model.RowId, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
-            if (!string.IsNullOrEmpty(result.msgError.ToString()) || !string.IsNullOrEmpty(result.result.ToString()))
+            if (!string.IsNullOrEmpty(result.msgError.ToString()))
             {
-                return new ResponseMessageDto(MessageType.Error, result.msgError + " - " + result.result.ToString());
-            }
-            return new ResponseMessageDto(MessageType.Success, "Thêm dữ liệu thành công");
-        }
 
+                return new ResponseMessageDto(MessageType.Error, result.msgError);
+            }
+            if (!(result.result is null))
+            {
+                return new ResponseMessageDto(MessageType.Warning, result.result.ToString());
+            }
+            return new ResponseMessageDto(MessageType.Success, "Update dữ liệu thành công");
+        }
+        public async Task<ResponseMessageDto> Delete(DataEditorDeleteRequestModel model)
+        {
+            var result = await _dbHelper.ExecuteScalarSProcedureAsync("[usp_sys_DataEditorDelete]", "@userId", model.UserId, "@table",model.TableName, "@rowId", model.RowId, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
+            if (!string.IsNullOrEmpty(result.msgError.ToString()))
+            {
+
+                return new ResponseMessageDto(MessageType.Error, result.msgError);
+            }
+            if (!(result.result is null))
+            {
+                return new ResponseMessageDto(MessageType.Warning, result.result.ToString());
+            }
+            return new ResponseMessageDto(MessageType.Success, "Xóa dữ liệu thành công");
+        }
+        public async Task<ResponseMessageDto> Restore(DataEditorRestoreRequestModel model)
+        {
+            var result = await _dbHelper.ExecuteScalarSProcedureAsync("[usp_sys_DataEditorRestore]", "@userId", model.UserId, "@table", model.TableName, "@rowId", model.RowId, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
+            if (!string.IsNullOrEmpty(result.msgError.ToString()))
+            {
+
+                return new ResponseMessageDto(MessageType.Error, result.msgError);
+            }
+            if (!(result.result is null))
+            {
+                return new ResponseMessageDto(MessageType.Warning, result.result.ToString());
+            }
+            return new ResponseMessageDto(MessageType.Success, "Khôi phục dữ liệu thành công");
+        }
 
         private bool disposed = false;
         public void Dispose()
@@ -63,8 +100,7 @@ namespace Data.Command
 
         }
 
-
-
+       
         ~DataEditorRepository()
         {
             Dispose(false);

@@ -644,7 +644,7 @@ namespace Common.Helper
             catch (Exception exception)
             {
                 result = null;
-                msgError = exception.ToString();
+                msgError = exception.Message.ToString();
             }
             finally
             {

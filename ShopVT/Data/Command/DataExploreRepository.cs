@@ -8,6 +8,7 @@ namespace Data.Command
 {
     internal class DataExploreRepository : IDataExploreRepository
     {
+
     }
     
 }

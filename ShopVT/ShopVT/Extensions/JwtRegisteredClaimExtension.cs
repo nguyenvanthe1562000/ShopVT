@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ShopVT.Extensions
@@ -12,4 +13,5 @@ namespace ShopVT.Extensions
         public const string EmpCode = "EmployeeCode";
         public const string FulName = "FullName";
     }
+    
 }

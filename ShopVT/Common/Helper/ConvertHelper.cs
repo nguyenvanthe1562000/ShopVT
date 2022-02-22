@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Reflection;
 using System.Text;
@@ -98,8 +99,14 @@ namespace Common.Helper
             {
                 Type temp = typeof(T);
                 T obj = Activator.CreateInstance<T>();
+                  
                 foreach (DataColumn column in dr.Table.Columns)
                 {
+                    if (temp.IsEnum)
+                    {
+                        obj = (T)dr[column.ToString()];
+                        continue ;
+                    }
                     foreach (PropertyInfo pro in temp.GetProperties())
                     {
 
@@ -141,5 +148,6 @@ namespace Common.Helper
             });
             return taskResult;
         }
+       
     }
 }

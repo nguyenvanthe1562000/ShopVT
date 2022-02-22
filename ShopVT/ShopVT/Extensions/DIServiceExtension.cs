@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using API.Services;
+using Common;
 using Common.Helper;
 using Common.Interface;
 using Data.Command;
@@ -8,6 +9,7 @@ using Data.Repository;
 using Data.Repository.Interface;
 using GraphQL;
 using Microsoft.Extensions.DependencyInjection;
+using Model.Auth;
 using Service.Admin.Service;
 using Service.Admin.Service.Interface;
 using Service.Command;
@@ -21,6 +23,16 @@ namespace ShopVT.Extensions
     {
         public static IServiceCollection AddDIConllection(this IServiceCollection services)
         {
+            #region
+            services.AddSingleton<ILogger, FileLogger>();
+            services.AddTransient<IPermissionRepository, PermissionRepository>();
+            services.AddTransient<IPermissionService, PermissionService>();
+            services.AddSingleton<IDataEdtitorService, DataEdtitorService>();
+            services.AddSingleton<IDataEditorRepository, DataEditorRepository>();
+            //services.AddSingleton<IDataExploreService, DataExploreService>();
+            //services.AddSingleton<IDataEditorRepository, DataEditorRepository>();
+            #endregion
+
             #region reponsitory admin
             services.AddTransient<IDatabaseHelper, DatabaseHelper>();
             services.AddTransient<IB10ProductRepository, B10ProductRepository>();
