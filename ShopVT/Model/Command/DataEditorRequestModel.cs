@@ -38,10 +38,15 @@ namespace Model.Command
 
     public class DataEditorUpdateRangeRequestModel : BaseCommand
     {
-        public string ColumnArray { get; set; }
-        public string ColumnValue { get; set; }
+        public string QueryUpdateData { get; set; }
+        public int RowId { get; set; }
         public int Condition { get; set; }
         public string ConditionString { get; set; }
         public string JsonTableChild { get; set; }
+        public string QueryUpdate { get; set; }
+        public string QueryDelete { get; set; }
+        public string QueryInsert { get; set; }
+        public string TempTable { get; set; }
+
     }
 }

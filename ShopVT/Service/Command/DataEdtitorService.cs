@@ -387,21 +387,28 @@ namespace Service.Command
             }
         }
         /// <summary>
-        ///  thêm dữ liệu kiểu 1 cha và nhiều con , con có thể có nhiều loại khác nhau và sẽ lấy tên con làm tên bảng chứ không lấy tên thuộc tính vd: List<product> test =>tên bảng = product
-        ///  những thuộc tính null sẽ bị bỏ qua
-        ///  lấy dữ liệu tối đa 2 cấp, vd order->orderDetail. cấp 3: orderDetail->Product sẽ bị bỏ qua.
+        /// update nhiều  bảng một lúc
+        /// Parameters:
+        ///     setDefaultValue :
+        ///      False : sẽ bỏ qua các cột có dữ liệu bị null
+        ///     True: sẽ set default cho các dữ liệu bị null .
+        ///     trừ các cột Id, CreatedAt, CreatedBy, ModifieldAt, ModifieldBy
         /// </summary>
-        /// <typeparam name="T">  đối tượng </typeparam>
-        /// <param name="obj"> đối tượng </param>
-        /// <param name="table">tên bảng</param>
-        /// <param name="foreignKey">khóa tham chiếu đến bảng cha, nếu cả cha và con đều có chung 1 khóa sẽ giá trị khóa sẽ đc dùng cho cả 2, </param>
-        /// <param name="foreignKeyValue">giá trị khóa ngoại nếu không có sẽ tự sinh</param>
-        /// <param name="ConditionString">tên cột,nhiều cột sẽ cách nhau bằng dấu ',' vd: id,name. Chỉ dùng cho cha. check giá trị đã tồn tại, giá trị sẽ lấy từ object được truyền vào</param>
+        /// <typeparam name="T">Any</typeparam>
+        /// <param name="obj"></param>
+        /// <param name="table"></param>
+        /// <param name="foreignKey"></param>
+        /// <param name="foreignKeyValue"> </param>
+        /// <param name="setDefaultValue">
+        /// False : sẽ bỏ qua các cột có dữ liệu bị null
+        /// True: sẽ set default cho các dữ liệu bị null .
+        /// trừ các cột Id, CreatedAt, CreatedBy, ModifieldAt, ModifieldBy
+        /// </param>
         /// <returns>
-        /// trả về số lượng dòng được thêm
-        /// lỗi trả về 1 thông báo
+        /// suscess: ResponseMessageDto
+        /// error: ném 1 exception
         /// </returns>
-        public async Task<ResponseMessageDto> UpdateRangeAsync<T>(T obj, string table, string foreignKey, string foreignKeyValue, string ConditionString, int userId)
+        public async Task<ResponseMessageDto> UpdateRangeAsync<T>(T obj, string table, string foreignKey, string foreignKeyValue, string ConditionString, int userId, bool setDefaultValue = true)
         {
             try
             {
@@ -421,8 +428,22 @@ namespace Service.Command
                    dataEditor.UserId = userId;
                    Dictionary<string, object> ChildTables = new Dictionary<string, object>();
                    bool checkForeignKeyExist = false;
+                   StringBuilder tempTable = new StringBuilder();
+                   StringBuilder QueryDelete = new StringBuilder();
+                   StringBuilder QueryUpdate = new StringBuilder();
+                   StringBuilder QueryInsert = new StringBuilder();
                    foreach (PropertyInfo pro in temp.GetProperties())
                    {
+                       //SELECT  JSON_VALUE(D.value, '$.ChildTable.MaDonHang') AS MaDonHang,
+                       // JSON_VALUE(D.value, '$.HoTen') AS HoTen,
+                       // JSON_VALUE(D.value, '$.DiaChiNhan') AS DiaChiNhan,
+                       // JSON_VALUE(D.value, '$.SDTNhan') AS SDTNhan,
+                       // JSON_VALUE(D.value, '$.Email') AS Email,
+                       // JSON_VALUE(D.value, '$.TinhTrang') AS TinhTrang,
+                       // JSON_VALUE(D.value, '$.TongTien') AS TongTien,
+                       // JSON_VALUE(D.value, '$.NgayDat') AS NgayDat,
+                       // JSON_VALUE(D.value, '$.NgayGiao') AS NgayGiao INTO #TABLECHILD
+                       //FROM   OPENJSON(@listjson_DonHang) AS D)
                        //check property is child object 
                        if (!pro.PropertyType.FullName.Contains("System"))
                        {
@@ -430,66 +451,111 @@ namespace Service.Command
                            {
                                object objChildData = pro.GetValue(obj, null);
                                Type objChildType = pro.PropertyType;
+
+                               //tạo bảng temp cho bảng con
+                               tempTable.AppendLine("SELECT");
+                               string columnChild = "";
+                               string updateQuery = "";
                                foreach (PropertyInfo proChild in objChildType.GetProperties())
                                {
                                    if (proChild.Name.Equals(foreignKey))
                                    {
-                                       checkForeignKeyExist=true;
+                                       checkForeignKeyExist = true;
                                    }
+                                   columnChild += ", " + proChild.Name;
+                                   if (pro.GetValue(obj, null) is null)
+                                   {
+                                       if (setDefaultValue)
+                                       {
+                                           DefaultValueForSystemType(pro, obj);
+                                       }
+                                       else
+                                       {
+                                           continue;
+                                       }
+                                   }
+                                   tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{FirstCharToLowerCase(objChildType.Name)}.{proChild.Name}') AS {proChild.Name},");
                                }
-                               if(!checkForeignKeyExist)
-                                   throw new Exception(objChildType.Name +" Không có thuộc tính trùng với khóa ngoại");
+                               if (!checkForeignKeyExist)
+                                   throw new Exception(objChildType.Name + " Không có thuộc tính trùng với khóa ngoại");
                                if (ChildTables.ContainsKey(objChildType.Name))
                                {
                                    throw new Exception("có 2 thuộc tính có cùng 1 đối tượng ");
                                }
-
+                               columnChild = columnChild.Remove(0, 1);
+                               tempTable.Remove(tempTable.Length - 2, 1);
+                               tempTable.AppendLine($"INTO #{objChildType.Name}");
+                               tempTable.AppendLine("FROM OPENJSON(@JsonTableChild) AS D ;");
+                               QueryDelete.Append($" DELETE FROM {objChildType.Name} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM #{objChildType.Name}) ");
+                               QueryUpdate.AppendLine($" UPDATE {objChildType.Name} SET {updateQuery} FROM {objChildType.Name} INNER JOIN #{objChildType.Name} ON #{objChildType.Name}.Id=#{objChildType.Name}.Id ");
+                               QueryInsert.AppendLine($"INSERT INTO {objChildType.Name}( {columnChild}) SELECT {columnChild} FROM #{objChildType.Name}");
                                ChildTables.Add(objChildType.Name, objChildData);
                            }
                        }
                        //check property is list child object 
-                       else if (pro.PropertyType.IsGenericType &&
-                        pro.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                       else if (pro.PropertyType.IsGenericType && pro.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
                        {
                            if (!(pro.GetValue(obj, null) is null))
                            {
                                Type tableChild = Type.GetType(pro.PropertyType.FullName).GetGenericArguments()[0];//get tên object.
                                object objChildData = pro.GetValue(obj, null);
+                               tempTable.AppendLine("SELECT");
+                               string columnChild = "";
+                               string updateQuery = "";
                                foreach (PropertyInfo proChild in tableChild.GetProperties())
                                {
                                    if (proChild.Name.Equals(foreignKey))
                                    {
                                        checkForeignKeyExist = true;
                                    }
+                                   columnChild += ", " + proChild.Name;
+                                   tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{FirstCharToLowerCase(tableChild.Name)}.{proChild.Name}') AS {proChild.Name},");
                                }
                                if (!checkForeignKeyExist)
                                    throw new Exception(tableChild.Name + " Không có thuộc tính trùng với khóa ngoại");
                                if (ChildTables.ContainsKey(tableChild.Name))
                                {
                                    throw new Exception("có 2 thuộc tính có cùng 1 đối tượng ");
+                               }
+                               columnChild = columnChild.Remove(0, 1);
 
+                               tempTable.Remove(tempTable.Length - 2, 1);
+                               tempTable.AppendLine($"INTO #{tableChild.Name}");
+                               tempTable.AppendLine("FROM  OPENJSON(@JsonTableChild) AS D ;");
+                               QueryDelete.Append($" DELETE FROM {tableChild.Name} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM {tableChild.Name}) ");
+                               QueryUpdate.AppendLine($" UPDATE {tableChild.Name} SET {updateQuery} FROM {tableChild.Name} INNER JOIN #{tableChild.Name} ON #{tableChild.Name}.Id=#{tableChild.Name}.Id ");
+                               if (setDefaultValue)
+                               {
+                                   QueryInsert.AppendLine($"INSERT INTO {tableChild.Name}( {columnChild}) SELECT {columnChild} FROM #{tableChild.Name} WHERE Id= 0");
                                }
                                ChildTables.Add(tableChild.Name, objChildData);
                            }
                        }
                        else
                        {
-                           string columnChild = "";
-                           string valueChild = "";
-
-                           GetColumnAndValue(pro, obj, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId);
-                           dataEditor.ColumnArray = columnChild;
-                           dataEditor.ColumnValue = valueChild;
                            var castValue = pro.GetValue(obj, null).ToString();
+                           if (pro.Name.ToLower() == "id" || pro.Name.ToLower() == "createdby" || pro.Name.ToLower() == "isactive" || pro.Name.ToLower() == "modifiedby" || pro.Name.ToLower() == "modifiedat" || pro.Name.ToLower() == "createdat")
+                           {
+                               continue;
+                           }
+                           if (int.TryParse(castValue, out int _int) || double.TryParse(castValue, out double _double) || long.TryParse(castValue, out long _long))
+                           {
+
+                               dataEditor.QueryUpdateData += "," + pro.Name + " = " + castValue;
+                           }
+                           else
+                               dataEditor.QueryUpdateData += "," + pro.Name + " = '" + castValue + "'";
                            if (!string.IsNullOrEmpty(ConditionString))
                            {
                                foreach (var item in column)
                                {
+
                                    if (item == pro.Name)
                                    {
                                        arrayCondition.Add(pro.Name, castValue);
                                    }
                                }
+
                            }
                        }
 
@@ -524,8 +590,7 @@ namespace Service.Command
                        dataEditor.ConditionString = "SELECT 'MESSEAGE. NO MESSEAGE'";
                    }
                    dataEditor.JsonTableChild = JsonConvert.SerializeObject(ChildTables);
-                   dataEditor.ColumnArray = dataEditor.ColumnArray.Remove(0, 1);
-                   dataEditor.ColumnValue = dataEditor.ColumnValue.Remove(0, 1);
+                   dataEditor.QueryUpdateData = dataEditor.QueryUpdateData.Remove(0, 1);
                    return await _dataEditor.UpdateRange(dataEditor);
                });
             }
@@ -563,55 +628,6 @@ namespace Service.Command
                     dataEditor.TableName = table;
                     dataEditor.UserId = userId;
                     dataEditor.RowId = rowId;
-                    //foreach (PropertyInfo pro in temp.GetProperties())
-                    //{
-                    //    if (!(pro.GetValue(obj, null) is null))
-                    //    {
-                    //        var castValue = pro.GetValue(obj, null).ToString();
-                    //        if (pro.Name.ToLower() == "id" || pro.Name.ToLower() == "createdby" || pro.Name.ToLower() == "isactive" || pro.Name.ToLower() == "modifiedby" || pro.Name.ToLower() == "modifiedat" || pro.Name.ToLower() == "createdat")
-                    //        {
-                    //            continue;
-                    //        }
-                    //        if (!string.IsNullOrEmpty(ConditionString))
-                    //        {
-                    //            foreach (var item in column)
-                    //            {
-
-                    //                if (item == pro.Name)
-                    //                {
-                    //                    arrayCondition.Add(pro.Name, castValue);
-                    //                }
-                    //            }
-
-                    //        }
-                    //    }
-                    //}
-                    //if (arrayCondition.Count > 0)
-                    //{
-                    //    dataEditor.Condition = 1;
-                    //    var _condition = new StringBuilder();
-                    //    foreach (var item in arrayCondition)
-                    //    {
-                    //        if (int.TryParse(item.Value, out int _int) || double.TryParse(item.Value, out double _double) || long.TryParse(item.Value, out long _long))
-                    //        {
-                    //            string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE " + item.Key + "!=" + item.Value + ")) BEGIN SELECT 'MESSEAGE." + item.Key + " IS NOT EXISTED' RETURN; END \t";
-                    //            _condition.Append(condition);
-                    //        }
-                    //        else if (DateTime.TryParse(item.Value, out DateTime _))
-                    //        {
-                    //            string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE " + item.Key + "!='" + item.Value + "')) BEGIN SELECT 'MESSEAGE." + item.Key + " IS NOT EXISTED ' RETURN; END \t";
-                    //            _condition.Append(condition);
-                    //        }
-                    //        else
-                    //        {
-                    //            string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE LOWER(" + item.Key + ") != LOWER('" + item.Value + "'))) BEGIN SELECT 'MESSEAGE." + item.Key + " IS NOT EXISTED ' RETURN; END \t";
-                    //            _condition.Append(condition);
-                    //        }
-                    //    }
-                    //    dataEditor.ConditionString = _condition.ToString();
-                    //}
-                    //else
-                    //{
                     dataEditor.Condition = 0;
                     dataEditor.ConditionString = "SELECT 'MESSEAGE. NO MESSEAGE'";
                     //}
@@ -714,12 +730,13 @@ namespace Service.Command
 
         }
 
-        private void GetColumnAndValue(PropertyInfo pro, object obj, ref string column, ref string value, string foreignKey, string foreignKeyValue, int userId, bool isOnlyValue = false)
+        private void GetColumnAndValue(PropertyInfo pro, object obj, ref string column, ref string value, string foreignKey, string foreignKeyValue, int userId, bool isOnlyValue = false, bool setDefaultValue = false)
         {
 
             if ((pro.GetValue(obj, null) is null))
             {
-                pro = DefaultValueForTypeSystem(pro, obj);
+                if (setDefaultValue)
+                    pro = DefaultValueForSystemType(pro, obj);
             }
 
             if (pro.Name.ToLower() == "id" || pro.Name.ToLower() == "isactive" || pro.Name.ToLower() == "modifiedby" || pro.Name.ToLower() == "modifiedat" || pro.Name.ToLower() == "createdat")
@@ -761,23 +778,41 @@ namespace Service.Command
                 value += ", '" + castValue + "'";
 
         }
-        public static PropertyInfo DefaultValueForTypeSystem(PropertyInfo pro, object obj)
+        /// <summary>
+        /// tạo giá trị mặc định cho tất cả các loại thuộc tính của system.
+        /// </summary>
+        /// <param name="pro"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public PropertyInfo DefaultValueForSystemType(PropertyInfo pro, object obj)
         {
-            var conversionType = pro.PropertyType;
-            if (!pro.PropertyType.FullName.Contains("System"))
+            if (pro.GetValue(obj, null) is null)
             {
-                throw new Exception("thuộc tính không phải loại thuộc system");
+                var conversionType = pro.PropertyType;
+                if (!pro.PropertyType.FullName.Contains("System"))
+                {
+                    throw new Exception("thuộc tính không phải loại thuộc system");
+                }
+                if (conversionType.IsGenericType && conversionType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    if (obj == null)
+                        return null;
+                    var nullableConverter = new NullableConverter(conversionType);
+                    conversionType = nullableConverter.UnderlyingType;
+                }
+                pro.SetValue(obj, Activator.CreateInstance(conversionType), null);
+                //var test = pro.GetValue(obj, null);
             }
-            if (conversionType.IsGenericType && conversionType.GetGenericTypeDefinition() == typeof(Nullable<>))
-            {
-                if (obj == null)
-                    return null;
-                var nullableConverter = new NullableConverter(conversionType);
-                conversionType = nullableConverter.UnderlyingType;
-            }
-            pro.SetValue(obj, Activator.CreateInstance(conversionType), null);
-            var test = pro.GetValue(obj, null);
             return pro;
+        }
+
+        public string FirstCharToLowerCase(string str)
+        {
+            if (string.IsNullOrEmpty(str) || char.IsLower(str[0]))
+                return str;
+
+            return char.ToLower(str[0]) + str.Substring(1);
         }
     }
 }
