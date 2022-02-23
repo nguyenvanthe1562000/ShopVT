@@ -400,7 +400,7 @@ namespace Service.Command
         /// <param name="foreignKey"></param>
         /// <param name="foreignKeyValue"> </param>
         /// <param name="setDefaultValue">
-        /// False : sẽ bỏ qua các cột có dữ liệu bị null
+        /// False : sẽ có nguy cơ lỗi thêm sửa vào cột not null.
         /// True: sẽ set default cho các dữ liệu bị null .
         /// trừ các cột Id, CreatedAt, CreatedBy, ModifieldAt, ModifieldBy
         /// </param>
@@ -451,11 +451,11 @@ namespace Service.Command
                            {
                                object objChildData = pro.GetValue(obj, null);
                                Type objChildType = pro.PropertyType;
-
                                //tạo bảng temp cho bảng con
                                tempTable.AppendLine("SELECT");
                                string columnChild = "";
                                string updateQuery = "";
+                               var data = Activator.CreateInstance(objChildType);
                                foreach (PropertyInfo proChild in objChildType.GetProperties())
                                {
                                    if (proChild.Name.Equals(foreignKey))
@@ -465,6 +465,16 @@ namespace Service.Command
                                    columnChild += ", " + proChild.Name;
                                    if (pro.GetValue(obj, null) is null)
                                    {
+                                       if (proChild.Name.ToUpper().Contains("CREATEDAT") || proChild.Name.ToUpper().Contains("MODIFIEDAT"))
+                                       {
+                                           proChild.SetValue(data, DateTime.Now, null);
+                                       }
+                                       else if (proChild.Name.ToUpper().Contains("CREATEDBY") || proChild.Name.ToUpper().Contains("MODIFIEDBY"))
+                                       {
+                                           proChild.SetValue(data, userId, null);
+                                       }
+                                       else if (proChild.Name.ToUpper().Contains("ID"))
+                                           proChild.SetValue(data, -1, null);
                                        if (setDefaultValue)
                                        {
                                            DefaultValueForSystemType(pro, obj);
@@ -474,6 +484,8 @@ namespace Service.Command
                                            continue;
                                        }
                                    }
+                                   else
+                                       pro.SetValue(data, obj, null);
                                    tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{FirstCharToLowerCase(objChildType.Name)}.{proChild.Name}') AS {proChild.Name},");
                                }
                                if (!checkForeignKeyExist)
@@ -489,7 +501,7 @@ namespace Service.Command
                                QueryDelete.Append($" DELETE FROM {objChildType.Name} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM #{objChildType.Name}) ");
                                QueryUpdate.AppendLine($" UPDATE {objChildType.Name} SET {updateQuery} FROM {objChildType.Name} INNER JOIN #{objChildType.Name} ON #{objChildType.Name}.Id=#{objChildType.Name}.Id ");
                                QueryInsert.AppendLine($"INSERT INTO {objChildType.Name}( {columnChild}) SELECT {columnChild} FROM #{objChildType.Name}");
-                               ChildTables.Add(objChildType.Name, objChildData);
+                               ChildTables.Add(objChildType.Name, data);
                            }
                        }
                        //check property is list child object 
@@ -502,6 +514,35 @@ namespace Service.Command
                                tempTable.AppendLine("SELECT");
                                string columnChild = "";
                                string updateQuery = "";
+                               List<object> dataChils = new List<object>();
+                               if (setDefaultValue)
+                               {
+                                   foreach (object objChild in (IEnumerable)objChildData)
+                                   {
+                                       Type objChildType = objChild.GetType();
+                                       var objData  = Activator.CreateInstance(objChildType);
+                                       foreach (PropertyInfo proChild in objChildType.GetProperties())
+                                       {
+                                           if (proChild.Name.ToUpper().Contains("CREATEDAT") || proChild.Name.ToUpper().Contains("MODIFIEDAT"))
+                                           {
+                                               proChild.SetValue(objData, DateTime.Now, null);
+                                           }
+                                           else if (proChild.Name.ToUpper().Contains("CREATEDBY") || proChild.Name.ToUpper().Contains("MODIFIEDBY"))
+                                           {
+                                               proChild.SetValue(objData, userId, null);
+                                           }
+
+                                           if (proChild.GetValue(objData, null) is null)
+                                           {
+                                               if (proChild.Name.ToUpper().Contains("ID"))
+                                                   proChild.SetValue(objData, -1, null);
+                                               else
+                                                   DefaultValueForSystemType(proChild, objData);
+                                           }
+                                       }
+                                       dataChils.Add(objData);
+                                   }
+                               }
                                foreach (PropertyInfo proChild in tableChild.GetProperties())
                                {
                                    if (proChild.Name.Equals(foreignKey))
@@ -518,17 +559,16 @@ namespace Service.Command
                                    throw new Exception("có 2 thuộc tính có cùng 1 đối tượng ");
                                }
                                columnChild = columnChild.Remove(0, 1);
-
                                tempTable.Remove(tempTable.Length - 2, 1);
                                tempTable.AppendLine($"INTO #{tableChild.Name}");
-                               tempTable.AppendLine("FROM  OPENJSON(@JsonTableChild) AS D ;");
+                               tempTable.AppendLine("FROM  OPENJSON(@JsonTableChild) AS D ");
                                QueryDelete.Append($" DELETE FROM {tableChild.Name} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM {tableChild.Name}) ");
                                QueryUpdate.AppendLine($" UPDATE {tableChild.Name} SET {updateQuery} FROM {tableChild.Name} INNER JOIN #{tableChild.Name} ON #{tableChild.Name}.Id=#{tableChild.Name}.Id ");
                                if (setDefaultValue)
                                {
                                    QueryInsert.AppendLine($"INSERT INTO {tableChild.Name}( {columnChild}) SELECT {columnChild} FROM #{tableChild.Name} WHERE Id= 0");
                                }
-                               ChildTables.Add(tableChild.Name, objChildData);
+                               ChildTables.Add(tableChild.Name, dataChils);
                            }
                        }
                        else
@@ -597,7 +637,13 @@ namespace Service.Command
             catch (Exception ex)
             {
 
-                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { obj = obj, table = table, ConditionString = ConditionString, user = userId });
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new
+                {
+                    obj = obj,
+                    table = table,
+                    ConditionString = ConditionString,
+                    user = userId
+                });
                 return new ResponseMessageDto(MessageType.Error, ex.Message);
             }
         }
