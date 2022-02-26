@@ -47,6 +47,7 @@ namespace Model.Command
         public string QueryDelete { get; set; }
         public string QueryInsert { get; set; }
         public string TempTable { get; set; }
+        public string QueryDropTempTable { get; set; }
 
     }
 }

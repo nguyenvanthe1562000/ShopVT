@@ -166,7 +166,7 @@ namespace Service.Command
                     foreach (PropertyInfo pro in temp.GetProperties())
                     {
                         //check property is child object 
-                        if (!pro.PropertyType.FullName.Contains("System"))
+                        if (!pro.PropertyType.Namespace.Contains("System"))
                         {
                             if (!(pro.GetValue(obj, null) is null))
                             {
@@ -226,9 +226,9 @@ namespace Service.Command
                         {
                             string columnChild = "";
                             string valueChild = "";
-                            GetColumnAndValue(pro, obj, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId);
-                            dataEditorAddRequestModel.ColumnArray = columnChild;
-                            dataEditorAddRequestModel.ColumnValue = valueChild;
+                            GetColumnAndValue(pro, obj, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId, false);
+                            dataEditorAddRequestModel.ColumnArray += columnChild;
+                            dataEditorAddRequestModel.ColumnValue += valueChild;
                             var castValue = pro.GetValue(obj, null).ToString();
                             if (!string.IsNullOrEmpty(ConditionString))
                             {
@@ -400,7 +400,7 @@ namespace Service.Command
         /// <param name="foreignKey"></param>
         /// <param name="foreignKeyValue"> </param>
         /// <param name="setDefaultValue">
-        /// False : sẽ có nguy cơ lỗi thêm sửa vào cột not null.
+        /// False : sẽ có nguy cơ lỗi  cột not null.
         /// True: sẽ set default cho các dữ liệu bị null .
         /// trừ các cột Id, CreatedAt, CreatedBy, ModifieldAt, ModifieldBy
         /// </param>
@@ -416,10 +416,13 @@ namespace Service.Command
                 {
                     return new ResponseMessageDto(MessageType.Error, "không có khóa ngoại");
                 }
+                if (string.IsNullOrEmpty(foreignKeyValue))
+                {
+                    return new ResponseMessageDto(MessageType.Error, "GIÁ TRỊ KHÓA NGOẠI KHÔNG HỢP LỆ");
+                }
                 return await Task.Run(async () =>
                {
-                   if (string.IsNullOrEmpty(foreignKeyValue))
-                       foreignKeyValue = await GenerateId.NewId(userId);
+
                    var column = ConditionString.Split(',');
                    var arrayCondition = new Dictionary<string, string>();
                    Type temp = typeof(T);
@@ -427,25 +430,16 @@ namespace Service.Command
                    dataEditor.TableName = table;
                    dataEditor.UserId = userId;
                    Dictionary<string, object> ChildTables = new Dictionary<string, object>();
-                   bool checkForeignKeyExist = false;
+                   bool checkForeignKeyExist = true;
                    StringBuilder tempTable = new StringBuilder();
                    StringBuilder QueryDelete = new StringBuilder();
                    StringBuilder QueryUpdate = new StringBuilder();
                    StringBuilder QueryInsert = new StringBuilder();
+                   StringBuilder DropTempTable = new StringBuilder();
                    foreach (PropertyInfo pro in temp.GetProperties())
                    {
-                       //SELECT  JSON_VALUE(D.value, '$.ChildTable.MaDonHang') AS MaDonHang,
-                       // JSON_VALUE(D.value, '$.HoTen') AS HoTen,
-                       // JSON_VALUE(D.value, '$.DiaChiNhan') AS DiaChiNhan,
-                       // JSON_VALUE(D.value, '$.SDTNhan') AS SDTNhan,
-                       // JSON_VALUE(D.value, '$.Email') AS Email,
-                       // JSON_VALUE(D.value, '$.TinhTrang') AS TinhTrang,
-                       // JSON_VALUE(D.value, '$.TongTien') AS TongTien,
-                       // JSON_VALUE(D.value, '$.NgayDat') AS NgayDat,
-                       // JSON_VALUE(D.value, '$.NgayGiao') AS NgayGiao INTO #TABLECHILD
-                       //FROM   OPENJSON(@listjson_DonHang) AS D)
-                       //check property is child object 
-                       if (!pro.PropertyType.FullName.Contains("System"))
+
+                       if (!pro.PropertyType.Namespace.Contains("System"))
                        {
                            if (!(pro.GetValue(obj, null) is null))
                            {
@@ -455,38 +449,42 @@ namespace Service.Command
                                tempTable.AppendLine("SELECT");
                                string columnChild = "";
                                string updateQuery = "";
-                               var data = Activator.CreateInstance(objChildType);
-                               foreach (PropertyInfo proChild in objChildType.GetProperties())
+
+                               var objData = Activator.CreateInstance(objChildType);
+                               for (int i = 0; i < objChildType.GetProperties().Length; i++)
                                {
-                                   if (proChild.Name.Equals(foreignKey))
+                                   if (!checkForeignKeyExist)
                                    {
-                                       checkForeignKeyExist = true;
+
+                                       if (!objChildType.GetProperties()[i].Name.Equals(foreignKey))
+                                       {
+                                           checkForeignKeyExist = false;
+                                       }
+                                       else checkForeignKeyExist = true;
                                    }
-                                   columnChild += ", " + proChild.Name;
-                                   if (pro.GetValue(obj, null) is null)
+                                   columnChild += ", " + objChildType.GetProperties()[i].Name;
+                                   tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{FirstCharToLowerCase(objChildType.Name)}.{objChildType.GetProperties()[i].Name}') AS {objChildType.GetProperties()[i].Name},");
+                                   if (objChildType.GetProperties()[i].GetValue(objChildData, null) is null)
                                    {
-                                       if (proChild.Name.ToUpper().Contains("CREATEDAT") || proChild.Name.ToUpper().Contains("MODIFIEDAT"))
+                                       if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDAT") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDAT"))
                                        {
-                                           proChild.SetValue(data, DateTime.Now, null);
+                                           objChildType.GetProperties()[i].SetValue(objChildData, DateTime.Now, null);
                                        }
-                                       else if (proChild.Name.ToUpper().Contains("CREATEDBY") || proChild.Name.ToUpper().Contains("MODIFIEDBY"))
+                                       else if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDBY") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDBY"))
                                        {
-                                           proChild.SetValue(data, userId, null);
+                                           objChildType.GetProperties()[i].SetValue(objChildData, userId, null);
                                        }
-                                       else if (proChild.Name.ToUpper().Contains("ID"))
-                                           proChild.SetValue(data, -1, null);
-                                       if (setDefaultValue)
+                                       else if (objChildType.GetProperties()[i].Name.Contains(foreignKey))
                                        {
-                                           DefaultValueForSystemType(pro, obj);
+                                           objChildType.GetProperties()[i].SetValue(objChildData, foreignKeyValue, null);
                                        }
+                                       else if (objChildType.GetProperties()[i].Name.ToUpper().Contains("ID"))
+                                           objChildType.GetProperties()[i].SetValue(objChildData, -1, null);
                                        else
-                                       {
-                                           continue;
-                                       }
+                                           DefaultValueForSystemType(objChildType.GetProperties()[i], objChildData);
                                    }
                                    else
-                                       pro.SetValue(data, obj, null);
-                                   tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{FirstCharToLowerCase(objChildType.Name)}.{proChild.Name}') AS {proChild.Name},");
+                                       continue;
                                }
                                if (!checkForeignKeyExist)
                                    throw new Exception(objChildType.Name + " Không có thuộc tính trùng với khóa ngoại");
@@ -495,13 +493,14 @@ namespace Service.Command
                                    throw new Exception("có 2 thuộc tính có cùng 1 đối tượng ");
                                }
                                columnChild = columnChild.Remove(0, 1);
-                               tempTable.Remove(tempTable.Length - 2, 1);
+                               tempTable = tempTable.Remove(tempTable.Length - 3, 1);
                                tempTable.AppendLine($"INTO #{objChildType.Name}");
                                tempTable.AppendLine("FROM OPENJSON(@JsonTableChild) AS D ;");
                                QueryDelete.Append($" DELETE FROM {objChildType.Name} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM #{objChildType.Name}) ");
                                QueryUpdate.AppendLine($" UPDATE {objChildType.Name} SET {updateQuery} FROM {objChildType.Name} INNER JOIN #{objChildType.Name} ON #{objChildType.Name}.Id=#{objChildType.Name}.Id ");
-                               QueryInsert.AppendLine($"INSERT INTO {objChildType.Name}( {columnChild}) SELECT {columnChild} FROM #{objChildType.Name}");
-                               ChildTables.Add(objChildType.Name, data);
+                               QueryInsert.AppendLine($"INSERT INTO {objChildType.Name}( {columnChild}) SELECT {columnChild} FROM #{objChildType.Name} WHERE Id=0");
+                               DropTempTable.AppendLine($"DROP TABLE #{objChildType.Name};");
+                               ChildTables.Add(objChildType.Name, objChildData);
                            }
                        }
                        //check property is list child object 
@@ -520,60 +519,80 @@ namespace Service.Command
                                    foreach (object objChild in (IEnumerable)objChildData)
                                    {
                                        Type objChildType = objChild.GetType();
-                                       var objData  = Activator.CreateInstance(objChildType);
-                                       foreach (PropertyInfo proChild in objChildType.GetProperties())
+                                       var objData = Activator.CreateInstance(objChildType);
+                                       for (int i = 0; i < objChildType.GetProperties().Length; i++)
                                        {
-                                           if (proChild.Name.ToUpper().Contains("CREATEDAT") || proChild.Name.ToUpper().Contains("MODIFIEDAT"))
+                                           if (objChildType.GetProperties()[i].GetValue(objChild, null) is null)
                                            {
-                                               proChild.SetValue(objData, DateTime.Now, null);
-                                           }
-                                           else if (proChild.Name.ToUpper().Contains("CREATEDBY") || proChild.Name.ToUpper().Contains("MODIFIEDBY"))
-                                           {
-                                               proChild.SetValue(objData, userId, null);
+                                               var testttt = objChildType.GetProperties()[i].Name;
+                                               if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDAT") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDAT"))
+                                               {
+                                                   objChildType.GetProperties()[i].SetValue(objChild, DateTime.Now, null);
+                                               }
+                                               else if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDBY") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDBY"))
+                                                   objChildType.GetProperties()[i].SetValue(objChild, userId, null);
+                                               else if (objChildType.GetProperties()[i].Name.ToUpper().Contains("ID"))
+                                                   objChildType.GetProperties()[i].SetValue(objChild, -1, null);
+                                               else if (objChildType.GetProperties()[i].Name.Contains(foreignKey))
+                                                   objChildType.GetProperties()[i].SetValue(objChild, foreignKeyValue, null);
+                                               else
+                                                   DefaultValueForSystemType(objChildType.GetProperties()[i], objChild);
                                            }
 
-                                           if (proChild.GetValue(objData, null) is null)
-                                           {
-                                               if (proChild.Name.ToUpper().Contains("ID"))
-                                                   proChild.SetValue(objData, -1, null);
-                                               else
-                                                   DefaultValueForSystemType(proChild, objData);
-                                           }
                                        }
-                                       dataChils.Add(objData);
+                                       dataChils.Add(objChild);
                                    }
-                               }
-                               foreach (PropertyInfo proChild in tableChild.GetProperties())
-                               {
-                                   if (proChild.Name.Equals(foreignKey))
+                                   foreach (PropertyInfo proChild in tableChild.GetProperties())
                                    {
-                                       checkForeignKeyExist = true;
+                                       if (!checkForeignKeyExist)
+                                       {
+
+                                           if (!proChild.Name.Equals(foreignKey))
+                                           {
+                                               checkForeignKeyExist = false;
+                                           }
+                                           else checkForeignKeyExist = true;
+                                       }
+                                       columnChild += ", " + proChild.Name;
+                                       updateQuery += $", {proChild.Name} = #{tableChild.Name}.{proChild.Name}";
+                                       tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{FirstCharToLowerCase(tableChild.Name)}.{proChild.Name}') AS {proChild.Name},");
                                    }
-                                   columnChild += ", " + proChild.Name;
-                                   tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{FirstCharToLowerCase(tableChild.Name)}.{proChild.Name}') AS {proChild.Name},");
+                                   if (!checkForeignKeyExist)
+                                       throw new Exception(tableChild.Name + " Không có thuộc tính trùng với khóa ngoại");
+                                   if (ChildTables.ContainsKey(tableChild.Name))
+                                   {
+                                       throw new Exception("có 2 thuộc tính có cùng 1 đối tượng ");
+                                   }
+                                   columnChild = columnChild.Remove(0, 1);
+                                   updateQuery = updateQuery.Remove(0, 1);
+                                   tempTable = tempTable.Remove(tempTable.Length - 3, 1);
+                                   tempTable.AppendLine($"");
+                                   tempTable.AppendLine("FROM  OPENJSON(@JsonTableChild) AS D ");
+                                   QueryDelete.AppendLine($" DELETE FROM {tableChild.Name} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM #{tableChild.Name}) ");
+                                   QueryUpdate.AppendLine($" UPDATE {tableChild.Name} SET {updateQuery} FROM {tableChild.Name} INNER JOIN {tableChild.Name} ON #{tableChild.Name}.Id=#{tableChild.Name}.Id ");
+                                   QueryInsert.AppendLine($"INSERT INTO {tableChild.Name}( {columnChild}) SELECT {columnChild} FROM #{tableChild.Name} WHERE Id = 0");
+                                   DropTempTable.AppendLine($"DROP TABLE #{tableChild.Name};");
+                                   ChildTables.Add(tableChild.Name, dataChils);
                                }
-                               if (!checkForeignKeyExist)
-                                   throw new Exception(tableChild.Name + " Không có thuộc tính trùng với khóa ngoại");
-                               if (ChildTables.ContainsKey(tableChild.Name))
-                               {
-                                   throw new Exception("có 2 thuộc tính có cùng 1 đối tượng ");
-                               }
-                               columnChild = columnChild.Remove(0, 1);
-                               tempTable.Remove(tempTable.Length - 2, 1);
-                               tempTable.AppendLine($"INTO #{tableChild.Name}");
-                               tempTable.AppendLine("FROM  OPENJSON(@JsonTableChild) AS D ");
-                               QueryDelete.Append($" DELETE FROM {tableChild.Name} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM {tableChild.Name}) ");
-                               QueryUpdate.AppendLine($" UPDATE {tableChild.Name} SET {updateQuery} FROM {tableChild.Name} INNER JOIN #{tableChild.Name} ON #{tableChild.Name}.Id=#{tableChild.Name}.Id ");
-                               if (setDefaultValue)
-                               {
-                                   QueryInsert.AppendLine($"INSERT INTO {tableChild.Name}( {columnChild}) SELECT {columnChild} FROM #{tableChild.Name} WHERE Id= 0");
-                               }
-                               ChildTables.Add(tableChild.Name, dataChils);
                            }
                        }
                        else
                        {
-                           var castValue = pro.GetValue(obj, null).ToString();
+                           var castValue = "";
+                           if (pro.GetValue(obj, null) is null)
+                           {
+                               if (setDefaultValue)
+                               {
+                                   var prop = DefaultValueForSystemType(pro, obj);
+                                   castValue = prop.GetValue(obj, null).ToString();
+                               }
+                               else
+                                   castValue = "NULL";
+                           }
+                           else
+                           {
+                               castValue = pro.GetValue(obj, null).ToString();
+                           }
                            if (pro.Name.ToLower() == "id" || pro.Name.ToLower() == "createdby" || pro.Name.ToLower() == "isactive" || pro.Name.ToLower() == "modifiedby" || pro.Name.ToLower() == "modifiedat" || pro.Name.ToLower() == "createdat")
                            {
                                continue;
@@ -598,7 +617,6 @@ namespace Service.Command
 
                            }
                        }
-
                    }
                    if (arrayCondition.Count > 0)
                    {
@@ -629,8 +647,14 @@ namespace Service.Command
                        dataEditor.Condition = 0;
                        dataEditor.ConditionString = "SELECT 'MESSEAGE. NO MESSEAGE'";
                    }
-                   dataEditor.JsonTableChild = JsonConvert.SerializeObject(ChildTables);
                    dataEditor.QueryUpdateData = dataEditor.QueryUpdateData.Remove(0, 1);
+
+                   dataEditor.JsonTableChild = JsonConvert.SerializeObject(ChildTables);
+                   dataEditor.QueryDelete = QueryDelete.ToString();
+                   dataEditor.QueryUpdate = QueryUpdate.ToString();
+                   dataEditor.QueryInsert = QueryInsert.ToString();
+                   dataEditor.QueryDropTempTable = DropTempTable.ToString();
+                   dataEditor.TempTable = tempTable.ToString();
                    return await _dataEditor.UpdateRange(dataEditor);
                });
             }
@@ -667,16 +691,13 @@ namespace Service.Command
                 }
                 return await Task.Run(() =>
                 {
-                    //var column = ConditionString.Split(',');
                     var arrayCondition = new Dictionary<string, string>();
                     DataEditorDeleteRequestModel dataEditor = new DataEditorDeleteRequestModel();
-
                     dataEditor.TableName = table;
                     dataEditor.UserId = userId;
                     dataEditor.RowId = rowId;
                     dataEditor.Condition = 0;
                     dataEditor.ConditionString = "SELECT 'MESSEAGE. NO MESSEAGE'";
-                    //}
                     return _dataEditor.Delete(dataEditor);
                 });
             }
@@ -708,62 +729,11 @@ namespace Service.Command
                     //var column = ConditionString.Split(',');
                     var arrayCondition = new Dictionary<string, string>();
                     DataEditorRestoreRequestModel dataEditor = new DataEditorRestoreRequestModel();
-
                     dataEditor.TableName = table;
                     dataEditor.UserId = userId;
                     dataEditor.RowId = rowId;
-                    //foreach (PropertyInfo pro in temp.GetProperties())
-                    //{
-                    //    if (!(pro.GetValue(obj, null) is null))
-                    //    {
-                    //        var castValue = pro.GetValue(obj, null).ToString();
-                    //        if (pro.Name.ToLower() == "id" || pro.Name.ToLower() == "createdby" || pro.Name.ToLower() == "isactive" || pro.Name.ToLower() == "modifiedby" || pro.Name.ToLower() == "modifiedat" || pro.Name.ToLower() == "createdat")
-                    //        {
-                    //            continue;
-                    //        }
-                    //        if (!string.IsNullOrEmpty(ConditionString))
-                    //        {
-                    //            foreach (var item in column)
-                    //            {
-
-                    //                if (item == pro.Name)
-                    //                {
-                    //                    arrayCondition.Add(pro.Name, castValue);
-                    //                }
-                    //            }
-
-                    //        }
-                    //    }
-                    //}
-                    //if (arrayCondition.Count > 0)
-                    //{
-                    //    dataEditor.Condition = 1;
-                    //    var _condition = new StringBuilder();
-                    //    foreach (var item in arrayCondition)
-                    //    {
-                    //        if (int.TryParse(item.Value, out int _int) || double.TryParse(item.Value, out double _double) || long.TryParse(item.Value, out long _long))
-                    //        {
-                    //            string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE " + item.Key + "!=" + item.Value + ")) BEGIN SELECT 'MESSEAGE." + item.Key + " IS NOT EXISTED' RETURN; END \t";
-                    //            _condition.Append(condition);
-                    //        }
-                    //        else if (DateTime.TryParse(item.Value, out DateTime _))
-                    //        {
-                    //            string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE " + item.Key + "!='" + item.Value + "')) BEGIN SELECT 'MESSEAGE." + item.Key + " IS NOT EXISTED ' RETURN; END \t";
-                    //            _condition.Append(condition);
-                    //        }
-                    //        else
-                    //        {
-                    //            string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE LOWER(" + item.Key + ") != LOWER('" + item.Value + "'))) BEGIN SELECT 'MESSEAGE." + item.Key + " IS NOT EXISTED ' RETURN; END \t";
-                    //            _condition.Append(condition);
-                    //        }
-                    //    }
-                    //    dataEditor.ConditionString = _condition.ToString();
-                    //}
-                    //else
-                    //{
                     dataEditor.Condition = 0;
                     dataEditor.ConditionString = "SELECT 'MESSEAGE. NO MESSEAGE'";
-                    //}
                     return _dataEditor.Restore(dataEditor);
                 });
             }
@@ -836,7 +806,7 @@ namespace Service.Command
             if (pro.GetValue(obj, null) is null)
             {
                 var conversionType = pro.PropertyType;
-                if (!pro.PropertyType.FullName.Contains("System"))
+                if (!pro.PropertyType.Namespace.Contains("System"))
                 {
                     throw new Exception("thuộc tính không phải loại thuộc system");
                 }
@@ -862,3 +832,4 @@ namespace Service.Command
         }
     }
 }
+
