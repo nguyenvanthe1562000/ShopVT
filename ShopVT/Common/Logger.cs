@@ -1,10 +1,19 @@
+<<<<<<< HEAD
+﻿using API.Interfaces;
+using Microsoft.AspNetCore.Http;
+=======
 ﻿using Common;
+>>>>>>> Develop
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+<<<<<<< HEAD
+using System.Threading.Tasks;
+=======
+>>>>>>> Develop
 
 namespace API.Services
 {

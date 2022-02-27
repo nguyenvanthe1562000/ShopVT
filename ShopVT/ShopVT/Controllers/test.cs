@@ -15,6 +15,12 @@ namespace ShopVT.Controllers
     {
         private ShopVTDbContext _ctx;
         private IChatRepository _rep;
+           
+
+
+
+
+
 
         public testController(ShopVTDbContext ctx, IChatRepository repository)
         {
