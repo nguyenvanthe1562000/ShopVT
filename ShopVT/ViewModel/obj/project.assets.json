@@ -6284,19 +6284,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\truon\\.nuget\\packages\\": {}
+    "C:\\Users\\GB Center\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj",
+      "projectUniqueName": "C:\\Users\\GB Center\\Desktop\\Project5\\SHOPVT\\ShopVT\\ViewModel\\ViewModel.csproj",
       "projectName": "ViewModel",
-      "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\ViewModel.csproj",
-      "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
-      "outputPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\ViewModel\\obj\\",
+      "projectPath": "C:\\Users\\GB Center\\Desktop\\Project5\\SHOPVT\\ShopVT\\ViewModel\\ViewModel.csproj",
+      "packagesPath": "C:\\Users\\GB Center\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\GB Center\\Desktop\\Project5\\SHOPVT\\ShopVT\\ViewModel\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\truon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\GB Center\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6310,11 +6310,11 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj": {
-              "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Common\\Common.csproj"
+            "C:\\Users\\GB Center\\Desktop\\Project5\\SHOPVT\\ShopVT\\Common\\Common.csproj": {
+              "projectPath": "C:\\Users\\GB Center\\Desktop\\Project5\\SHOPVT\\ShopVT\\Common\\Common.csproj"
             },
-            "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj": {
-              "projectPath": "D:\\VS2022\\source\\repos\\ShopVT\\ShopVT\\Model\\Model.csproj"
+            "C:\\Users\\GB Center\\Desktop\\Project5\\SHOPVT\\ShopVT\\Model\\Model.csproj": {
+              "projectPath": "C:\\Users\\GB Center\\Desktop\\Project5\\SHOPVT\\ShopVT\\Model\\Model.csproj"
             }
           }
         }
@@ -6343,7 +6343,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
