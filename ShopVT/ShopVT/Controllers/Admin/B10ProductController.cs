@@ -1,19 +1,11 @@
 ﻿using Common;
 using Common.Interface;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model.Model;
-using Newtonsoft.Json;
 
 using Service.Admin.Service.Interface;
+using ShopVT.Auth;
 using ShopVT.Extensions;
-using ShopVT.Model;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ViewModel.catalog.Product;
 
@@ -21,7 +13,6 @@ namespace ShopVT.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = AppRoles.ADMIN)]
     public class B10ProductController : BaseController
     {
         private IStorageService _storageService;

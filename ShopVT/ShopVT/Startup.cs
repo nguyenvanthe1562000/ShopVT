@@ -30,6 +30,7 @@ namespace ShopVT
         }
 
         public static IConfiguration Configuration { get; private set; }
+        public static IServiceProvider ServiceProvider;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -51,8 +52,7 @@ namespace ShopVT
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
+           
             }
 
             app.UseCors(x => x
@@ -61,12 +61,13 @@ namespace ShopVT
              .AllowAnyHeader());
             app.UseHttpsRedirection();
 
-            app.UseStaticFiles();
             app.UseRouting();
-
-
+            ServiceProvider = app.ApplicationServices;
+            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
 
             app.UseEndpoints(endpoints =>
             {

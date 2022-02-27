@@ -39,6 +39,10 @@ namespace ShopVT.Controllers.Admin
             try
             {
                 var result = await _ser.Login(request);
+                if(result.Code==null ||result.Roles==null)
+                {
+                    return NotFound();
+                }    
                 string token = await GenerateJSONWebToken(result);
 
                 return Ok(new { token });
