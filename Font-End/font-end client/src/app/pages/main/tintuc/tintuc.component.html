@@ -1,0 +1,129 @@
+<div class="hero-section hero-background">
+    <h1 class="page-title">Tin Tức</h1>
+</div>
+
+<!--Navigation section-->
+<div class="container">
+    <nav class="biolife-nav">
+        <ul>
+            <li class="nav-item"><a href="/" class="permal-link">Home</a></li>
+            <li class="nav-item"><a  class="permal-link">tin tức </a></li>
+        </ul>
+    </nav>
+</div>
+ <!-- ...:::: End Shop Section:::...-->
+  <!-- ...:::: End Shop Section:::...-->
+   <!-- ...:::: End Shop Section:::...-->
+    <div class="page-contain blog-page left-sidebar">
+        <div class="container">
+            <div class="row">
+
+                <!-- Main content -->
+                <div id="main-content" class="main-content col-lg-9 col-md-8 col-sm-12 col-xs-12">
+
+                    <ul class="posts-list main-post-list">
+                        <li class="post-elem" *ngFor="let itemblog of list_tintuc">
+                            <div class="post-item style-left-info">
+                                <div class="thumbnail">
+
+                                    <a routerLink="/tin-tuc/{{itemblog.id}}" class="link-to-post"><img src="{{_url}}{{itemblog.hinhAnh}}" width="370" height="270" alt=""></a>
+                                </div>
+                                <div class="post-content">
+                                    <h4 class="post-name"><a  routerLink="/tin-tuc/{{itemblog.id}}" class="linktopost">{{itemblog.tieuDe}}</a></h4>
+                                    <p class="post-archive"><b class="post-cat">MinhBeo</b><span class="post-date"> / 20 Nov, 2018</span><span class="author">Posted By:Admin</span></p>
+                                    <p class="excerpt"> Bạn có biết rằng các loại thực phẩm nhuộm màu đỏ là những chất di chuyển bạch huyết tuyệt vời? Trên thực tế, nhiều loại cây trong lịch sử được sử dụng làm thuốc nhuộm</p>
+                                    <div class="group-buttons">
+                                        <a routerLink="/tin-tuc/{{itemblog.id}}" class="btn readmore">read more</a>
+                                        <a  routerLink="/tin-tuc/{{itemblog.id}}"class="btn count-number liked"><i class="biolife-icon icon-heart-1"></i><span class="number">20</span></a>
+                                        <a  routerLink="/tin-tuc/{{itemblog.id}}"class="btn count-number commented"><i class="biolife-icon icon-conversation"></i><span class="number">06</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                     
+                    </ul>
+
+               
+                    <div class="biolife-panigations-block " data-aos="fade-up"  data-aos-delay="0">
+                    <ngb-pagination [collectionSize]="totalItems" [pageSize]="pageSize" [(page)]="page" [maxSize]="5" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+                    <!-- <ul>
+                        <li><a class="active" href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#"><i class="ion-ios-skipforward"></i></a></li>
+                    </ul> -->
+                </div>
+                </div>
+
+                <!-- Sidebar -->
+                <aside id="sidebar" class="sidebar blog-sidebar col-lg-3 col-md-4 col-sm-12 col-xs-12">
+
+                    <div class="biolife-mobile-panels">
+                        <span class="biolife-current-panel-title">Sidebar</span>
+                        <a class="biolife-close-btn" href="#" data-object="open-mobile-filter">&times;</a>
+                    </div>
+
+                    <div class="sidebar-contain">
+
+                        <!--Search Widget-->
+                        <div class="widget search-widget">
+                            <div class="wgt-content">
+                                <form action="#" name="frm-search" method="get" class="frm-search">
+                                    <input type="text" name="s" value="" placeholder="SEARCH..." class="input-text">
+                                    <button type="submit" name="ok"><i class="biolife-icon icon-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+
+                      
+
+                        <!--Posts Widget-->
+                        <div class="widget posts-widget">
+                            <h4 class="wgt-title">Recent post</h4>
+                            <div class="wgt-content">
+                                <ul class="posts">
+                                    <li>
+                                        <div class="wgt-post-item">
+                                            <div class="thumb">
+                                                <a href="#"><img src="assets/images/blogpost/post-wgt-01.jpg" width="80" height="58" alt=""></a>
+                                            </div>
+                                            <div class="detail">
+                                                <h4 class="post-name"><a href="#">Ashwagandha: The #1 Herb in the World</a></h4>
+                                                <p class="post-archive">22 Jan 2019<span class="comment">15 Comments</span></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="wgt-post-item">
+                                            <div class="thumb">
+                                                <a href="#"><img src="assets/images/blogpost/post-wgt-02.jpg" width="80" height="58" alt=""></a>
+                                            </div>
+                                            <div class="detail">
+                                                <h4 class="post-name"><a href="#">Ashwagandha: The #1 Herb in the World</a></h4>
+                                                <p class="post-archive">06 Apr 2019<span class="comment">06 Comments</span></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="wgt-post-item">
+                                            <div class="thumb">
+                                                <a href="#"><img src="assets/images/blogpost/post-wgt-03.jpg" width="80" height="58" alt=""></a>
+                                            </div>
+                                            <div class="detail">
+                                                <h4 class="post-name"><a href="#">Ashwagandha: The #1 Herb in the World</a></h4>
+                                                <p class="post-archive">12 May 2019<span class="comment">08 Comments</span></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                      
+
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>

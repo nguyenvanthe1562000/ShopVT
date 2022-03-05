@@ -1,0 +1,47 @@
+<div class="top">
+    <h2>Danh sách sản phẩm</h2>
+   
+    <h3 style="color: red;" *ngIf="IsWrong">Cảnh báo có thông tin sai!!!</h3>
+    
+</div>
+<div class="bot">
+    
+    <p-table selectionMode="single" [value]="products" styleClass="p-datatable-gridlines" [style]="{'margin-top': '2px', 'width': '100%'}" >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th>Tên sản phẩm</th>
+                <th>Loại</th>
+                <th>Hãng</th>
+                <th>Xuất xứ</th>
+                <th>Bảo hành</th>
+                <th>Màu sắc</th>
+                <th>Giá bán</th>
+                <th>Hình ảnh</th>
+                <th>Thao tác</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product  let-i="rowIndex" let-expanded="expanded">
+            <tr [ngStyle]="{'color': product.quantity<=0 ?'red' :'' }">
+                <td style="text-align: center;">{{i+1}}</td>
+                <td style="text-align: center;">{{product.tenSanPham}}</td>
+                <td>{{product.tenLoai}}</td>
+                <td>{{product.tenHang}}</td>
+                <td>{{product.xuatXu}}</td>
+                <td>{{product.baoHanh}}</td>
+                <td>{{product.mauSac}}</td>
+                <td>{{product.giaBan}}</td>
+                <td>{{product.quantity}}</td>
+                <td> <img src="https://localhost:5001{{product.anh}}" style="width: 80px;"></td>
+                <td  style="text-align: center;">
+                    <button pButton type="button" (click)="edit(product)" title="Sửa"  class="p-button-secondary"><i class="fas fa-edit"></i></button>
+                    <button pButton type="button" (click)="delete(product.maSanPham)" title="Xóa"  class="p-button-danger"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <!-- <div class="mt-5" style="position: relative;margin-left: 40%;">
+        <ngb-pagination [collectionSize]="totalItems" [pageSize]="pageSize" [(page)]="page" [maxSize]="10" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+    </div> -->
+</div>
+

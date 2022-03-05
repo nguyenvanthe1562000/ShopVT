@@ -1,0 +1,263 @@
+ <!-- main content -->
+ <div class="main-content">
+  <div class="wrap-banner">
+      <!-- menu category -->
+   
+  </div>
+
+  <!-- main -->
+  <div id="wrapper-site">
+      <div id="content-wrapper" class="full-width">
+          <div id="main">
+              <section class="page-home">
+                  <!-- SHOP THE LOOK -->
+                  <div class="section spacing-10 groupbanner-special">
+                      <div class="title-block">
+                          <span>Shop VT</span>
+                          <span>Máy Tính</span>
+                         
+                      </div>
+        
+                      <div class="row">
+                          <div class="lookbook owl-carousel owl-theme owl-loaded owl-drag">
+                              <div class="item">
+                                  <!-- Module Lookbooks -->
+                                  <div class="tiva-lookbook defaul">
+                                      <div class="items col-lg-12 col-sm-12 col-xs-12">
+                                          <div class="tiva-content-lookbook">
+                                              <img class="img-fluid img-responsive" src="assets/img/home/home1-tolltip1.jpg" alt="lookbook">
+                    
+                                              
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="item">
+                                  <!-- Module Lookbooks -->
+                                  <div class="tiva-lookbook default">
+                                      <div class="items col-lg-12 col-sm-12 col-xs-12">
+                                          <div class="tiva-content-lookbook">
+                                              <img class="img-fluid img-responsive" src="assets/img/home/home1-tolltip2.jpg" alt="lookbook">
+                                              
+                                           
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+            
+                              <div class="item">
+                                  <!-- Module Lookbooks -->
+                                  <div class="tiva-lookbook default">
+                                      <div class="items col-lg-12 col-sm-12 col-xs-12">
+                                          <div class="tiva-content-lookbook">
+                                              <img class="img-fluid img-responsive" src="assets/img/home/home1-tolltip3.jpg" alt="lookbook">
+             
+                                          </div>
+                  
+                                          <div class="info-lookbook">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- product living room -->
+                  <div class="section living-room background-none">
+                      <div class="container">
+                          <div class="tiva-row-wrap row">
+                              <div class="col-md-12 col-xs-12 groupcategoriestab-vertical">
+                                  <div class="grouptab">
+                                      <div class="product-tab categoriestab-left flex-9">
+                                        
+
+                                    
+                                          <!-- tab product content -->
+                                          <div class="tab-content">
+                                              <div id="all" class="tab-pane fade in active show">
+                                                  <div class="item text-center row">
+
+
+                                                      <div class="col-md-3 col-xs-12" *ngFor="let item of product">
+                                                          <div class="product-miniature js-product-miniature item-one first-item">
+                                                              <div class="thumbnail-container">
+                                                                  <a routerLink="/product-details/{{item.maSanPham}}">
+                                                                      <img class="img-fluid" src="{{url}}{{item.anh}}" alt="img">
+                                                                  </a>
+                                                                
+                                                                  <div class="highlighted-informations">
+                                                                      <div class="variant-links">
+                                                                          <a href="#" class="color beige" title="Beige"></a>
+                                  <a href="#" class="color orange" title="Orange"></a>
+                                                                          <a href="#" class="color green" title="Green"></a>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="product-description">
+                                                                  <div class="product-groups">
+                                                                      <div class="product-title">
+                                                                          <a routerLink="/product-details/{{item.maSanPham}}">{{item.tenSanPham}}</a>
+                                                                      </div>
+                                                                      <div class="rating">
+                                                                          <div class="star-content">
+                                                                              <div class="star"></div>
+                                                                              <div class="star"></div>
+                                                                              <div class="star"></div>
+                                                                              <div class="star"></div>
+                                                                              <div class="star"></div>
+                                                                          </div>
+                                                                      </div>
+                                                                      <div class="product-group-price">
+                                                                          <div class="product-price-and-shipping">
+                                                                              <span class="price">{{item.giaBan| currency: "VND"}}</span>
+                                                                             
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="product-buttons d-flex justify-content-center">
+                                                                      <form action="#" method="post" class="formAddToCart">
+                                                                          <input type="hidden" name="token">
+                                                                          <a class="add-to-cart" href="#" (click)="addToCart(item)" data-button-action="add-to-cart">
+                                                                              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                                          </a>
+                                                                      </form>
+                                                                      <a class="addToWishlist wishlistProd_1" href="#" data-rel="1" onclick="">
+                                                                          <i class="fa fa-heart" aria-hidden="true"></i>
+                                                                      </a>
+                                                                      <a href="#" class="quick-view hidden-sm-down" data-link-action="quickview">
+                                                                          <i class="fa fa-eye" aria-hidden="true"></i>
+                                                                      </a>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                     
+                                                  </div>
+                                                  <div class="content-showmore text-center has-showmore">
+                                                      <button type="button" class="btn btn-default novShowMore" name="novShowMore" data-loading="Loading..." data-loadmore="Load More Products">
+                                                          <span>Load More Products</span>
+                                                      </button>
+                                                      <input type="hidden" value="0" class="count_showmore">
+                                                  </div>
+                                              </div>
+                                
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- banner -->
+                  <div class="section spacing-10 group-image-special">
+                      <div class="row">
+                          <div class="col-lg-4 col-md-4 banner1">
+                              <div class="effect">
+                                  <a href="#">
+                                      <img class="img-fluid width-100" src="assets/img/home/effect5.jpg" alt="banner-1" title="banner-1">
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="col-lg-4 col-md-4 banner1">
+                              <div class="effect">
+                                  <a href="#">
+                                      <img class="img-fluid width-100" src="assets/img/home/effect6.jpg" alt="banner-2" title="banner-2">
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="col-lg-4 col-md-4 banner1">
+                              <div class="effect">
+                                  <a href="#">
+                                      <img class="img-fluid width-100" src="assets/img/home/effect7.jpg" alt="banner-2" title="banner-2">
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="col-lg-6 col-md-6 banner1">
+                              <div class="effect">
+                                  <a href="#">
+                                      <img class="img-fluid width-100" src="assets/img/home/effect8.jpg" alt="banner-2" title="banner-2">
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="col-lg-6 col-md-6 banner1">
+                              <div class="effect">
+                                  <a href="#">
+                                      <img class="img-fluid width-100" src="assets/img/home/effect9.jpg" alt="banner-2" title="banner-2">
+                                  </a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  
+
+                  <!-- newsletter -->
+                  <div class="section newsletter">
+                      <div class="container">
+                          <div class="row">
+                              <div class="news-content">
+                                  <div class="tiva-modules">
+                                      <div class="block">
+                                          <div class="title-block">Newsletter</div>
+                                          <div class="sub-title">Sign up to our newsletter to get the latest articles, lookbooks voucher codes
+                                              direct to your inbox</div>
+                                          <div class="block-newsletter">
+                                              <form action="#" method="post">
+                                                  <div class="input-group">
+                                                      <input type="text" class="form-control" name="email" value="" placeholder="Enter Your Email">
+                                                      <span class="input-group-btn">
+                                                          <button class="effect-btn btn btn-secondary" name="submitNewsletter" type="submit">
+                                                              <span>subscribe</span>
+                                                          </button>
+                                                      </span>
+                                                  </div>
+                                                  <input type="hidden" name="action" value="0">
+                                              </form>
+                                          </div>
+                                      </div>
+                                      <div class="block">
+                                          <div class="social-content">
+                                              <div id="social-block">
+                                                  <div class="social">
+                                                      <ul class="list-inline mb-0 justify-content-end">
+                                                          <li class="list-inline-item mb-0">
+                                                              <a href="#" target="_blank">
+                                                                  <i class="fa fa-facebook"></i>
+                                                              </a>
+                                                          </li>
+                                                          <li class="list-inline-item mb-0">
+                                                              <a href="#" target="_blank">
+                                                                  <i class="fa fa-twitter"></i>
+                                                              </a>
+                                                          </li>
+                                                          <li class="list-inline-item mb-0">
+                                                              <a href="#" target="_blank">
+                                                                  <i class="fa fa-google"></i>
+                                                              </a>
+                                                          </li>
+                                                          <li class="list-inline-item mb-0">
+                                                              <a href="#" target="_blank">
+                                                                  <i class="fa fa-instagram"></i>
+                                                              </a>
+                                                          </li>
+                                                      </ul>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <!-- Popup newsletter -->
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+              </section>
+          </div>
+      </div>
+  </div>
+</div>

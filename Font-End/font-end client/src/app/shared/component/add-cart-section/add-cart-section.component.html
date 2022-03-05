@@ -1,0 +1,42 @@
+
+
+
+  <table>
+    <tbody>
+        <tr *ngFor="let item of items">
+            <td class="product-image">
+                <a routerLink="/product-details/{{item.maSanPham}}">
+                    <img src="{{url}}{{item.anh}}" width="90" height="90" alt="Product">
+                </a>
+            </td>
+            <td>
+                <div class="product-name">
+                    <a routerLink="/product-details/{{item.maSanPham}}">{{item.tenSanPham}}</a>
+                </div>
+                <div>
+                  {{item.quantity}} x
+                    <span class="product-price">{{item.giaBan | currency: "VND"}}</span>
+                </div>
+            </td>
+            <td class="action">
+                <a class="remove" href="#"  (click)="delete(item.maSanPham)">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+        <tr class="total">
+            <td colspan="2">Total:</td>
+            <td>{{total}}</td>
+        </tr>
+
+        <tr>
+            <td colspan="3" class="d-flex justify-content-center">
+                <div class="cart-button">
+                  <a routerLink="shopping/cart" routerLinkActive="active" >Chi tiết</a>
+                  <a routerLink="shopping/checkout"  *ngIf="total>0" >Thanh toán</a>
+                 
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

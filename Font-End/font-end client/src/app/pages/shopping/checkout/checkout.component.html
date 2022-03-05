@@ -1,0 +1,184 @@
+<div class="product-checkout checkout-cart">
+    <!-- main content -->
+    <div id="checkout" class="main-content">
+        <div class="wrap-banner">
+            <!-- breadcrumb -->
+            <nav class="breadcrumb-bg">
+                <div class="container no-index">
+                    <div class="breadcrumb">
+                        <ol>
+                            <li>
+                                <a href="#">
+                                    <span>Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span>Checkout</span>
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </nav>
+			
+            <!-- main -->
+            <div id="wrapper-site">
+                <div class="container">
+                    <div class="row">
+                        <div id="content-wrapper" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 onecol">
+                            <div id="main">
+                                <div class="cart-grid row">
+                                    <div class="col-md-9 check-info">
+                                        <div class="checkout-personal-step">
+                                            <h3 class="step-title h3 info">
+                                                <span class="step-number">1</span>PERSONAL INFORMATION
+                                            </h3>
+                                        </div>
+                                        <div class="content">
+                                            <ul class="nav nav-inline">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" data-toggle="tab" href="#checkout-guest-form">
+                                                        ORDER AS A GUEST
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#checkout-login-form">
+                                                        SIGN IN
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane fade in active show" id="checkout-guest-form" role="tabpanel">
+                                                    <form [formGroup]="frmCheckout"  class="js-customer-form" (ngSubmit)="onSubmit(frmCheckout.value)">
+                                             
+                                                        <div class="form-row">
+                                                            <label>Họ <span>*</span></label>
+                                                            <input class="form-control" type="text" formControlName="txtHo">
+                                                            <div class="col alert alert-danger" role="alert" *ngIf="frmCheckout.controls.txtHo.errors && frmCheckout.controls.txtHo?.touched">
+                                                                <div *ngIf="frmCheckout.controls.txtHo?.errors?.required">Không được phép rỗng</div>
+                                                                <div *ngIf="frmCheckout.controls.txtHo?.errors?.minlength">Độ dài phải 2 - 50 ký tự</div>
+                                                                <div *ngIf="frmCheckout.controls.txtHo?.errors?.maxlength">Độ dài phải 2 - 50 ký tự</div>
+                                                                <div *ngIf="frmCheckout.controls.txtHo?.errors?.pattern">Họ không chứa ký tự đặc biệt</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                          
+                                                                <label>Tên <span>*</span></label>
+                                                                <input class="form-control" type="text" formControlName="txtTen">
+                                                                <div class="col alert alert-danger" role="alert" *ngIf="frmCheckout.controls.txtTen.errors && frmCheckout.controls.txtTen?.touched">
+                                                                    <div *ngIf="frmCheckout.controls.txtTen?.errors?.required">Không được phép rỗng</div>
+                                                                    <div *ngIf="frmCheckout.controls.txtTen?.errors?.minlength">Độ dài phải 2 - 50 ký tự</div>
+                                                                    <div *ngIf="frmCheckout.controls.txtTen?.errors?.maxlength">Độ dài phải 2 - 50 ký tự</div>
+                                                                    <div *ngIf="frmCheckout.controls.txtTen?.errors?.pattern">Tên không chứa ký tự đặc biệt</div>
+                                                                </div>
+                                                            
+                                                        </div>
+                                                        <div class="form-row">
+                                                            
+                                                                    <label>Địa chỉ</label>
+                                                                    <input class="form-control" type="text" formControlName="txtDiaChi">
+                                                                    <div class="col alert alert-danger" role="alert" *ngIf="frmCheckout.controls.txtDiaChi.errors && frmCheckout.controls.txtDiaChi?.touched">
+                                                                        <div *ngIf="frmCheckout.controls.txtDiaChi?.errors?.required">Không được phép rỗng</div>
+                                                                    </div>  
+                                                              
+                                                        </div>
+                                                        <div class="form-row">
+                                                           
+                                                                <label>Số điện thoại<span>*</span></label>
+                                                                <input class="form-control" type="text" formControlName="txtSDT">
+                                                                <div class="col alert alert-danger" role="alert" *ngIf="frmCheckout.controls.txtSDT.errors && frmCheckout.controls.txtSDT?.touched">
+                                                                    <div *ngIf="frmCheckout.controls.txtSDT?.errors?.required">Không được phép rỗng</div>
+                                                                    <div *ngIf="frmCheckout.controls.txtSDT?.errors?.pattern">Không phải định dạng số điện thoại</div>
+                                                                </div>  
+                                                            
+                                                        </div>
+                                                        <div class="form-row">
+                                                            
+                                                                <label> Email <span>*</span></label>
+                                                                <input type="text" formControlName="txtEmail" class="form-control">
+                                                                <div class="col alert alert-danger" role="alert" *ngIf="frmCheckout.controls.txtEmail.errors && frmCheckout.controls.txtEmail?.touched">
+                                                                    <div *ngIf="frmCheckout.controls.txtEmail?.errors?.txtEmail">Không phải định dạng email</div>
+                                                                </div>
+                                                            
+                                                        </div>
+                                                   
+                                                       
+                                                        <div class="clearfix">
+                                                            <div class="row">
+                                                                <input type="hidden" name="submitCreate" value="1">
+                                                                <button style=" margin:  10px 0;" class="continue btn btn-primary pull-xs-right" type="submit" [disabled]="!frmCheckout.valid">Đặt hàng</button>
+
+                                                               
+                                                            </div>
+                                                        </div>
+                                                          
+                                                           
+                                                      
+                                                    </form>
+                                               
+                                                </div>
+                                            
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="cart-grid-right col-xs-12 col-lg-3">
+                                        <div class="cart-summary">
+                                            <div class="cart-detailed-totals">
+                                                <div class="cart-summary-products">
+                                                    <div class="summary-label">Có {{totalqty}} sản phẩm trong giỏ hàng của bạn</div>
+                                                </div>
+                                                <div class="cart-summary-line" id="cart-subtotal-products">
+                                                    <span class="label js-subtotal">
+                                                        Tổng tiền giỏ hàng:
+                                                    </span>
+                                                    <span class="value"> {{total| currency: "VND"}}</span>
+                                                </div>
+                                                <div class="cart-summary-line" id="cart-subtotal-shipping">
+                                                    <span class="label">
+                                                        Phí vận chuyển:
+                                                    </span>
+                                                    <span class="value">Free</span>
+                                                    <div>
+                                                        <small class="value"></small>
+                                                    </div>
+                                                </div>
+                                                <div class="cart-summary-line cart-total">
+                                                    <span class="label">Thành tiền: </span>
+                                                    <span class="value"> {{total| currency: "VND"}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="block-reassurance">
+                                            <ul>
+                                                <li>
+                                                    <div class="block-reassurance-item">
+                                                        <img src="assets/img/product/check1.png" alt="Security policy (edit with Customer reassurance module)">
+                                                        <span>Security policy (edit with Customer reassurance module)</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="block-reassurance-item">
+                                                        <img src="assets/img/product/check2.png" alt="Delivery policy (edit with Customer reassurance module)">
+                                                        <span>Delivery policy (edit with Customer reassurance module)</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="block-reassurance-item">
+                                                        <img src="assets/img/product/check3.png" alt="Return policy (edit with Customer reassurance module)">
+                                                        <span>Return policy (edit with Customer reassurance module)</span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

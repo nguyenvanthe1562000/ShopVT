@@ -1,0 +1,337 @@
+<!-- main content -->
+<div class="main-content" id="product-detail">
+    <div id="wrapper-site">
+        <div id="content-wrapper">
+            <div id="main">
+                <div class="page-home">
+
+                    <!-- breadcrumb -->
+                    <nav class="breadcrumb-bg">
+                        <div class="container no-index">
+                            <div class="breadcrumb">
+                                <ol>
+                                    <li>
+                                        <a href="#">
+                                            <span>Trang chủ</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span>Danh mục</span>
+                                        </a>
+                                    </li>
+                                    
+                                 
+                                </ol>
+                            </div>
+                        </div>
+                    </nav>
+                    <div class="container">
+                        <div class="content">
+                            <div class="row">
+                                <div class="sidebar-3 sidebar-collection col-lg-3 col-md-3 col-sm-4">
+
+                                    <!-- category -->
+                                    <div class="sidebar-block">
+                                        <div class="title-block">Danh mục</div>
+                                        <div class="block-content">
+                                            <div class="cateTitle hasSubCategory open level1" *ngFor="let category of categories">
+                                                <span class="arrow collapsed collapse-icons" data-toggle="collapse" data-target="#livingroom" aria-expanded="false" role="status">
+                                                    <i class="zmdi zmdi-minus"></i>
+                                                    <i class="zmdi zmdi-plus"></i>
+                                                </span>
+                                                <a class="cateItem"  routerLink="/product-list/{{category.maLoai}}" >{{category.tenLoai}}</a>
+                                           
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- best seller -->
+                                    <div class="sidebar-block">
+                                        <div class="title-block">
+                                           Sản phẩm tốt
+                                        </div>
+                                        <div class="product-content tab-content">
+                                            <div class="row">
+                                                <div class="item col-md-12" *ngFor="let item of productRelated">
+                                                    <div class="product-miniature item-one first-item d-flex">
+                                                        <div class="thumbnail-container border">
+                                                            <a routerLink="/product-details/{{item.maSanPham}}">
+                                                                <img class="img-fluid image-cover" src="{{_url}}{{item.anh}}" alt="img">
+                                                                <img class="img-fluid image-secondary" src="{{_url}}{{item.anh}}" alt="img">
+                                                            </a>
+                                                        </div>
+                                                        <div class="product-description">
+                                                            <div class="product-groups">
+                                                                <div class="product-title">
+                                                                    <a routerLink="/product-details/{{item.maSanPham}}">{{item.tenSanPham}}</a>
+                                                                </div>
+                                                                <div class="rating">
+                                                                    <div class="star-content">
+                                                                        <div class="star"></div>
+                                                                        <div class="star"></div>
+                                                                        <div class="star"></div>
+                                                                        <div class="star"></div>
+                                                                        <div class="star"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="product-group-price">
+                                                                    <div class="product-price-and-shipping">
+                                                                        <span class="price">{{item.giaBan|currency:"VNĐ"}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- product tag -->
+                                
+                                </div>
+                                <div class="col-sm-8 col-lg-9 col-md-9">
+                                    <div class="main-product-detail">
+                                        <h2>{{product.tenSanPham}}</h2>
+                                        <div class="product-single row">
+                                            <div class="product-detail col-xs-12 col-md-5 col-sm-5">
+                                                <div class="page-content" id="content">
+                                                    <div class="images-container">
+                                                        <div class="js-qv-mask mask tab-content border">
+                                                            <div id="item1" class="tab-pane fade active in show">
+                                                                     <img src="{{_url}}{{product.anh}}" alt="img">
+                                                            </div>
+                                                         
+                                                            <div class="layer hidden-sm-down" data-toggle="modal" data-target="#product-modal">
+                                                                <i class="fa fa-expand"></i>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <div class="modal fade" id="product-modal" role="dialog">
+                                                            <div class="modal-dialog">
+
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <div class="modal-body">
+                                                                            <div class="product-detail">
+                                                                                <div>
+                                                                                    <div class="images-container">
+                                                                                        <div class="js-qv-mask mask tab-content">
+                                                                                            <div id="modal-item1" class="tab-pane fade active in show">
+                                                                                                <img src="{{_url}}{{product.anh}}" alt="img">
+                                                                                            </div>
+                                                                                        
+                                                                                        </div>
+                                                                              
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-info col-xs-12 col-md-7 col-sm-7">
+                                                <div class="detail-description">
+                                                    <div class="price-del">
+                                                        <span class="price">{{product.giaBan| currency: "VND"}}</span>
+                                                        <span class="float-right">
+                                                            <span class="availb">Availability: </span>
+                                                            <span class="check">
+                                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>IN STOCK</span>
+                                                        </span>
+                                                    </div>
+                                                    <p class="description"[innerHTML]="product.moTa"></p>
+                                               
+                                                    <div class="has-border cart-area">
+                                                        <div class="product-quantity">
+                                                            <div class="qty">
+                                                                <div class="input-group">
+                                                                   
+                                                                    <span class="add">
+                                                                        <button class="btn btn-primary add-to-cart add-item" (click)="addToCart(product)" data-button-action="add-to-cart" type="submit">
+                                                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                                            <span>Thêm giỏ hàng</span>
+                                                                        </button>
+                                                                        <a class="addToWishlist" href="#">
+                                                                            <i class="fa fa-heart" aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <p class="product-minimal-quantity">
+                                                        </p>
+                                                    </div>
+                                                    <div class="d-flex2 has-border">
+                                                        <div class="btn-group">
+                                                            <a href="#">
+                                                                <i class="zmdi zmdi-share"></i>
+                                                                <span>Share</span>
+                                                            </a>
+                                                            <a href="#" class="email">
+                                                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                                <span>SEN TO A FRIEND</span>
+                                                            </a>
+                                                            <a href="#" class="print">
+                                                                <i class="zmdi zmdi-print"></i>
+                                                                <span>Print</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rating-comment has-border d-flex">
+                                                        <div class="review-description d-flex">
+                                                            <span>REVIEW :</span>
+                                                            <div class="rating">
+                                                                <div class="star-content">
+                                                                    <div class="star"></div>
+                                                                    <div class="star"></div>
+                                                                    <div class="star"></div>
+                                                                    <div class="star"></div>
+                                                                    <div class="star"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="read after-has-border">
+                                                            <a href="#review">
+                                                                <i class="fa fa-commenting-o color" aria-hidden="true"></i>
+                                                                <span>READ REVIEWS (3)</span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="apen after-has-border">
+                                                            <a href="#review">
+                                                                <i class="fa fa-pencil color" aria-hidden="true"></i>
+                                                                <span>WRITE A REVIEW</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="content">
+                                                        <p>Xuất xứ :
+                                                            <span class="content2">
+                                                                <a href="#">{{product.xuatXu}}</a>
+                                                            </span>
+                                                        </p>
+                                                        <p>Nhà sản xuất :
+                                                            <span class="content2">
+                                                                <a href="#">{{product.TenHang}}</a>
+                                                            </span>
+                                                            <span class="content2">
+                                                                <a href="#">{{product.baoHanh}}</a>
+                                                            </span>
+                                                        </p>
+                                                        <p>Bảo Hành :
+                                                            <span class="content2">
+                                                                <a href="#">{{product.baoHanh}}</a>
+                                                            </span>
+                                                        </p>
+                                                        <p>tags :
+                                                            <span class="content2">
+                                                                <a href="#">Jacket</a>,
+                                                                <a href="#">Overcoat</a>,
+                                                                <a href="#">Luxury</a>,
+                                                                <a href="#">men</a>,
+                                                                <a href="#">summer</a>,
+                                                                <a href="#">autumn</a>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="review">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active">
+                                                    <a data-toggle="tab" href="#description" class="active show">Description</a>
+                                                </li>
+                                               
+                                            </ul>
+                                            
+                                            <div class="tab-content">
+                                                <div id="description" class="tab-pane fade in active show" [innerHTML]="product.ghiChu">
+                                                   
+                                                </div>
+                                            
+                                            </div>  
+                                        </div>
+                                        <div class="related">
+                                            <div class="title-tab-content  text-center">
+                                                <div class="title-product justify-content-start">
+                                                    <h2>Sản phẩm liên quan</h2>
+                                                </div>
+                                            </div>
+                                            <div class="tab-content">
+                                                <div class="row">
+                                                    <div class="item text-center col-md-4"  *ngFor="let item of productRelated">
+                                                        <div class="product-miniature js-product-miniature item-one first-item">
+                                                            <div class="thumbnail-container border border">
+                                                                <a routerLink="/product-details/{{item.maSanPham}}">
+                                                                    <img class="img-fluid image-cover"  src="{{_url}}{{item.anh}}" alt="img">
+                                                                    <img class="img-fluid image-secondary"  src="{{_url}}{{item.anh}}" alt="img">
+                                                                </a>
+                                                                <div class="highlighted-informations">
+                                                                    <div class="variant-links">
+                                                                        <a href="#" class="color beige" title="Beige"></a>
+                                                                        <a href="#" class="color orange" title="Orange"></a>
+                                                                        <a href="#" class="color green" title="Green"></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-description">
+                                                                <div class="product-groups">
+                                                                    <div class="product-title">
+                                                                        <a routerLink="/product-details/{{item.maSanPham}}">{{item.tenSanPham}}</a>
+                                                                    </div>
+                                                                    <div class="rating">
+                                                                        <div class="star-content">
+                                                                            <div class="star"></div>
+                                                                            <div class="star"></div>
+                                                                            <div class="star"></div>
+                                                                            <div class="star"></div>
+                                                                            <div class="star"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-group-price">
+                                                                        <div class="product-price-and-shipping">
+                                                                            <span class="price">{{item.giaBan| currency: "VND"}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="product-buttons d-flex justify-content-center">
+                                                                    <form (click)="addToCart(item)" action="#" method="post" class="formAddToCart">
+                                                                        <a  class="add-to-cart" href="#" data-button-action="add-to-cart">
+                                                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </form>
+                                                                    <a class="addToWishlist" href="#" data-rel="1" onclick="">
+                                                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                                                    </a>
+                                                                    <a href="#" class="quick-view hidden-sm-down" data-link-action="quickview">
+                                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

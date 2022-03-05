@@ -1,0 +1,140 @@
+<div class="top">
+    <h2>Tồn Đầu</h2>
+    <div class="right">
+        <!-- <button class="btnX" pButton type="button" (click)="showAdd()" lable="Thêm"></button> -->
+        <p-button (click)="showAdd()" icon="pi pi-external-link" label="Thêm"></p-button>
+
+    </div>
+</div>
+<div class="bot">
+    <p-panel header="Tìm kiếm" [style]="{'margin-top': '2px'}">
+        <p-dropdown [options]="Products" [(ngModel)]="product" optionLabel="tenSanPham" [filter]="true"
+            filterBy="tenSanPham" [showClear]="true" placeholder="Select a Country">
+
+            <ng-template pTemplate="selectedItem">
+                <div class="country-item country-item-value" *ngIf="product">
+                    <div style="width: 150px;">{{product.tenSanPham}}</div>
+                </div>
+            </ng-template>
+            <ng-template let-country pTemplate="item">
+                <div class="country-item">
+                    <div>{{country.tenSanPham}}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+        <!-- <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="search()">
+            <div class="form-group">
+                <label class="col-sm-1 control-label no-padding-right"> Họ tên </label>
+                <div class="col-sm-11">
+                    <input formControlName="hoTen" class="form-control" type="text" placeholder="Họ tên" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label no-padding-right"> Tài khoản </label>
+                <div class="col-sm-11">
+                    <input formControlName="taiKhoan" class="form-control" type="text" placeholder="Tài khoản" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label no-padding-right"></label>
+                <div class="col-sm-11">
+                    <button (click)="search()" class="btn btn-sm btn-primary">Tìm kiếm</button>
+                </div>
+            </div>
+        </form>  -->
+    </p-panel>
+    <p-table selectionMode="single" [value]="OpenInventorys" styleClass="p-datatable-gridlines"
+        [style]="{'margin-top': '2px', 'width': '100%'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th>ngày</th>
+                <th>nội dung</th>
+                <th>Sản phảm</th>
+                <th>Hình ảnh</th>
+                <th>Đơn vị tính</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+                <th>Thao tác</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex" let-expanded="expanded">
+            <tr>
+                <td style="text-align: center;">{{i+1}}</td>
+                <td style="text-align: center;">{{item.docDate|date}}</td>
+                <td>{{item.note}}</td>
+                <td>{{item.tenSanPham}}</td>
+                <td><img src="{{_url}}{{item.anh}}" style="width: 150px;" alt="{{item.tenSanPham}}"></td>
+                <td>{{item.unit}}</td>
+                <td>{{item.unitCost|currency:"VND"}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.amount|currency:"VND"}}</td>
+                <td style="text-align: center;">
+                    <button pButton type="button" (click)="showEdit(item.id)" title="Sửa" class="p-button-secondary"><i
+                            class="fas fa-edit"></i></button>
+                    <button pButton type="button"  title="Xóa" class="p-button-danger"><i
+                            class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-dialog [(visible)]="displayAdd" [style]="{width: '50vw'}" [dismissableMask]="true" [modal]="true">
+
+        <h3>Thêm sản phẩm mới </h3>
+        <div style="width: 100%; margin-left: 5%;">
+            <label style="font-weight: bold;">sản phẩm:</label>
+            <br>
+            <p-dropdown [options]="Products" [(ngModel)]="product" optionLabel="tenSanPham" [filter]="true"
+                filterBy="tenSanPham" [showClear]="true" placeholder="Select a Country"
+                (onChange)="onChangeProduct(form)"
+                >
+                <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value" *ngIf="product">
+                        <div style="width: 150px;">{{product.tenSanPham}}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-country pTemplate="item">
+                    <div class="country-item">
+                        <div>{{country.tenSanPham}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <br>
+        <form (ngSubmit)="AddNew(form)" #form="ngForm">
+
+            <div style="width: 100%; margin-left: 5%;">
+               
+                <label class="col-sm-1 control-label no-padding-right"> Ngày </label>
+                <div class="col-sm-11">
+                    <p-calendar class="form-control" name="docDate" ngModel #docDate="ngModel" [dateFormat]="dateFormat"
+                        [locale]="locale_vn" [showIcon]="true" inputId="icon"></p-calendar>
+                </div>
+                <input type="text" class="form-control" placeholder="" hidden name="ProducdId" ngModel
+                    #ProducdId="ngModel" >
+                <br>
+                <label style="font-weight: bold;">Đơn vị tính:</label>
+                <input type="text" class="form-control" placeholder="Bảo hành" name="unit" ngModel #unit="ngModel" value="{{open.Unit}}">
+                <label style="font-weight: bold;">Giá bán:</label>
+                <input type="number" class="form-control" (blur)="onChangeQuantity(form)" placeholder="Giá bán" name="unitCost" ngModel value="{{open.UnitCost}}"
+                    #unitCost="ngModel">
+                <label style="font-weight: bold;">số lượng:</label>
+                <input type="number" class="form-control"  (blur)="onChangeQuantity(form)" placeholder="Giá bán" name="quantity" ngModel
+                    #quantity="ngModel" [(ngModel)]="open.Quantity">
+                <label style="font-weight: bold;">thành tiền:</label>
+                <input type="number" class="form-control" placeholder="Thành tiền" value="{{open.Amount}}">
+                <label style="font-weight: bold;">Ghi chú:</label>
+                <input type="text" class="form-control"  placeholder="Giá bán" name="note" ngModel
+                #note="ngModel" >
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block"><i
+                            class="mdi mdi-check"></i>Thêm</button>
+                    <button type="button" (click)="displayAdd=false" class="btn btn-danger btn-lg btn-block "> <i
+                            class="mdi mdi-window-close"></i>Huỷ</button>
+                </div>
+            </div>
+
+        </form>
+    </p-dialog>
+</div>
