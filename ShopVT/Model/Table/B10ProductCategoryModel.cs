@@ -5,10 +5,10 @@ namespace Model.Model
      public class B10ProductCategoryModel 
      {
        	
-	public int ID { set; get; }
+	public int Id { set; get; }
 	public bool IsGroup { set; get; }
 	public int ParentId { set; get; }
-	public string code { set; get; }
+	public string Code { set; get; }
 	public string Name { set; get; }
 	public string Alias { set; get; }
 	public string Description { set; get; }

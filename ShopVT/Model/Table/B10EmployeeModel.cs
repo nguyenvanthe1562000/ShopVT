@@ -9,6 +9,7 @@ namespace Model.Model
 	public string code { set; get; }
 	public string Name { set; get; }
 	public string Name2 { set; get; }
+	public string Image { set; get; }
 	public DateTime BirthDate { set; get; }
 	public string Address { set; get; }
 	public int IdCardNo { set; get; }

@@ -102,7 +102,6 @@ namespace ShopVT.Controllers.Admin
                 var result = await _edit.Restore(_table, rowid, 1);
                 return Ok(result);
             }
-
             catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { rowid = rowid });

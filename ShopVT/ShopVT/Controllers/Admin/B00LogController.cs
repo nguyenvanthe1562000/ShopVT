@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using API.Dto.Admin.ServiceDtos;
+using Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Auth;
@@ -9,7 +10,7 @@ using System.Linq;
 
 namespace API.Controllers.Admin.Service
 {
-    [Route("v1/admin/log")]
+    [Route("api/log")]
     [ApiController]
     [RequirePermissions(PermissionFunction.System)]
     public class LogController : ControllerBase
@@ -21,21 +22,21 @@ namespace API.Controllers.Admin.Service
             _logger = logger;
         }
 
-        //[HttpPost]
-        //[Route("filter")]
-        //public IActionResult GetAsync(FilterLogDto filterDto)
-        //{
-        //    try
-        //    {
-        //        var logs = _logger.QueryLog(filterDto.Type, filterDto.LogTimeFrom, filterDto.LogTimeTo, filterDto.FileName, filterDto.ClassName, filterDto.MethodName, filterDto.LineNumber);
-        //        return Ok(logs);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Log(LogType.Error, ex.Message, (new StackTrace(ex, true)).GetFrames().Last());
-        //        return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
-        //    }
-        //}
+        [HttpPost]
+        [Route("filter")]
+        public IActionResult GetAsync(FilterLogDto filterDto)
+        {
+            try
+            {
+                var logs = _logger.QueryLog(filterDto.Type, filterDto.LogTimeFrom, filterDto.LogTimeTo, filterDto.FileName, filterDto.ClassName, filterDto.MethodName, filterDto.LineNumber);
+                return Ok(logs);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, (new StackTrace(ex, true)).GetFrames().Last());
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
 
         [HttpGet]
         [Route("archive-log-file")]
