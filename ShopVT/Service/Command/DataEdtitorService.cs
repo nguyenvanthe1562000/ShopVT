@@ -466,6 +466,10 @@ namespace Service.Command
                                        else checkForeignKeyExist = true;
                                    }
                                    columnChild += ", " + objChildType.GetProperties()[i].Name;
+                                   if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDAT") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDAT"))
+                                   {
+                                       continue;
+                                   }
                                    tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{objChildType.GetProperties()[i].Name}') AS {objChildType.GetProperties()[i].Name},");
                                    if (objChildType.GetProperties()[i].GetValue(objChildData, null) is null)
                                    {
@@ -528,7 +532,6 @@ namespace Service.Command
                                        {
                                            if (objChildType.GetProperties()[i].GetValue(objChild, null) is null)
                                            {
-                                               var testttt = objChildType.GetProperties()[i].Name;
                                                if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDAT") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDAT"))
                                                {
                                                    objChildType.GetProperties()[i].SetValue(objChild, DateTime.Now, null);
@@ -566,6 +569,10 @@ namespace Service.Command
                                        if (proChild.Name.ToLower().Contains("id"))
                                        {
                                            tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{proChild.Name}') AS {proChild.Name},");
+                                           continue;
+                                       }
+                                       if (proChild.Name.ToUpper().Contains("CREATEDAT") || proChild.Name.ToUpper().Contains("MODIFIEDAT"))
+                                       {
                                            continue;
                                        }
                                        columnChild += ", " + proChild.Name;
@@ -834,9 +841,9 @@ namespace Service.Command
                     conversionType = nullableConverter.UnderlyingType;
                     pro.SetValue(obj, Activator.CreateInstance(conversionType), null);
                 }
-                else if (pro.PropertyType.Namespace.Contains("String"))
+                else if (pro.PropertyType.Name.Contains("String"))
                     pro.SetValue(obj, "", null);
-                else if (pro.PropertyType.Namespace.Contains("DateTime"))
+                else if (pro.PropertyType.Name.Contains("DateTime"))
                     pro.SetValue(obj, DateTime.MinValue, null);
                 else
                     pro.SetValue(obj, default, null);

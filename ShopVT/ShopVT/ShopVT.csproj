@@ -7,21 +7,24 @@
   <ItemGroup>
     <Compile Remove="Common\**" />
     <Compile Remove="ModelRequest\**" />
+    <Compile Remove="wwwroot\user-content\**" />
     <Content Remove="Common\**" />
     <Content Remove="ModelRequest\**" />
+    <Content Remove="wwwroot\user-content\**" />
     <EmbeddedResource Remove="Common\**" />
     <EmbeddedResource Remove="ModelRequest\**" />
+    <EmbeddedResource Remove="wwwroot\user-content\**" />
     <None Remove="Common\**" />
     <None Remove="ModelRequest\**" />
+    <None Remove="wwwroot\user-content\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AutoMapper\" />
     <Folder Include="wwwroot\Img\" />
-    <Folder Include="wwwroot\user-content\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="GraphQL" Version="4.6.1" />
     <PackageReference Include="GraphQL.Server.Ui.Voyager" Version="5.0.2" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="11.2.2" />

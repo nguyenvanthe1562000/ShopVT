@@ -9,7 +9,7 @@ namespace ShopVT.Extensions
 {
     public class BaseController : ControllerBase
     {
-        protected int GetUserId()
+        protected int GetCurrentUserId()
         {
          
             try

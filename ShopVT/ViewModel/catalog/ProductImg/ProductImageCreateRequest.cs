@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace eShopSolution.ViewModels.Catalog.ProductImages
+namespace ViewModel.catalog.ProductImg
 {
-    public class ProductImageCreateRequest
+    public class ProductImageRequest
     {
+        public int Id { get; set; } 
+        public string ProductCode { get; set; }
         public string Caption { get; set; }
 
         public bool IsDefault { get; set; }

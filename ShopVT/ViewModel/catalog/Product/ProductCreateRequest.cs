@@ -9,7 +9,7 @@ namespace ViewModel.catalog.Product
 {
    public class ProductCreateRequest
     {
-		public string code { set; get; }
+		public string Code { set; get; }
 		public string Name { set; get; }
 		public string Alias { set; get; }
 		public string ProductCategoryCode { set; get; }

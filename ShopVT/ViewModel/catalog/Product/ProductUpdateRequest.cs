@@ -9,7 +9,8 @@ namespace ViewModel.catalog.Product
 {
    public class ProductUpdateRequest
     {
-		public string code { set; get; }
+		public int Id { get; set; }
+		public string Code { set; get; }
 		public string Name { set; get; }
 		public string Alias { set; get; }
 		public string ProductCategoryCode { set; get; }

@@ -1,4 +1,6 @@
-﻿using API.Services;
+﻿using API.AutoMapper;
+using API.Services;
+using AutoMapper;
 using Common;
 using Common.Helper;
 using Common.Interface;
@@ -49,6 +51,15 @@ namespace ShopVT.Extensions
             services.AddTransient<IChatRepository, ChatRepository>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
 
+
+            //AutoMapper
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
             return services;
         }
     }
