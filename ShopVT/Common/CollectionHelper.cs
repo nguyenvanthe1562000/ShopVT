@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL
+namespace Common.CustomConvert
 {
     public static class MessageConvert
     {
@@ -124,7 +124,6 @@ namespace DAL
                     list.Add(item);
                 }
             }
-
             return list;
         }
         public static IList<T> ConvertTo<T>(this DataTable table)
@@ -159,7 +158,7 @@ namespace DAL
                         object value = row[column.ColumnName];
                         if (value != DBNull.Value)
                         {
-                            if (column.ColumnName.Contains("ListObj"))
+                            if (column.ColumnName.EndsWith("_Json") || column.ColumnName.Equals("Items"))
                             {
                                 prop.SetValue(obj, MessageConvert.DeserializeObject(("" + value).Replace("$", ""), type), null);
                             }

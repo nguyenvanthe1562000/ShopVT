@@ -29,7 +29,7 @@ namespace Service.Command
 
         /// <summary>
         ///  thêm dữ liệu
-        ///  những thuộc tính của dối tượng không là null sẽ bị bỏ qua
+        ///  những thuộc tính của dối tượng  là null sẽ bị bỏ qua
         /// </summary>
         /// <typeparam name="T">  đối tượng </typeparam>
         /// <param name="obj"> đối tượng </param>
@@ -174,14 +174,16 @@ namespace Service.Command
                                 Type objChildType = pro.PropertyType;
                                 string columnChild = "";
                                 string valueChild = "";
+                                string subTableName = objChildType.Name.EndsWith("Model") == true ? objChildType.Name.Remove(objChildType.Name.Length - 5, 5) : objChildType.Name;
                                 foreach (PropertyInfo proChild in objChildType.GetProperties())
                                 {
                                     GetColumnAndValue(proChild, objChildData, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId);
                                 }
-                                dataEditorAddRequestModel.CommandInsertTableChild += string.Format("INSERT TABLE {0} ( {1} ) \n VALUES ( {2});", objChildType.Name, columnChild.Remove(0, 1), valueChild.Remove(0, 1)) + "\n";
+                                dataEditorAddRequestModel.CommandInsertTableChild += string.Format("INSERT INTO {0} ( {1} ) \n VALUES ( {2});", subTableName, columnChild.Remove(0, 1), valueChild.Remove(0, 1)) + "\n";
                             }
 
                         }
+
                         //check property is list child object 
                         else if (pro.PropertyType.IsGenericType &&
                           pro.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
@@ -191,7 +193,7 @@ namespace Service.Command
                                 Type tableChild = Type.GetType(pro.PropertyType.FullName).GetGenericArguments()[0];//get tên object.
                                 object objChildData = pro.GetValue(obj, null);
                                 string columnChild = "";
-
+                                string subTableName = tableChild.Name.EndsWith("Model") == true ? tableChild.Name.Remove(tableChild.Name.Length - 5, 5) : tableChild.Name;
                                 StringBuilder insertQuery = new StringBuilder();
                                 foreach (object objChild in (IEnumerable)objChildData)
                                 {
@@ -201,10 +203,9 @@ namespace Service.Command
                                         string valueChild = "";
                                         foreach (PropertyInfo proChild in objChildType.GetProperties())
                                         {
-
                                             GetColumnAndValue(proChild, objChild, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId);
                                         }
-                                        insertQuery.Append($"INSERT TABLE {tableChild.Name} ({columnChild.Remove(0, 1)}) \n");
+                                        insertQuery.Append($"INSERT INTO  {subTableName} ({columnChild.Remove(0, 1)}) \n");
                                         insertQuery.Append($"VALUES ({valueChild.Remove(0, 1)}), \n");
                                     }
                                     else
@@ -408,7 +409,7 @@ namespace Service.Command
         /// suscess: ResponseMessageDto
         /// error: ném 1 exception
         /// </returns>
-        public async Task<ResponseMessageDto> UpdateRangeAsync<T>(T obj, string table, string foreignKey, string foreignKeyValue, string ConditionString, int userId, bool setDefaultValue = true)
+        public async Task<ResponseMessageDto> UpdateRangeAsync<T>(T obj, string table, int rowId, string foreignKey, string foreignKeyValue, string ConditionString, int userId, bool setDefaultValue = true)
         {
             try
             {
@@ -429,6 +430,7 @@ namespace Service.Command
                    DataEditorUpdateRangeRequestModel dataEditor = new DataEditorUpdateRangeRequestModel();
                    dataEditor.TableName = table;
                    dataEditor.UserId = userId;
+                   dataEditor.RowId = rowId;
                    Dictionary<string, object> ChildTables = new Dictionary<string, object>();
                    bool checkForeignKeyExist = true;
                    StringBuilder tempTable = new StringBuilder();
@@ -451,6 +453,7 @@ namespace Service.Command
                                string updateQuery = "";
 
                                var objData = Activator.CreateInstance(objChildType);
+                               string subTableName = objChildType.Name.EndsWith("Model") == true ? objChildType.Name.Remove(objChildType.Name.Length - 5, 5) : objChildType.Name;
                                for (int i = 0; i < objChildType.GetProperties().Length; i++)
                                {
                                    if (!checkForeignKeyExist)
@@ -463,7 +466,7 @@ namespace Service.Command
                                        else checkForeignKeyExist = true;
                                    }
                                    columnChild += ", " + objChildType.GetProperties()[i].Name;
-                                   tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{FirstCharToLowerCase(objChildType.Name)}.{objChildType.GetProperties()[i].Name}') AS {objChildType.GetProperties()[i].Name},");
+                                   tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{objChildType.GetProperties()[i].Name}') AS {objChildType.GetProperties()[i].Name},");
                                    if (objChildType.GetProperties()[i].GetValue(objChildData, null) is null)
                                    {
                                        if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDAT") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDAT"))
@@ -494,13 +497,13 @@ namespace Service.Command
                                }
                                columnChild = columnChild.Remove(0, 1);
                                tempTable = tempTable.Remove(tempTable.Length - 3, 1);
-                               tempTable.AppendLine($"INTO #{objChildType.Name}");
-                               tempTable.AppendLine("FROM OPENJSON(@JsonTableChild) AS D ;");
-                               QueryDelete.Append($" DELETE FROM {objChildType.Name} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM #{objChildType.Name}) ");
-                               QueryUpdate.AppendLine($" UPDATE {objChildType.Name} SET {updateQuery} FROM {objChildType.Name} INNER JOIN #{objChildType.Name} ON #{objChildType.Name}.Id=#{objChildType.Name}.Id ");
-                               QueryInsert.AppendLine($"INSERT INTO {objChildType.Name}( {columnChild}) SELECT {columnChild} FROM #{objChildType.Name} WHERE Id=0");
-                               DropTempTable.AppendLine($"DROP TABLE #{objChildType.Name};");
-                               ChildTables.Add(objChildType.Name, objChildData);
+                               tempTable.AppendLine($"INTO #{subTableName}");
+                               tempTable.AppendLine($"FROM  OPENJSON(@JsonTableChild, '$.{subTableName}') AS D ");
+                               QueryDelete.Append($" DELETE FROM {subTableName} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM #{subTableName}) ");
+                               QueryUpdate.AppendLine($" UPDATE {subTableName} SET {updateQuery} FROM {subTableName} INNER JOIN #{subTableName} ON #{subTableName}.Id=#{subTableName}.Id ");
+                               QueryInsert.AppendLine($"INSERT INTO {subTableName}( {columnChild}) SELECT {columnChild.Replace(foreignKey, "'" + foreignKeyValue + "'")} FROM #{subTableName} WHERE Id=0");
+                               DropTempTable.AppendLine($"DROP TABLE #{subTableName};");
+                               ChildTables.Add(subTableName, objChildData);
                            }
                        }
                        //check property is list child object 
@@ -513,6 +516,7 @@ namespace Service.Command
                                tempTable.AppendLine("SELECT");
                                string columnChild = "";
                                string updateQuery = "";
+                               string subTableName = tableChild.Name.EndsWith("Model") == true ? tableChild.Name.Remove(tableChild.Name.Length - 5, 5) : tableChild.Name;
                                List<object> dataChils = new List<object>();
                                if (setDefaultValue)
                                {
@@ -553,26 +557,38 @@ namespace Service.Command
                                            }
                                            else checkForeignKeyExist = true;
                                        }
+                                       if (proChild.Name.ToLower().Contains(foreignKey.ToLower()))
+                                       {
+                                           tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{proChild.Name}') AS {proChild.Name},");
+                                           columnChild += ", " + proChild.Name;
+                                           continue;
+                                       }
+                                       if (proChild.Name.ToLower().Contains("id"))
+                                       {
+                                           tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{proChild.Name}') AS {proChild.Name},");
+                                           continue;
+                                       }
                                        columnChild += ", " + proChild.Name;
-                                       updateQuery += $", {proChild.Name} = #{tableChild.Name}.{proChild.Name}";
-                                       tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{FirstCharToLowerCase(tableChild.Name)}.{proChild.Name}') AS {proChild.Name},");
+                                       updateQuery += $", {proChild.Name} = #{subTableName}.{proChild.Name}";
+                                       tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{proChild.Name}') AS {proChild.Name},");
                                    }
                                    if (!checkForeignKeyExist)
-                                       throw new Exception(tableChild.Name + " Không có thuộc tính trùng với khóa ngoại");
-                                   if (ChildTables.ContainsKey(tableChild.Name))
+                                       throw new Exception(subTableName + " Không có thuộc tính trùng với khóa ngoại");
+                                   if (ChildTables.ContainsKey(subTableName))
                                    {
                                        throw new Exception("có 2 thuộc tính có cùng 1 đối tượng ");
                                    }
+
                                    columnChild = columnChild.Remove(0, 1);
                                    updateQuery = updateQuery.Remove(0, 1);
                                    tempTable = tempTable.Remove(tempTable.Length - 3, 1);
-                                   tempTable.AppendLine($"");
-                                   tempTable.AppendLine("FROM  OPENJSON(@JsonTableChild) AS D ");
-                                   QueryDelete.AppendLine($" DELETE FROM {tableChild.Name} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM #{tableChild.Name}) ");
-                                   QueryUpdate.AppendLine($" UPDATE {tableChild.Name} SET {updateQuery} FROM {tableChild.Name} INNER JOIN {tableChild.Name} ON #{tableChild.Name}.Id=#{tableChild.Name}.Id ");
-                                   QueryInsert.AppendLine($"INSERT INTO {tableChild.Name}( {columnChild}) SELECT {columnChild} FROM #{tableChild.Name} WHERE Id = 0");
-                                   DropTempTable.AppendLine($"DROP TABLE #{tableChild.Name};");
-                                   ChildTables.Add(tableChild.Name, dataChils);
+                                   tempTable.AppendLine($"INTO #{subTableName}");
+                                   tempTable.AppendLine($"FROM  OPENJSON(@JsonTableChild, '$.{subTableName}') AS D ");
+                                   QueryDelete.AppendLine($" DELETE FROM {subTableName} WHERE {foreignKey} = '{foreignKeyValue}' AND Id NOT IN (SELECT Id FROM #{subTableName}) ");
+                                   QueryUpdate.AppendLine($" UPDATE {subTableName} SET {updateQuery} FROM {subTableName} INNER JOIN #{subTableName} ON #{subTableName}.Id=#{subTableName}.Id WHERE {subTableName}.{foreignKey} = '{foreignKeyValue}' AND {subTableName}.Id = #{subTableName}.Id");
+                                   QueryInsert.AppendLine($"INSERT INTO {subTableName}( {columnChild}) SELECT {columnChild.Replace(foreignKey, "'" + foreignKeyValue + "'")} FROM #{subTableName} WHERE Id = 0");
+                                   DropTempTable.AppendLine($"DROP TABLE #{subTableName};");
+                                   ChildTables.Add(subTableName, dataChils);
                                }
                            }
                        }
@@ -816,8 +832,14 @@ namespace Service.Command
                         return null;
                     var nullableConverter = new NullableConverter(conversionType);
                     conversionType = nullableConverter.UnderlyingType;
+                    pro.SetValue(obj, Activator.CreateInstance(conversionType), null);
                 }
-                pro.SetValue(obj, Activator.CreateInstance(conversionType), null);
+                else if (pro.PropertyType.Namespace.Contains("String"))
+                    pro.SetValue(obj, "", null);
+                else if (pro.PropertyType.Namespace.Contains("DateTime"))
+                    pro.SetValue(obj, DateTime.MinValue, null);
+                else
+                    pro.SetValue(obj, default, null);
                 //var test = pro.GetValue(obj, null);
             }
             return pro;

@@ -12,7 +12,9 @@ namespace Service.Command.Interface
         public Task<ResponseMessageDto> Add<T>(T obj, string table, string ConditionString, int userId);
         public Task<ResponseMessageDto> Update<T>(T obj, string table, int rowId, string ConditionString, int userId);
         //public Task<ResponseMessageDto> Delete( string table, int rowId, string ConditionString, int userId);
-        public Task<ResponseMessageDto> Delete( string table, int rowId,  int userId);
-        public Task<ResponseMessageDto> Restore( string table, int rowId,  int userId);
+        public Task<ResponseMessageDto> Delete(string table, int rowId, int userId);
+        public Task<ResponseMessageDto> Restore(string table, int rowId, int userId);
+        public Task<ResponseMessageDto> UpdateRangeAsync<T>(T obj, string table, int rowId,string foreignKey, string foreignKeyValue, string ConditionString, int userId, bool setDefaultValue = true);
+        public Task<ResponseMessageDto> AddRangeAsync<T>(T obj, string table, string foreignKey, string foreignKeyValue, string ConditionString, int userId);
     }
 }

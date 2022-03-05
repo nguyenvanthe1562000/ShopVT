@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace Model.Model
 {
-     public class B10PostCategoryModel 
+     public class B10ProductCategoryModel 
      {
        	
 	public int ID { set; get; }
@@ -13,14 +13,11 @@ namespace Model.Model
 	public string Alias { set; get; }
 	public string Description { set; get; }
 	public int DisplayOrder { set; get; }
-	public string MetaDescription { set; get; }
-	public string MetaKeyword { set; get; }
 	public bool IsActive { set; get; }
 	public int CreatedBy { set; get; }
 	public DateTime CreatedAt { set; get; }
 	public int ModifiedBy { set; get; }
 	public DateTime ModifiedAt { set; get; }
-	
 
      }
 }
