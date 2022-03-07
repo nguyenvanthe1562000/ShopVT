@@ -9,6 +9,7 @@ using ShopVT.EF;
 using ShopVT.Extensions;
 using ShopVT.Hubs;
 using System;
+using System.Text.Json.Serialization;
 
 namespace ShopVT
 {
@@ -33,7 +34,10 @@ namespace ShopVT
             services.AddMvc();
             services.AddSignalR();
             services.AddGrapQLExtension();
-
+            //services.AddMvc().AddJsonOptions(o =>
+            //{
+            //    o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

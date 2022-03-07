@@ -15,7 +15,8 @@ namespace Model.Model
 		public int ModifiedBy { set; get; }
 		public DateTime ModifiedAt { set; get; }
 		public string EmployeeCode { set; get; }
-	
+		public List<B00PermissionFunctionModel> B00PermissionFunction_Json { set; get; }
+		public List<B00PermissionDataModel> B00PermissionData_Json { set; get; }
 
      }
 }

@@ -193,19 +193,20 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
-        [HttpPost]
+        [HttpGet]
         [Route("group")]
         public async Task<IActionResult> GetGroup()
         {
             try
             {
-                var result = await _explore.GetGroup<GroupData>(_table, "name","id",false, 1);
-                var childsHash = result.ToLookup(cat => cat.ParentId);
-                foreach (var cat in result)
-                {
-                    cat.Children = childsHash[cat.Id].ToList();
-                }
-                return Ok(childsHash);
+                //var result = await _explore.GetGroup<GroupData>(_table, "Description", "id",false, 1);
+                var result = await _explore.GetGroup<GroupData>("vB00Command", "Description", "ParentId", false, 1);
+                //var childsHash = result.ToLookup(cat => cat.ParentId);
+                //foreach (var cat in result)
+                //{
+                //    cat.Children = childsHash[cat.Id].ToList();
+                //}
+                return Ok(result);
             }
 
             catch (Exception ex)
