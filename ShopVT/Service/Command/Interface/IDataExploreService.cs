@@ -12,10 +12,10 @@ namespace Service.Command.Interface
     {
 
         //get không phân theo nhóm,có phân trang
-        public Task<IList<T>> GetData<T>(string table, int PageSize, int PageIndex, bool DataIsActive, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId);
-
+        public Task<IList<T>> GetData<T,O>(string table, int PageSize, int PageIndex, bool DataIsActive, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId);
+        
         //lấy dữ liệu theo nhóm, có phân trang
-        public Task<IList<T>> GetDataByGroup<T>(string table, int idGroup, int PageSize, int PageIndex, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId);
+        public Task<IList<T>> GetDataByGroup<T, O>(string table, int idGroup, int PageSize, int PageIndex, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId);
 
         // lấy dữ liệu 1 bảng duy nhất
         public Task<T> GetDataByIdOneTable<T>(string table, int rowId, int userId);

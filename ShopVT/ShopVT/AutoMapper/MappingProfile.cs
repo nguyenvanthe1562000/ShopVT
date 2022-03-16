@@ -3,6 +3,7 @@ using Model.Model;
 using ViewModel.catalog.Employee;
 using ViewModel.catalog.Post;
 using ViewModel.catalog.Product;
+using ViewModel.catalog.Slide;
 
 namespace API.AutoMapper
 {
@@ -21,6 +22,7 @@ namespace API.AutoMapper
                 .ReverseMap();
             CreateMap<EmployeeRequest, B10EmployeeModel>()
                 .ReverseMap();
+            CreateMap<SlideRequest,B10SlideModel>().ReverseMap();
 
         }
 

@@ -38,7 +38,7 @@ namespace Service.Command
         /// <param name="OrderDesc"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IList<T>> GetData<T>(string table, int PageSize, int PageIndex, bool DataIsActive, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
+        public async Task<IList<T>> GetData<T,O>(string table, int PageSize, int PageIndex, bool DataIsActive, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
         {
             try
             {
@@ -58,52 +58,96 @@ namespace Service.Command
                     {
                         PageSize = 10;
                     }
+
                     if (filterColumn != null && !(string.IsNullOrEmpty(filterColumn)))
                     {
-                        Type temp = typeof(T);
-                        foreach (PropertyInfo pro in temp.GetProperties())
+                        var filters = filterColumn.Split(",");
+                        if (filters.Length > 1)
                         {
+                            Type temp = typeof(O);
+                            foreach (var column in filters)
+                            {
+                                var pro = temp.GetProperty(column);
+                                if(pro != null)
+                                {
+                                    if (filterType == FilterType.NotEmpty)
+                                    {
+                                        filter.AppendLine($"OR IIF([{column}] <> '',0,1) = 1 ");
+                                    }
+                                    else if (filterType == FilterType.Empty)
+                                    {
+                                        filter.AppendLine($"OR IIF([{column}] = '',0,1) = 1 ");
+                                    }
+                                    else if (filterType == FilterType.Contains)
+                                    {
+                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'  ");
+                                    }
+                                    else if (filterType == FilterType.StartsWith)
+                                    {
+                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'  ");
+                                    }
+                                    else if (filterType == FilterType.EndsWith)
+                                    {
+                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'  ");
+                                    }
+                                    else if (filterType == FilterType.Equals)
+                                    {
+                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) = '{filterValue.ToLower()}'  ");
+                                    }
+                                }   
+                            }
+                            if(!(string.IsNullOrEmpty(filter.ToString())))
+                            {
+                                filter = filter.Remove(0, 2);
+                            }    
+                        }
+                        else
+                        {
+                            Type temp = typeof(O);
+                            foreach (PropertyInfo pro in temp.GetProperties())
+                            {
 
-                            if (filterColumn.Equals("*"))
-                            {
-                                if (filterType == FilterType.Contains)
-                                { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'\t"); }
-                                else if (filterType == FilterType.StartsWith)
-                                { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'\t"); }
-                                else if (filterType == FilterType.EndsWith)
-                                { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'\t"); }
-                                else if (filterType == FilterType.Equals)
-                                { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) = '{filterValue.ToLower()}'\t"); }
+                                if (filterColumn.Equals("*"))
+                                {
+                                    if (filterType == FilterType.Contains)
+                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'\t"); }
+                                    else if (filterType == FilterType.StartsWith)
+                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'\t"); }
+                                    else if (filterType == FilterType.EndsWith)
+                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'\t"); }
+                                    else if (filterType == FilterType.Equals)
+                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) = '{filterValue.ToLower()}'\t"); }
+                                }
+                                else if (filterColumn.ToLower().Equals(pro.Name.ToLower()))
+                                {
+                                    if (filterType == FilterType.NotEmpty)
+                                    {
+                                        filter.AppendLine($"IIF([{filterColumn}] <> '',0,1) = 1;");
+                                    }
+                                    else if (filterType == FilterType.Empty)
+                                    {
+                                        filter.AppendLine($"IIF([{filterColumn}] = '',0,1) = 1;");
+                                    }
+                                    else if (filterType == FilterType.Contains)
+                                    {
+                                        filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'  ");
+                                    }
+                                    else if (filterType == FilterType.StartsWith)
+                                    {
+                                        filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'  ");
+                                    }
+                                    else if (filterType == FilterType.EndsWith)
+                                    {
+                                        filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'  ");
+                                    }
+                                    else if (filterType == FilterType.Equals)
+                                    {
+                                        filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) = '{filterValue.ToLower()}'  ");
+                                    }
+                                }
+                                else
+                                    continue;
                             }
-                            else if (filterColumn.ToLower().Equals(pro.Name.ToLower()))
-                            {
-                                if (filterType == FilterType.NotEmpty)
-                                {
-                                    filter.AppendLine($"IIF([{filterColumn}] <> '',0,1) = 1;");
-                                }
-                                else if (filterType == FilterType.Empty)
-                                {
-                                    filter.AppendLine($"IIF([{filterColumn}] = '',0,1) = 1;");
-                                }
-                                else if (filterType == FilterType.Contains)
-                                {
-                                    filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%' ;");
-                                }
-                                else if (filterType == FilterType.StartsWith)
-                                {
-                                    filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%' ;");
-                                }
-                                else if (filterType == FilterType.EndsWith)
-                                {
-                                    filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}' ;");
-                                }
-                                else if (filterType == FilterType.Equals)
-                                {
-                                    filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) = '{filterValue.ToLower()}' ;");
-                                }
-                            }
-                            else
-                                continue;
                         }
                         if (filterColumn.Equals("*"))
                         {
@@ -126,12 +170,11 @@ namespace Service.Command
                     dataExplore.UserId = userId;
                     dataExplore.DataIsActive = DataIsActive;
                     dataExplore.PageSize = PageSize;
-                    dataExplore.PageIndex= PageIndex;
-                    dataExplore.Filter =  (!string.IsNullOrEmpty(filter.ToString()) ? filter.ToString() : " 1 = 1");
+                    dataExplore.PageIndex = PageIndex;
+                    dataExplore.Filter = (!string.IsNullOrEmpty(filter.ToString()) ? filter.ToString() : " 1 = 1");
                     var data = await _dataExplore.GetData(dataExplore);
                     var result = CollectionHelper.ConvertTo<T>(data);
                     return result;
-
                 });
                 return result;
             }
@@ -142,7 +185,7 @@ namespace Service.Command
             }
         }
 
-        public async Task<IList<T>> GetDataByGroup<T>(string table, int idGroup, int PageSize, int PageIndex, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
+        public async Task<IList<T>> GetDataByGroup<T, O>(string table, int idGroup, int PageSize, int PageIndex, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
         {
             try
             {
@@ -168,50 +211,93 @@ namespace Service.Command
                     }
                     if (filterColumn != null && !(string.IsNullOrEmpty(filterColumn)))
                     {
-                        Type temp = typeof(T);
-                        foreach (PropertyInfo pro in temp.GetProperties())
+                        var filters = filterColumn.Split(",");
+                        if (filters.Length > 1)
                         {
+                            Type temp = typeof(O);
+                            foreach (var column in filters)
+                            {
+                                var pro = temp.GetProperty(column);
+                                if (pro != null)
+                                {
+                                    if (filterType == FilterType.NotEmpty)
+                                    {
+                                        filter.AppendLine($"OR IIF([{column}] <> '',0,1) = 1 ");
+                                    }
+                                    else if (filterType == FilterType.Empty)
+                                    {
+                                        filter.AppendLine($"OR IIF([{column}] = '',0,1) = 1 ");
+                                    }
+                                    else if (filterType == FilterType.Contains)
+                                    {
+                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'  ");
+                                    }
+                                    else if (filterType == FilterType.StartsWith)
+                                    {
+                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'  ");
+                                    }
+                                    else if (filterType == FilterType.EndsWith)
+                                    {
+                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'  ");
+                                    }
+                                    else if (filterType == FilterType.Equals)
+                                    {
+                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) = '{filterValue.ToLower()}'  ");
+                                    }
+                                }
+                            }
+                            if (!(string.IsNullOrEmpty(filter.ToString())))
+                            {
+                                filter = filter.Remove(0, 2);
+                            }
+                        }
+                        else
+                        {
+                            Type temp = typeof(O);
+                            foreach (PropertyInfo pro in temp.GetProperties())
+                            {
 
-                            if (filterColumn.Equals("*"))
-                            {
-                                if (filterType == FilterType.Contains)
-                                { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'\t"); }
-                                else if (filterType == FilterType.StartsWith)
-                                { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'\t"); }
-                                else if (filterType == FilterType.EndsWith)
-                                { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'\t"); }
-                                else if (filterType == FilterType.Equals)
-                                { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) = '{filterValue.ToLower()}'\t"); }
+                                if (filterColumn.Equals("*"))
+                                {
+                                    if (filterType == FilterType.Contains)
+                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'\t"); }
+                                    else if (filterType == FilterType.StartsWith)
+                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'\t"); }
+                                    else if (filterType == FilterType.EndsWith)
+                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'\t"); }
+                                    else if (filterType == FilterType.Equals)
+                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) = '{filterValue.ToLower()}'\t"); }
+                                }
+                                else if (filterColumn.ToLower().Equals(pro.Name.ToLower()))
+                                {
+                                    if (filterType == FilterType.NotEmpty)
+                                    {
+                                        filter.AppendLine($"IIF([{filterColumn}] <> '',0,1) = 1;");
+                                    }
+                                    else if (filterType == FilterType.Empty)
+                                    {
+                                        filter.AppendLine($"IIF([{filterColumn}] = '',0,1) = 1;");
+                                    }
+                                    else if (filterType == FilterType.Contains)
+                                    {
+                                        filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'  ");
+                                    }
+                                    else if (filterType == FilterType.StartsWith)
+                                    {
+                                        filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'  ");
+                                    }
+                                    else if (filterType == FilterType.EndsWith)
+                                    {
+                                        filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'  ");
+                                    }
+                                    else if (filterType == FilterType.Equals)
+                                    {
+                                        filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) = '{filterValue.ToLower()}'  ");
+                                    }
+                                }
+                                else
+                                    continue;
                             }
-                            else if (filterColumn.ToLower().Equals(pro.Name.ToLower()))
-                            {
-                                if (filterType == FilterType.NotEmpty)
-                                {
-                                    filter.AppendLine($"IIF([{filterColumn}] <> '',0,1) = 1;");
-                                }
-                                else if (filterType == FilterType.Empty)
-                                {
-                                    filter.AppendLine($"IIF([{filterColumn}] = '',0,1) = 1;");
-                                }
-                                else if (filterType == FilterType.Contains)
-                                {
-                                    filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%' ;");
-                                }
-                                else if (filterType == FilterType.StartsWith)
-                                {
-                                    filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%' ;");
-                                }
-                                else if (filterType == FilterType.EndsWith)
-                                {
-                                    filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}' ;");
-                                }
-                                else if (filterType == FilterType.Equals)
-                                {
-                                    filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) = '{filterValue.ToLower()}' ;");
-                                }
-                            }
-                            else
-                                continue;
                         }
                         if (filterColumn.Equals("*"))
                         {
@@ -352,8 +438,8 @@ namespace Service.Command
                     {
                         if (typeof(T).GetProperty(OrderBy) != null)
                         {
-                            dataExplore.OrderBy =  OrderBy;
-                            dataExplore.OrderDesc = OrderDesc ;
+                            dataExplore.OrderBy = OrderBy;
+                            dataExplore.OrderDesc = OrderDesc;
                         }
                         else
                             dataExplore.OrderBy = "ID";

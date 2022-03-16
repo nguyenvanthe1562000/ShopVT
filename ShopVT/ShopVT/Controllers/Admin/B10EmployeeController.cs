@@ -145,7 +145,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetData<PagedResult<B10EmployeeModel>>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetData<PagedResult<B10EmployeeModel>, B10EmployeeModel>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
                 return Ok(result);
             }
             catch (Exception ex)

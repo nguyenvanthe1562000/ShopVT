@@ -200,7 +200,7 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _explore.GetData<PagedResult<B10ProductModel>>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetData<PagedResult<B10ProductModel>,B10ProductModel>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
                 return Ok(result);
             }
 
@@ -236,7 +236,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetDataByGroup<PagedResult<B10PostCategoryModel>>(_table, idGroup, pagingRequest.PageSize, pagingRequest.PageIndex, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetDataByGroup<PagedResult<B10PostCategoryModel>, B10PostCategoryModel>(_table, idGroup, pagingRequest.PageSize, pagingRequest.PageIndex, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
                 return Ok(result);
             }
             catch (Exception ex)

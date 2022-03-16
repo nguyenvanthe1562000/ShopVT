@@ -65,6 +65,12 @@ namespace Service.Command
                                  dataEditorAddRequestModel.ColumnValue += ", " + userId;
                                  continue;
                              }
+                             else if (!pro.PropertyType.Namespace.Contains("System") ||(pro.PropertyType.IsGenericType &&
+                          pro.PropertyType.GetGenericTypeDefinition() == typeof(List<>)))
+                             {
+                                 continue;
+                             }
+
                              else
                                  dataEditorAddRequestModel.ColumnArray += ", " + pro.Name;
                              var castValue = pro.GetValue(obj, null).ToString();
@@ -325,10 +331,15 @@ namespace Service.Command
                             {
                                 continue;
                             }
-                            if (int.TryParse(castValue, out int _int) || double.TryParse(castValue, out double _double) || long.TryParse(castValue, out long _long))
+                           else if (int.TryParse(castValue, out int _int) || double.TryParse(castValue, out double _double) || long.TryParse(castValue, out long _long))
                             {
 
                                 dataEditorUpdate.QueryUpdateData += "," + pro.Name + " = " + castValue;
+                            }
+                            else if (!pro.PropertyType.Namespace.Contains("System") || (pro.PropertyType.IsGenericType &&
+                        pro.PropertyType.GetGenericTypeDefinition() == typeof(List<>)))
+                            {
+                                continue;
                             }
                             else
                                 dataEditorUpdate.QueryUpdateData += "," + pro.Name + " = '" + castValue + "'";

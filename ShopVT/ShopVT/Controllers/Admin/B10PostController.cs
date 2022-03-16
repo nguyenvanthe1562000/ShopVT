@@ -10,6 +10,7 @@ using ShopVT.Auth;
 using ShopVT.Extensions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -143,13 +144,13 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetData<PagedResult<B10PostModel>>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetData<PagedResult<B10PostModel>, B10PostModel>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
                 return Ok(result);
             }
             catch (Exception ex)
-            {
+            {               
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { pagingRequest = pagingRequest });
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ex.Message));
             }
         }
     }
