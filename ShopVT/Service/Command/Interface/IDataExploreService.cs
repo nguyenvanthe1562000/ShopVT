@@ -25,5 +25,7 @@ namespace Service.Command.Interface
 
         //lấy dữ liệu theo kiêu cha con 1 cha nhiều con dùng cho xem chi tiết.
         public Task<T> GetDataByIdMultipleTable<T>(string table, int RowId, string keyParent, string foreignKey, string OrderBy, bool OrderDesc, int userId);
+        //lookup table
+        public Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue , int RowsTotal, string OrderBy, bool OrderDesc, int userId);
     }
 }

@@ -59,7 +59,7 @@ namespace Service.Command
                         PageSize = 10;
                     }
 
-                    if (filterColumn != null && !(string.IsNullOrEmpty(filterColumn)))
+                    if (!(string.IsNullOrEmpty(filterValue)) && !(string.IsNullOrEmpty(filterColumn)))
                     {
                         var filters = filterColumn.Split(",");
                         if (filters.Length > 1)
@@ -181,7 +181,7 @@ namespace Service.Command
             catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { table = table, user = userId });
-                return null;
+                throw ex;
             }
         }
 
@@ -209,7 +209,7 @@ namespace Service.Command
                     {
                         idGroup = 1;
                     }
-                    if (filterColumn != null && !(string.IsNullOrEmpty(filterColumn)))
+                    if (!(string.IsNullOrEmpty(filterValue)) && !(string.IsNullOrEmpty(filterColumn)))
                     {
                         var filters = filterColumn.Split(",");
                         if (filters.Length > 1)
@@ -477,6 +477,75 @@ namespace Service.Command
                     return true;
                 default:
                     return false;
+            }
+        }
+
+        public async Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue, int RowsTotal, string OrderBy, bool OrderDesc, int userId)
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    DataExploreLookupRequestModel dataExplore = new DataExploreLookupRequestModel();
+                    StringBuilder filter = new StringBuilder();
+
+                    if (!(string.IsNullOrEmpty(filterValue)) && !(string.IsNullOrEmpty(filterColumn)) )
+                    {
+                        var filters = filterColumn.Split(",");
+                        if (filters.Length > 1)
+                        {
+                            Type temp = typeof(T);
+                            foreach (var column in filters)
+                            {
+                                var pro = temp.GetProperty(column);
+                                if (pro != null)
+                                {
+                                    filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'  ");
+                                }
+                            }
+                            if (!(string.IsNullOrEmpty(filter.ToString())))
+                            {
+                                filter = filter.Remove(0, 2);
+                            }
+                        }
+                        else
+                        {
+                            Type temp = typeof(T);
+                            foreach (PropertyInfo pro in temp.GetProperties())
+                            {
+                                 if (filterColumn.ToLower().Equals(pro.Name.ToLower()))
+                                {
+                                    filter.AppendLine($" LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'  ");
+                                }
+                                else
+                                    continue;
+                            }
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(OrderBy))
+                    {
+                        if (typeof(T).GetProperty(OrderBy) != null)
+                        {
+                            dataExplore.OrderBy = OrderBy;
+                            dataExplore.OrderDesc = OrderDesc;
+                        }
+                        else
+                        { dataExplore.OrderBy = "ID"; dataExplore.OrderDesc = OrderDesc; }
+                    }
+                    dataExplore.TableName = table;
+                    dataExplore.UserId = userId;
+                    dataExplore.RowsTotal = RowsTotal;
+                    dataExplore.Filter = (!string.IsNullOrEmpty(filter.ToString()) ? filter.ToString() : " 1 = 1");
+                    var data = await _dataExplore.GetDataLookUp(dataExplore);
+                    var result = CollectionHelper.ConvertTo<T>(data);
+                    return result;
+                });
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { table = table, user = userId });
+                throw ex;
             }
         }
     }

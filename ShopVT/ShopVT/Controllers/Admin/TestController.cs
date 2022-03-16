@@ -25,7 +25,6 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-
                 var response = await _service.Add<product>(model, "product", "id",-1);
                 return Ok(response);
             }

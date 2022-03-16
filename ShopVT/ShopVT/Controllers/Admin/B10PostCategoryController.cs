@@ -32,7 +32,7 @@ namespace ShopVT.Controllers.Admin
         public B10PostCategoryController(IDataEdtitorService dataEdtitor, IDataExploreService explore, ILogger logger, IStorageService storageService)
         {
             _edit = dataEdtitor;
-            _explore= explore;          
+            _explore = explore;
             _logger = logger;
             _storageService = storageService;
         }
@@ -49,7 +49,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _edit.Add<B10PostCategoryModel>(model, _table, "",GetCurrentUserId());
+                var result = await _edit.Add<B10PostCategoryModel>(model, _table, "", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -58,13 +58,13 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
-        
+
         [HttpPut]
         [Route("update")]
         public async Task<IActionResult> UpdateAsync([FromBody] B10PostCategoryModel model)
         {
             try
-            {                
+            {
                 var result = await _edit.Update<B10PostCategoryModel>(model, _table, model.ID, "", 1);
                 return Ok(result);
             }
@@ -115,7 +115,7 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _edit.AddRangeAsync<B10PostCategoryModel>(model, _table, "code", model.code, "", 1);
+                var result = await _edit.AddRangeAsync<B10PostCategoryModel>(model, _table, "code", model.Code, "", 1);
                 return Ok(result);
             }
 
@@ -132,7 +132,7 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _edit.UpdateRangeAsync<B10PostCategoryModel>(model, _table, model.ID, "PostCategoryCode", model.code, "", 1);
+                var result = await _edit.UpdateRangeAsync<B10PostCategoryModel>(model, _table, model.ID, "PostCategoryCode", model.Code, "", 1);
                 return Ok(result);
             }
 
@@ -149,7 +149,7 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _explore.GetDataByIdOneTable<B10PostCategoryModel>( _table, id, 1);
+                var result = await _explore.GetDataByIdOneTable<B10PostCategoryModel>(_table, id, 1);
                 return Ok(result);
             }
 
@@ -166,7 +166,7 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _explore.GetDataByIdMultipleTable<B10PostCategoryModel>(_table, id,"code","PostCategoryCode","id",true, 1);
+                var result = await _explore.GetDataByIdMultipleTable<B10PostCategoryModel>(_table, id, "code", "PostCategoryCode", "id", true, 1);
                 return Ok(result);
             }
 
@@ -183,7 +183,7 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _explore.GetData<PagedResult<B10PostCategoryModel>, B10PostCategoryModel>(_table, pagingRequest.PageSize,pagingRequest.PageIndex,true,pagingRequest.FilterColumn,pagingRequest.FilterType, pagingRequest.FilterValue,pagingRequest.OrderBy,pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetData<PagedResult<B10PostCategoryModel>, B10PostCategoryModel>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
                 return Ok(result);
             }
 
@@ -216,7 +216,7 @@ namespace ShopVT.Controllers.Admin
         }
         [HttpPost]
         [Route("data-by-group")]
-        public async Task<IActionResult> GetDataByGroup([FromRoute] int idGroup,[FromBody] PagingRequest pagingRequest)
+        public async Task<IActionResult> GetDataByGroup([FromRoute] int idGroup, [FromBody] PagingRequest pagingRequest)
         {
             try
             {
@@ -226,6 +226,21 @@ namespace ShopVT.Controllers.Admin
             catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { pagingRequest = pagingRequest });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
+        [HttpPost]
+        [Route("look-up")]
+        public async Task<IActionResult> GetDataLookUp([FromQuery] string v)
+        {
+            try
+            {
+                var result = await _explore.Lookup<B10PostCategoryModel>(_table, "Code,Name", v, 10, "", false, GetCurrentUserId());
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { loolupData = v });
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }

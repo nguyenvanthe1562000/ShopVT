@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31005.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopVT", "ShopVT\ShopVT.csproj", "{19EAA124-369B-4DFB-B576-9D47DF2E2E42}"
 EndProject
@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{BF1816E7-81D5-4EB7-8EB4-334D092853AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{F981C470-F5F4-4C0E-A363-8E7990C10EF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModel", "ViewModel\ViewModel.csproj", "{F981C470-F5F4-4C0E-A363-8E7990C10EF0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chatapp", "chatapp\chatapp.csproj", "{F50AE46D-0D6F-4BF1-8033-DE19CD62EBFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{F981C470-F5F4-4C0E-A363-8E7990C10EF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F981C470-F5F4-4C0E-A363-8E7990C10EF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F981C470-F5F4-4C0E-A363-8E7990C10EF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F50AE46D-0D6F-4BF1-8033-DE19CD62EBFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F50AE46D-0D6F-4BF1-8033-DE19CD62EBFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F50AE46D-0D6F-4BF1-8033-DE19CD62EBFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F50AE46D-0D6F-4BF1-8033-DE19CD62EBFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

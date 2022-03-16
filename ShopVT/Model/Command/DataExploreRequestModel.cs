@@ -9,11 +9,10 @@ namespace Model.Command
     }
     public class DataExploreLookupRequestModel : BaseCommand
     {
-        public string FilterByColumn { get; set; }
-        public string FilterValue { get; set; }
+        public string Filter { get; set; }
         public string OrderBy { get; set; }
-        public string OrderDesc { get; set; }
-        public int Total { get; set; }
+        public bool OrderDesc { get; set; }
+        public int RowsTotal { get; set; }
     }
     public class DataExploreGetDataRequestModel : BaseCommand
     {

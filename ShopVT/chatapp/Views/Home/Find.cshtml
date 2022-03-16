@@ -1,0 +1,15 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<User>
+<div class="chat-body">
+
+    @foreach (var user in Model)
+    {
+
+        <a class="room-button" asp-controller="Home" asp-action="CreatePrivateRoom" asp-route-userId="@user.Id">
+            @user.UserName
+        </a>
+
+    }
+</div>

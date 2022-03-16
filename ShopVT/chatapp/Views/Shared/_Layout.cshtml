@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - chatapp</title>
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <div class="navbar">
+        <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+        <a asp-controller="Home" asp-action="Find">Danh sách người dùng</a>
+        <a asp-controller="Home" asp-action="Private">Riêng tư</a>
+        <a asp-controller="Account" asp-action="LogOut">Đăng xuất</a>
+
+    </div>
+
+    <div class="main">
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <vc:room></vc:room>
+           
+        }
+
+        <div  class="chat">
+            @RenderBody()
+
+        </div>
+    </div>
+    <div class="modal" id="create-room-modal">
+        <form asp-controller="Home" asp-action="CreateRoom" class="modal-body">
+            <button type="button" class="close" onclick="closeModal()">X</button>
+            <header>Create Room</header>
+            <div>
+                <input name="name">
+            </div>
+            <footer>
+                <button>Create</button>
+            </footer>
+        </form>
+    </div>
+    <script src="~/js/site.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

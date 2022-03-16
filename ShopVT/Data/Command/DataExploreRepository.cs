@@ -101,23 +101,23 @@ namespace Data.Command
             }
         }
 
-        public Task<DataTable> GetDataLookUp(DataExploreLookupRequestModel model)
+        public async Task<DataTable> GetDataLookUp(DataExploreLookupRequestModel model)
         {
-            //    try
-            //    {
-            //        var result = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("[usp_sys_GetData]", "@userId", model.UserId, "@table", model.TableName, "@PageSize", model.PageSize, "@PageIndex", model.PageIndex, "@Filter", model.Filter, "@TypeData", model.DataIsActive, "@Orderby", model.OrderBy, "@OrderDesc", model.OrderDesc);
-            //        if (!string.IsNullOrEmpty(result.message.ToString()))
-            //        {
-            //            throw new Exception(result.message);
-            //        }
-            //        return result.Item2;
-            //    }
-            //    catch (Exception ex)
-            //    {
+            try
+            {
+                var result = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("[usp_sys_LookUp]", "@userId", model.UserId, "@table", model.TableName, "@Top", model.RowsTotal, "@Filter", model.Filter, "@Orderby", model.OrderBy, "@OrderDesc", model.OrderDesc);
+                if (!string.IsNullOrEmpty(result.message.ToString()))
+                {
+                    throw new Exception(result.message);
+                }
+                return result.Item2;
+            }
+            catch (Exception ex)
+            {
 
-            //        _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = model });
-            return null;
-            //    }
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = model });
+                return null;
+            }
         }
 
         public async Task<DataTable> GetGroup(DataExploreGetGroupRequestModel model)
