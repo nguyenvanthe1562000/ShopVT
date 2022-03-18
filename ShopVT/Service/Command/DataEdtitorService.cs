@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Helper;
 using Data.Command;
 using Model.Command;
 using Newtonsoft.Json;
@@ -17,16 +18,16 @@ namespace Service.Command
 {
     public class DataEdtitorService : IDataEdtitorService
     {
+        private IDatabaseHelper _dbHelper;
         private IDataEditorRepository _dataEditor;
         private ILogger _logger;
 
-        public DataEdtitorService(IDataEditorRepository dataEditor, ILogger logger)
+        public DataEdtitorService(IDataEditorRepository dataEditor, IDatabaseHelper databaseHelper, ILogger logger)
         {
+            _dbHelper = databaseHelper;
             _dataEditor = dataEditor;
             _logger = logger;
         }
-
-
         /// <summary>
         ///  thêm dữ liệu
         ///  những thuộc tính của dối tượng  là null sẽ bị bỏ qua
@@ -43,90 +44,108 @@ namespace Service.Command
         {
             try
             {
-                return await Task.Run(() =>
-                 {
-                     var column = ConditionString.Split(',');
-                     var arrayCondition = new Dictionary<string, string>();
-                     Type temp = typeof(T);
-                     DataEditorAddRequestModel dataEditorAddRequestModel = new DataEditorAddRequestModel();
-                     dataEditorAddRequestModel.TableName = table;
-                     dataEditorAddRequestModel.UserId = userId;
-                     foreach (PropertyInfo pro in temp.GetProperties())
-                     {
-                         if (!(pro.GetValue(obj, null) is null))
-                         {
-                             if (pro.Name.ToLower() == "id" || pro.Name.ToLower() == "isactive" || pro.Name.ToLower() == "modifiedby" || pro.Name.ToLower() == "modifiedat" || pro.Name.ToLower() == "createdat")
-                             {
-                                 continue;
-                             }
-                             else if (pro.Name.ToLower() == "createdby")
-                             {
-                                 dataEditorAddRequestModel.ColumnArray += ", " + pro.Name;
-                                 dataEditorAddRequestModel.ColumnValue += ", " + userId;
-                                 continue;
-                             }
-                             else if (!pro.PropertyType.Namespace.Contains("System") ||(pro.PropertyType.IsGenericType &&
-                          pro.PropertyType.GetGenericTypeDefinition() == typeof(List<>)))
-                             {
-                                 continue;
-                             }
+                var result = await Task.Run(async () =>
+                  {
+                      var columnCondition = ConditionString.Split(',');
+                      var arrayCondition = new Dictionary<string, string>();
+                      Type temp = typeof(T);
+                      DataEditorAddRequestModel dataEditorAddRequestModel = new DataEditorAddRequestModel();
+                      dataEditorAddRequestModel.TableName = table;
+                      dataEditorAddRequestModel.UserId = userId;
+                      var viewTable = new List<OriginalTalbe>();
+                      if (table.StartsWith("v"))
+                      {
+                          viewTable = await GetColumnOriginalTable(table);
+                          table = table.Remove(0, 1);
+                      }
+                    
+                      foreach (PropertyInfo pro in temp.GetProperties())
+                      {
+                          var column = pro.Name;
+                          if (viewTable.Count > 0)
+                          {
+                              var _column = viewTable.FirstOrDefault(x => x.name.ToLower().Equals(pro.Name.ToLower()));
+                              if (_column is null)
+                              {
+                                  continue;
+                              }
+                              column = _column.source_column;
+                          }
+                          if (!(pro.GetValue(obj, null) is null))
+                          {
+                              if (column.ToLower() == "id" || column.ToLower() == "isactive" || column.ToLower() == "modifiedby" || column.ToLower() == "modifiedat" || column.ToLower() == "createdat")
+                              {
+                                  continue;
+                              }
+                              else if (column.ToLower() == "createdby")
+                              {
+                                  dataEditorAddRequestModel.ColumnArray += ", " + column;
+                                  dataEditorAddRequestModel.ColumnValue += ", " + userId;
+                                  continue;
+                              }
+                              else if (!pro.PropertyType.Namespace.Contains("System") || (pro.PropertyType.IsGenericType &&
+                           pro.PropertyType.GetGenericTypeDefinition() == typeof(List<>)))
+                              {
+                                  continue;
+                              }
 
-                             else
-                                 dataEditorAddRequestModel.ColumnArray += ", " + pro.Name;
-                             var castValue = pro.GetValue(obj, null).ToString();
-                             if (int.TryParse(castValue, out int _int) || double.TryParse(castValue, out double _double) || long.TryParse(castValue, out long _long))
-                             {
-                                 dataEditorAddRequestModel.ColumnValue += ", " + castValue;
-                             }
-                             else
-                                 dataEditorAddRequestModel.ColumnValue += ", '" + castValue + "'";
-                             if (!string.IsNullOrEmpty(ConditionString))
-                             {
-                                 foreach (var item in column)
-                                 {
-                                     if (item == pro.Name)
-                                     {
-                                         arrayCondition.Add(pro.Name, castValue);
-                                     }
-                                 }
+                              else
+                                  dataEditorAddRequestModel.ColumnArray += ", " + column;
+                              var castValue = pro.GetValue(obj, null).ToString();
+                              if (int.TryParse(castValue, out int _int) || double.TryParse(castValue, out double _double) || long.TryParse(castValue, out long _long))
+                              {
+                                  dataEditorAddRequestModel.ColumnValue += ", " + castValue;
+                              }
+                              else
+                                  dataEditorAddRequestModel.ColumnValue += ", '" + castValue + "'";
+                              if (!string.IsNullOrEmpty(ConditionString))
+                              {
+                                  foreach (var item in columnCondition)
+                                  {
+                                      if (item == column)
+                                      {
+                                          arrayCondition.Add(column, castValue);
+                                      }
+                                  }
 
-                             }
-                         }
-                     }
+                              }
+                          }
+                      }
 
-                     if (arrayCondition.Count > 0)
-                     {
-                         dataEditorAddRequestModel.Condition = 1;
-                         var _condition = new StringBuilder();
-                         foreach (var item in arrayCondition)
-                         {
-                             if (int.TryParse(item.Value, out int _int) || double.TryParse(item.Value, out double _double) || long.TryParse(item.Value, out long _long))
-                             {
-                                 string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE " + item.Key + "=" + item.Value + ")) BEGIN SELECT 'MESSEAGE." + item.Key + " IS EXISTED' RETURN; END \t";
-                                 _condition.Append(condition);
-                             }
-                             else if (DateTime.TryParse(item.Value, out DateTime _))
-                             {
-                                 string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE " + item.Key + "='" + item.Value + "')) BEGIN SELECT 'MESSEAGE." + item.Key + " IS EXISTED ' RETURN; END \t";
-                                 _condition.Append(condition);
-                             }
-                             else
-                             {
-                                 string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE LOWER(" + item.Key + ") = LOWER('" + item.Value + "'))) BEGIN SELECT 'MESSEAGE." + item.Key + " IS EXISTED ' RETURN; END \t";
-                                 _condition.Append(condition);
-                             }
-                         }
-                         dataEditorAddRequestModel.ConditionString = _condition.ToString();
-                     }
-                     else
-                     {
-                         dataEditorAddRequestModel.Condition = 0;
-                         dataEditorAddRequestModel.ConditionString = "SELECT 'MESSEAGE. NO MESSEAGE'";
-                     }
-                     dataEditorAddRequestModel.ColumnArray = dataEditorAddRequestModel.ColumnArray.Remove(0, 1);
-                     dataEditorAddRequestModel.ColumnValue = dataEditorAddRequestModel.ColumnValue.Remove(0, 1);
-                     return _dataEditor.Add(dataEditorAddRequestModel);
-                 });
+                      if (arrayCondition.Count > 0)
+                      {
+                          dataEditorAddRequestModel.Condition = 1;
+                          var _condition = new StringBuilder();
+                          foreach (var item in arrayCondition)
+                          {
+                              if (int.TryParse(item.Value, out int _int) || double.TryParse(item.Value, out double _double) || long.TryParse(item.Value, out long _long))
+                              {
+                                  string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE " + item.Key + "=" + item.Value + ")) BEGIN SELECT 'MESSEAGE." + item.Key + " IS EXISTED' RETURN; END \t";
+                                  _condition.Append(condition);
+                              }
+                              else if (DateTime.TryParse(item.Value, out DateTime _))
+                              {
+                                  string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE " + item.Key + "='" + item.Value + "')) BEGIN SELECT 'MESSEAGE." + item.Key + " IS EXISTED ' RETURN; END \t";
+                                  _condition.Append(condition);
+                              }
+                              else
+                              {
+                                  string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE LOWER(" + item.Key + ") = LOWER('" + item.Value + "'))) BEGIN SELECT 'MESSEAGE." + item.Key + " IS EXISTED ' RETURN; END \t";
+                                  _condition.Append(condition);
+                              }
+                          }
+                          dataEditorAddRequestModel.ConditionString = _condition.ToString();
+                      }
+                      else
+                      {
+                          dataEditorAddRequestModel.Condition = 0;
+                          dataEditorAddRequestModel.ConditionString = "SELECT 'MESSEAGE. NO MESSEAGE'";
+                      }
+                      dataEditorAddRequestModel.ColumnArray = dataEditorAddRequestModel.ColumnArray.Remove(0, 1);
+                      dataEditorAddRequestModel.ColumnValue = dataEditorAddRequestModel.ColumnValue.Remove(0, 1);
+                      return _dataEditor.Add(dataEditorAddRequestModel);
+                  });
+                return await result;
             }
             catch (Exception ex)
             {
@@ -161,19 +180,37 @@ namespace Service.Command
                 }
                 if (string.IsNullOrEmpty(foreignKeyValue))
                     foreignKeyValue = await GenerateId.NewId(userId);
-                return await Task.Run(() =>
+                var result= await Task.Run(async () =>
                 {
-                    var column = ConditionString.Split(',');
+                    var columnCondition = ConditionString.Split(',');
                     var arrayCondition = new Dictionary<string, string>();
                     Type temp = typeof(T);
                     DataEditorAddRangeRequestModel dataEditorAddRequestModel = new DataEditorAddRangeRequestModel();
                     dataEditorAddRequestModel.TableName = table;
                     dataEditorAddRequestModel.UserId = userId;
+                    var viewTable = new List<OriginalTalbe>();
+                    if (table.StartsWith("v"))
+                    {
+                        viewTable = await GetColumnOriginalTable(table);
+                        table = table.Remove(0, 1);
+                    }
                     foreach (PropertyInfo pro in temp.GetProperties())
                     {
+                        var column = pro.Name;
+                        if (viewTable.Count > 0)
+                        {
+                           
+                            var _column = viewTable.FirstOrDefault(x => x.name.ToLower().Equals(pro.Name.ToLower()));
+                            if (_column is null)
+                            {
+                                continue;
+                            }
+                            column = _column.source_column;
+                        }
                         //check property is child object 
                         if (!pro.PropertyType.Namespace.Contains("System"))
                         {
+                            
                             if (!(pro.GetValue(obj, null) is null))
                             {
                                 object objChildData = pro.GetValue(obj, null);
@@ -181,9 +218,27 @@ namespace Service.Command
                                 string columnChild = "";
                                 string valueChild = "";
                                 string subTableName = objChildType.Name.EndsWith("Model") == true ? objChildType.Name.Remove(objChildType.Name.Length - 5, 5) : objChildType.Name;
+
+                                var viewTableChild = new List<OriginalTalbe>();
+                                if (subTableName.StartsWith("v"))
+                                {
+                                    viewTableChild = await GetColumnOriginalTable(subTableName);
+                                    subTableName = subTableName.Remove(0, 1);
+                                }
                                 foreach (PropertyInfo proChild in objChildType.GetProperties())
                                 {
-                                    GetColumnAndValue(proChild, objChildData, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId);
+                                    var columnOriginalChild = proChild.Name;
+                                    if (viewTableChild.Count > 0)
+                                    {
+                                        var _column = viewTableChild.FirstOrDefault(x => x.name.ToLower().Equals(proChild.Name.ToLower()));
+                                        if(_column is null)
+                                        {
+                                            continue;
+                                        }    
+                                        columnOriginalChild = _column != null ? _column.source_column : "";
+                                       
+                                    }
+                                    GetColumnAndValue(proChild, objChildData, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId,columnOriginal: columnOriginalChild);
                                 }
                                 dataEditorAddRequestModel.CommandInsertTableChild += string.Format("INSERT INTO {0} ( {1} ) \n VALUES ( {2});", subTableName, columnChild.Remove(0, 1), valueChild.Remove(0, 1)) + "\n";
                             }
@@ -201,15 +256,32 @@ namespace Service.Command
                                 string columnChild = "";
                                 string subTableName = tableChild.Name.EndsWith("Model") == true ? tableChild.Name.Remove(tableChild.Name.Length - 5, 5) : tableChild.Name;
                                 StringBuilder insertQuery = new StringBuilder();
+                                var viewTableChild = new List<OriginalTalbe>();
+                                if (subTableName.StartsWith("v"))
+                                {
+                                    viewTableChild = await GetColumnOriginalTable(subTableName);
+                                    subTableName = subTableName.Remove(0, 1);
+                                }
                                 foreach (object objChild in (IEnumerable)objChildData)
                                 {
+                                   
                                     Type objChildType = objChild.GetType();
                                     if (string.IsNullOrEmpty(columnChild))
                                     {
                                         string valueChild = "";
                                         foreach (PropertyInfo proChild in objChildType.GetProperties())
                                         {
-                                            GetColumnAndValue(proChild, objChild, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId);
+                                            var columnOriginalChild = proChild.Name;
+                                            if (viewTableChild.Count > 0)
+                                            {
+                                                var _column = viewTableChild.FirstOrDefault(x => x.name.ToLower().Equals(proChild.Name.ToLower()));
+                                                if (_column is null)
+                                                {
+                                                    continue;
+                                                }
+                                                columnOriginalChild = _column != null ? _column.source_column : "";
+                                            }
+                                            GetColumnAndValue(proChild, objChild, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId,columnOriginal: columnOriginalChild);
                                         }
                                         insertQuery.Append($"INSERT INTO  {subTableName} ({columnChild.Remove(0, 1)}) \n");
                                         insertQuery.Append($"VALUES ({valueChild.Remove(0, 1)}), \n");
@@ -219,7 +291,17 @@ namespace Service.Command
                                         string valueChild = "";
                                         foreach (PropertyInfo proChild in objChildType.GetProperties())
                                         {
-                                            GetColumnAndValue(proChild, objChild, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId, true);
+                                            var columnOriginalChild = proChild.Name;
+                                            if (viewTableChild.Count > 0)
+                                            {
+                                                var _column = viewTableChild.FirstOrDefault(x => x.name.ToLower().Equals(proChild.Name.ToLower()));
+                                                if (_column is null)
+                                                {
+                                                    continue;
+                                                }
+                                                columnOriginalChild = _column != null ? _column.source_column : "";
+                                            }
+                                            GetColumnAndValue(proChild, objChild, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId, true,columnOriginal: columnOriginalChild);
                                         }
                                         var t = insertQuery.Length - 2;
 
@@ -233,13 +315,13 @@ namespace Service.Command
                         {
                             string columnChild = "";
                             string valueChild = "";
-                            GetColumnAndValue(pro, obj, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId, false);
+                            GetColumnAndValue(pro, obj, ref columnChild, ref valueChild, foreignKey, foreignKeyValue, userId, columnOriginal: column);
                             dataEditorAddRequestModel.ColumnArray += columnChild;
                             dataEditorAddRequestModel.ColumnValue += valueChild;
                             var castValue = pro.GetValue(obj, null).ToString();
                             if (!string.IsNullOrEmpty(ConditionString))
                             {
-                                foreach (var item in column)
+                                foreach (var item in columnCondition)
                                 {
                                     if (item == pro.Name)
                                     {
@@ -283,12 +365,13 @@ namespace Service.Command
                     dataEditorAddRequestModel.ColumnValue = dataEditorAddRequestModel.ColumnValue.Remove(0, 1);
                     return _dataEditor.AddRange(dataEditorAddRequestModel);
                 });
+                return await result;
             }
             catch (Exception ex)
             {
 
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { obj = obj, table = table, ConditionString = ConditionString, user = userId });
-                return new ResponseMessageDto(MessageType.Error, "");
+                return new ResponseMessageDto(MessageType.Error, ex.Message);
             }
         }
         /// <summary>
@@ -312,9 +395,9 @@ namespace Service.Command
                 {
                     return new ResponseMessageDto(MessageType.Error, "table is null");
                 }
-                return await Task.Run(() =>
+                var result= await Task.Run(async () =>
                 {
-                    var column = ConditionString.Split(',');
+                    var columnCondition = ConditionString.Split(',');
                     var arrayCondition = new Dictionary<string, string>();
                     Type temp = typeof(T);
                     DataEditorUpdateRequestModel dataEditorUpdate = new DataEditorUpdateRequestModel();
@@ -322,16 +405,32 @@ namespace Service.Command
                     dataEditorUpdate.TableName = table;
                     dataEditorUpdate.UserId = userId;
                     dataEditorUpdate.RowId = rowId;
+                    var viewTable = new List<OriginalTalbe>();
+                    if (table.StartsWith("v"))
+                    {
+                        viewTable = await GetColumnOriginalTable(table);
+                        table = table.Remove(0, 1);
+                    }
                     foreach (PropertyInfo pro in temp.GetProperties())
                     {
                         if (!(pro.GetValue(obj, null) is null))
                         {
+                            var column = pro.Name;
+                            if (viewTable.Count > 0)
+                            {
+                                var _column = viewTable.FirstOrDefault(x => x.name.ToLower().Equals(pro.Name.ToLower()));
+                                if (_column is null)
+                                {
+                                    continue;
+                                }
+                                column = _column.source_column;
+                            }
                             var castValue = pro.GetValue(obj, null).ToString();
                             if (pro.Name.ToLower() == "id" || pro.Name.ToLower() == "createdby" || pro.Name.ToLower() == "isactive" || pro.Name.ToLower() == "modifiedby" || pro.Name.ToLower() == "modifiedat" || pro.Name.ToLower() == "createdat")
                             {
                                 continue;
                             }
-                           else if (int.TryParse(castValue, out int _int) || double.TryParse(castValue, out double _double) || long.TryParse(castValue, out long _long))
+                            else if (int.TryParse(castValue, out int _int) || double.TryParse(castValue, out double _double) || long.TryParse(castValue, out long _long))
                             {
 
                                 dataEditorUpdate.QueryUpdateData += "," + pro.Name + " = " + castValue;
@@ -345,7 +444,7 @@ namespace Service.Command
                                 dataEditorUpdate.QueryUpdateData += "," + pro.Name + " = '" + castValue + "'";
                             if (!string.IsNullOrEmpty(ConditionString))
                             {
-                                foreach (var item in column)
+                                foreach (var item in columnCondition)
                                 {
 
                                     if (item == pro.Name)
@@ -390,12 +489,13 @@ namespace Service.Command
                     dataEditorUpdate.QueryUpdateData = dataEditorUpdate.QueryUpdateData.Remove(0, 1);
                     return _dataEditor.Update(dataEditorUpdate);
                 });
+                return await result;
             }
             catch (Exception ex)
             {
 
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { obj = obj, table = table, rowid = rowId, ConditionString = ConditionString, user = userId });
-                return new ResponseMessageDto(MessageType.Error, "");
+                return new ResponseMessageDto(MessageType.Error, ex.Message);
             }
         }
         /// <summary>
@@ -435,7 +535,7 @@ namespace Service.Command
                 return await Task.Run(async () =>
                {
 
-                   var column = ConditionString.Split(',');
+                   var columnCondition = ConditionString.Split(',');
                    var arrayCondition = new Dictionary<string, string>();
                    Type temp = typeof(T);
                    DataEditorUpdateRangeRequestModel dataEditor = new DataEditorUpdateRangeRequestModel();
@@ -449,9 +549,24 @@ namespace Service.Command
                    StringBuilder QueryUpdate = new StringBuilder();
                    StringBuilder QueryInsert = new StringBuilder();
                    StringBuilder DropTempTable = new StringBuilder();
+                   var viewTable = new List<OriginalTalbe>();
+                   if (table.StartsWith("v"))
+                   {
+                       viewTable = await GetColumnOriginalTable(table);
+                       table = table.Remove(0, 1);
+                   }
                    foreach (PropertyInfo pro in temp.GetProperties())
                    {
-
+                       var column = pro.Name;
+                       if (viewTable.Count > 0)
+                       {
+                           var _column = viewTable.FirstOrDefault(x => x.name.ToLower().Equals(pro.Name.ToLower()));
+                           if (_column is null)
+                           {
+                               continue;
+                           }
+                           column = _column.source_column;
+                       }
                        if (!pro.PropertyType.Namespace.Contains("System"))
                        {
                            if (!(pro.GetValue(obj, null) is null))
@@ -465,38 +580,55 @@ namespace Service.Command
 
                                var objData = Activator.CreateInstance(objChildType);
                                string subTableName = objChildType.Name.EndsWith("Model") == true ? objChildType.Name.Remove(objChildType.Name.Length - 5, 5) : objChildType.Name;
+                               var viewTableChild = new List<OriginalTalbe>();
+                               if (subTableName.StartsWith("v"))
+                               {
+                                   viewTableChild = await GetColumnOriginalTable(subTableName);
+                                   subTableName = subTableName.Remove(0, 1);
+                               }
                                for (int i = 0; i < objChildType.GetProperties().Length; i++)
                                {
+
+                                   var columnOriginalChild = objChildType.GetProperties()[i].Name;
+                                   if (viewTableChild.Count > 0)
+                                   {
+                                       var _column = viewTableChild.FirstOrDefault(x => x.name.ToLower().Equals(objChildType.GetProperties()[i].Name.ToLower()));
+                                       if (_column is null)
+                                       {
+                                           continue;
+                                       }
+                                       columnOriginalChild = _column != null ? _column.source_column : "";
+                                   }
                                    if (!checkForeignKeyExist)
                                    {
 
-                                       if (!objChildType.GetProperties()[i].Name.Equals(foreignKey))
+                                       if (!columnOriginalChild.Equals(foreignKey))
                                        {
                                            checkForeignKeyExist = false;
                                        }
                                        else checkForeignKeyExist = true;
                                    }
-                                   columnChild += ", " + objChildType.GetProperties()[i].Name;
-                                   if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDAT") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDAT"))
+                                   columnChild += ", " + columnOriginalChild;
+                                   if (columnOriginalChild.ToUpper().Contains("CREATEDAT") || columnOriginalChild.ToUpper().Contains("MODIFIEDAT"))
                                    {
                                        continue;
                                    }
-                                   tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{objChildType.GetProperties()[i].Name}') AS {objChildType.GetProperties()[i].Name},");
+                                   tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{columnOriginalChild}') AS {columnOriginalChild},");
                                    if (objChildType.GetProperties()[i].GetValue(objChildData, null) is null)
                                    {
-                                       if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDAT") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDAT"))
+                                       if (columnOriginalChild.ToUpper().Contains("CREATEDAT") || columnOriginalChild.ToUpper().Contains("MODIFIEDAT"))
                                        {
                                            objChildType.GetProperties()[i].SetValue(objChildData, DateTime.Now, null);
                                        }
-                                       else if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDBY") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDBY"))
+                                       else if (columnOriginalChild.ToUpper().Contains("CREATEDBY") || columnOriginalChild.ToUpper().Contains("MODIFIEDBY"))
                                        {
                                            objChildType.GetProperties()[i].SetValue(objChildData, userId, null);
                                        }
-                                       else if (objChildType.GetProperties()[i].Name.Contains(foreignKey))
+                                       else if (columnOriginalChild.Contains(foreignKey))
                                        {
                                            objChildType.GetProperties()[i].SetValue(objChildData, foreignKeyValue, null);
                                        }
-                                       else if (objChildType.GetProperties()[i].Name.ToUpper().Contains("ID"))
+                                       else if (columnOriginalChild.ToUpper().Contains("ID"))
                                            objChildType.GetProperties()[i].SetValue(objChildData, -1, null);
                                        else
                                            DefaultValueForSystemType(objChildType.GetProperties()[i], objChildData);
@@ -533,25 +665,43 @@ namespace Service.Command
                                string updateQuery = "";
                                string subTableName = tableChild.Name.EndsWith("Model") == true ? tableChild.Name.Remove(tableChild.Name.Length - 5, 5) : tableChild.Name;
                                List<object> dataChils = new List<object>();
+                               var viewTableChild = new List<OriginalTalbe>();
+                               if (subTableName.StartsWith("v"))
+                               {
+                                   viewTableChild = await GetColumnOriginalTable(subTableName);
+                                   subTableName = subTableName.Remove(0, 1);
+                               }
                                if (setDefaultValue)
                                {
+                                   //set defaultvalue và lưu vào list để tạo json truyền xuống sql
                                    foreach (object objChild in (IEnumerable)objChildData)
                                    {
                                        Type objChildType = objChild.GetType();
                                        var objData = Activator.CreateInstance(objChildType);
                                        for (int i = 0; i < objChildType.GetProperties().Length; i++)
                                        {
+                                           var columnOriginalChild = objChildType.GetProperties()[i].Name;
+                                           if (viewTableChild.Count > 0)
+                                           {
+                                               var _column = viewTableChild.FirstOrDefault(x => x.name.ToLower().Equals(objChildType.GetProperties()[i].Name.ToLower()));
+                                               if (_column is null)
+                                               {
+                                                   continue;
+                                               }
+                                               columnOriginalChild = _column != null ? _column.source_column : "";
+                                           }
+
                                            if (objChildType.GetProperties()[i].GetValue(objChild, null) is null)
                                            {
-                                               if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDAT") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDAT"))
+                                               if (columnOriginalChild.ToUpper().Contains("CREATEDAT") || columnOriginalChild.ToUpper().Contains("MODIFIEDAT"))
                                                {
                                                    objChildType.GetProperties()[i].SetValue(objChild, DateTime.Now, null);
                                                }
-                                               else if (objChildType.GetProperties()[i].Name.ToUpper().Contains("CREATEDBY") || objChildType.GetProperties()[i].Name.ToUpper().Contains("MODIFIEDBY"))
+                                               else if (columnOriginalChild.ToUpper().Contains("CREATEDBY") || columnOriginalChild.ToUpper().Contains("MODIFIEDBY"))
                                                    objChildType.GetProperties()[i].SetValue(objChild, userId, null);
-                                               else if (objChildType.GetProperties()[i].Name.ToUpper().Contains("ID"))
+                                               else if (columnOriginalChild.ToUpper().Contains("ID"))
                                                    objChildType.GetProperties()[i].SetValue(objChild, -1, null);
-                                               else if (objChildType.GetProperties()[i].Name.Contains(foreignKey))
+                                               else if (columnOriginalChild.Contains(foreignKey))
                                                    objChildType.GetProperties()[i].SetValue(objChild, foreignKeyValue, null);
                                                else
                                                    DefaultValueForSystemType(objChildType.GetProperties()[i], objChild);
@@ -560,8 +710,19 @@ namespace Service.Command
                                        }
                                        dataChils.Add(objChild);
                                    }
+                                   //lấy dữ liệu json theo bảng.cột
                                    foreach (PropertyInfo proChild in tableChild.GetProperties())
                                    {
+                                       var columnOriginalChild = proChild.Name;
+                                       if (viewTableChild.Count > 0)
+                                       {
+                                           var _column = viewTableChild.FirstOrDefault(x => x.name.ToLower().Equals(proChild.Name.ToLower()));
+                                           if (_column is null)
+                                           {
+                                               continue;
+                                           }
+                                           columnOriginalChild = _column != null ? _column.source_column : "";
+                                       }
                                        if (!checkForeignKeyExist)
                                        {
 
@@ -586,8 +747,9 @@ namespace Service.Command
                                        {
                                            continue;
                                        }
-                                       columnChild += ", " + proChild.Name;
-                                       updateQuery += $", {proChild.Name} = #{subTableName}.{proChild.Name}";
+
+                                       columnChild += ", " + columnOriginalChild;
+                                       updateQuery += $", {columnOriginalChild} = #{subTableName}.{proChild.Name}";
                                        tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{proChild.Name}') AS {proChild.Name},");
                                    }
                                    if (!checkForeignKeyExist)
@@ -640,7 +802,7 @@ namespace Service.Command
                                dataEditor.QueryUpdateData += "," + pro.Name + " = '" + castValue + "'";
                            if (!string.IsNullOrEmpty(ConditionString))
                            {
-                               foreach (var item in column)
+                               foreach (var item in columnCondition)
                                {
 
                                    if (item == pro.Name)
@@ -739,7 +901,7 @@ namespace Service.Command
             {
 
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { table = table, rowid = rowId, user = userId });
-                return new ResponseMessageDto(MessageType.Error, "");
+                return new ResponseMessageDto(MessageType.Error, ex.Message);
             }
         }
         /// <summary>
@@ -775,39 +937,45 @@ namespace Service.Command
             {
 
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { table = table, rowid = rowId, user = userId });
-                return new ResponseMessageDto(MessageType.Error, "");
+                return new ResponseMessageDto(MessageType.Error, ex.Message);
             }
 
         }
 
-        private void GetColumnAndValue(PropertyInfo pro, object obj, ref string column, ref string value, string foreignKey, string foreignKeyValue, int userId, bool isOnlyValue = false, bool setDefaultValue = false)
+        private void GetColumnAndValue(PropertyInfo pro, object obj, ref string column, ref string value, string foreignKey, string foreignKeyValue, int userId, bool isOnlyValue = false, bool setDefaultValue = true,string columnOriginal="")
         {
-
+            string _column = "";
+            if (columnOriginal != "")
+            {
+                _column = columnOriginal;
+            }
+            else
+                _column = pro.Name;
             if ((pro.GetValue(obj, null) is null))
             {
                 if (setDefaultValue)
                     pro = DefaultValueForSystemType(pro, obj);
             }
 
-            if (pro.Name.ToLower() == "id" || pro.Name.ToLower() == "isactive" || pro.Name.ToLower() == "modifiedby" || pro.Name.ToLower() == "modifiedat" || pro.Name.ToLower() == "createdat")
+            if (_column.ToLower() == "id" || _column.ToLower() == "isactive" || _column.ToLower() == "modifiedby" || _column.ToLower() == "modifiedat" || _column.ToLower() == "createdat")
             {
                 return;
             }
-            else if (pro.Name.ToLower() == "createdby")
+            else if (_column.ToLower() == "createdby")
             {
                 if (!isOnlyValue)
                 {
-                    column += ", " + pro.Name;
+                    column += ", " + _column;
                 }
 
                 value += ", " + userId;
                 return;
             }
-            else if (pro.Name.ToLower().Equals(foreignKey))
+            else if (_column.ToLower().Equals(foreignKey.ToLower()))
             {
                 if (!isOnlyValue)
                 {
-                    column += ", " + pro.Name;
+                    column += ", " + _column;
                 }
                 value += ", '" + foreignKeyValue + "'";
                 return;
@@ -816,7 +984,7 @@ namespace Service.Command
             {
                 if (!isOnlyValue)
                 {
-                    column += ", " + pro.Name;
+                    column += ", " + _column;
                 }
             }
             var castValue = pro.GetValue(obj, null).ToString();
@@ -863,13 +1031,39 @@ namespace Service.Command
             return pro;
         }
 
-        public string FirstCharToLowerCase(string str)
+        private async Task<List<OriginalTalbe>> GetColumnOriginalTable(string tableView)
+        {
+
+            var tb = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("sp_describe_first_result_set", "@tsql", $"SELECT * FROM dbo.{tableView};", "@params", null, "@browse_information_mode", 1);
+            if (!string.IsNullOrEmpty(tb.message))
+            {
+                throw new Exception(tb.message);
+            }
+            if (tableView.StartsWith("v"))
+            {
+                tableView = tableView.Remove(0, 1);
+            }
+            var result = ConvertHelper.ConvertTo<OriginalTalbe>(tb.Item2).ToList();
+            var originalColumn = result.Where(x => x.source_table.ToLower().Equals(tableView.ToLower()));
+            if (originalColumn == null)
+            {
+                throw new Exception("không tải được dữ liệu bảng " + tableView);
+            }
+            return originalColumn.ToList();
+        }
+        private string FirstCharToLowerCase(string str)
         {
             if (string.IsNullOrEmpty(str) || char.IsLower(str[0]))
                 return str;
 
             return char.ToLower(str[0]) + str.Substring(1);
         }
+    }
+    class OriginalTalbe
+    {
+        public string name { get; set; }
+        public string source_column { get; set; }
+        public string source_table { get; set; }
     }
 }
 

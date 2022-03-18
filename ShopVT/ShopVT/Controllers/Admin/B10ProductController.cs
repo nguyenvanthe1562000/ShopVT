@@ -106,7 +106,7 @@ namespace ShopVT.Controllers.Admin
                 {
                     return BadRequest(new ResponseMessageDto(MessageType.Error, "dữ liệu code không hợp lệ"));
                 }
-                if (updateRequest.Id ==0)
+                if (updateRequest.ID ==0)
                 {
                     return BadRequest(new ResponseMessageDto(MessageType.Error, "dữ liệu id không hợp lệ"));
                 }
