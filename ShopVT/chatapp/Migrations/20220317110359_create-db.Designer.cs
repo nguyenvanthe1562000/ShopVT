@@ -10,8 +10,8 @@ using chatapp.database;
 namespace chatapp.Migrations
 {
     [DbContext(typeof(ChatAppDbContext))]
-    [Migration("20210916161719_init")]
-    partial class init
+    [Migration("20220317110359_create-db")]
+    partial class createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -339,7 +339,7 @@ namespace chatapp.Migrations
                         .IsRequired();
 
                     b.HasOne("chatapp.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Chats")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -365,6 +365,11 @@ namespace chatapp.Migrations
                     b.Navigation("Messages");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("chatapp.Models.User", b =>
+                {
+                    b.Navigation("Chats");
                 });
 #pragma warning restore 612, 618
         }
