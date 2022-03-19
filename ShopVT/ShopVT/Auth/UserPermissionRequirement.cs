@@ -42,7 +42,7 @@ namespace ShopVT.Auth
                     context.Result = new ForbidResult();
                     return;
                 }
-
+                ////téwst
                 var permisionUser = Startup.ServiceProvider.GetService(typeof(IPermissionService)) as IPermissionService;
                 var permission= permisionUser.GetPermissionFunctions(Convert.ToInt32(userId));
 
