@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NguoiDung } from '../shared/models/NguoiDung';
+import { JwtHelperService} from '@auth0/angular-jwt'
  
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -24,9 +25,18 @@ export class AuthenticationService {
        
     }
 
-    login(TaiKhoan: string, MatKhau: string, ipAddress: string) {
-        return this.http.post<any>(`${environment.apiUrl}/api/NguoiDung/authenticate`, { TaiKhoan, MatKhau, ipAddress })
+    login(UserName: string, PassWord: string) {
+        return this.http.post<any>(`${environment.apiUrl}/api/LoginAdmin/Login`, { UserName, PassWord})
             .pipe(map(user => {
+                if(user.token){
+                    localStorage.setItem('token',user.token);
+                    const helper = new JwtHelperService();
+                    const decodeToken= helper.decodeToken(user.token);
+                    console.log(decodeToken);
+                    localStorage.setItem('decodeToken',JSON.stringify(decodeToken) );
+                }
+
+                console.log(user.token);
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
                 this.userSubject.next(user);

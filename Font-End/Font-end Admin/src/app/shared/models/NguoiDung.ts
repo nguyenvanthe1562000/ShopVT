@@ -1,6 +1,6 @@
 import { Role } from "./role";
 export class NguoiDung {
-    MaNguoiDung: number;
+    Id: number;
     HoTen: string;
     NgaySinh: any;
     DiaChi: string;

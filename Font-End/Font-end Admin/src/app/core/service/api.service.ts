@@ -9,7 +9,7 @@ import { NguoiDung } from 'src/app/shared/models/NguoiDung';
   providedIn: 'root',
 })
 export class ApiService {
-  public host = 'https://localhost:5001';
+  public host = 'https://localhost:51256';
   user:NguoiDung;
   constructor(private _http: HttpClient, public router: Router) {
     let token= localStorage.getItem('user');

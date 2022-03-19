@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
       debugger;
       this.loading = true;
       this.authenticationService
-      .login(this.f.TaiKhoan.value, this.f.MatKhau.value, this.ipAddress)
+      .login(this.f.TaiKhoan.value, this.f.MatKhau.value)
       .pipe(first())
       .subscribe(
         (data) => {
