@@ -38,7 +38,7 @@ namespace Service.Command
         /// <param name="OrderDesc"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IList<T>> GetData<T,O>(string table, int PageSize, int PageIndex, bool DataIsActive, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
+        public async Task<T> GetData<T,O>(string table, int PageSize, int PageIndex, bool DataIsActive, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace Service.Command
                     dataExplore.Filter = (!string.IsNullOrEmpty(filter.ToString()) ? filter.ToString() : " 1 = 1");
                     var data = await _dataExplore.GetData(dataExplore);
                     var result = CollectionHelper.ConvertTo<T>(data);
-                    return result;
+                    return result.FirstOrDefault();
                 });
                 return result;
             }
@@ -185,7 +185,7 @@ namespace Service.Command
             }
         }
 
-        public async Task<IList<T>> GetDataByGroup<T, O>(string table, int idGroup, int PageSize, int PageIndex, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
+        public async Task<T> GetDataByGroup<T, O>(string table, int idGroup, int PageSize, int PageIndex, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
         {
             try
             {
@@ -324,7 +324,7 @@ namespace Service.Command
                     dataExplore.Filter = "WHERE " + (!string.IsNullOrEmpty(filter.ToString()) ? filter.ToString() : " 1 = 1");
                     var data = await _dataExplore.GetDataByGroup(dataExplore);
                     var result = CollectionHelper.ConvertTo<T>(data);
-                    return result;
+                    return result.FirstOrDefault();
 
                 });
                 return result;
@@ -332,7 +332,7 @@ namespace Service.Command
             catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { table = table, user = userId });
-                return null;
+                throw ex;
             }
         }
 
