@@ -179,6 +179,7 @@ namespace ShopVT.Controllers.Admin
         [HttpPost]
         [Route("filter")]
         public async Task<IActionResult> GetData([FromBody] PagingRequest pagingRequest)
+        
         {
 
             try

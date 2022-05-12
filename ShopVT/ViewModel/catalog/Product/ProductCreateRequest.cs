@@ -10,7 +10,7 @@ namespace ViewModel.catalog.Product
    public class ProductCreateRequest
     {
 
-        public int ID { set; get; }
+     
         public string Code { set; get; }
         public string Name { set; get; }
         public string Alias { set; get; }
@@ -27,11 +27,7 @@ namespace ViewModel.catalog.Product
         public string Description { set; get; }
         public string Content { set; get; }
         public string Information { set; get; }
-        public bool IsActive { set; get; }
-        public int CreatedBy { set; get; }
-        public DateTime CreatedAt { set; get; }
-        public int ModifiedBy { set; get; }
-        public DateTime ModifiedAt { set; get; }
+      
         public IFormFile ImageDefault { get; set; }	
 		public List<IFormFile> ThumbnailImage { get; set; }
 	}

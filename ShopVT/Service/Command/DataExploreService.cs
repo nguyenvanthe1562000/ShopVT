@@ -109,24 +109,25 @@ namespace Service.Command
 
                                 if (filterColumn.Equals("*"))
                                 {
+                                    
                                     if (filterType == FilterType.Contains)
-                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'\t"); }
+                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}%'\t"); }
                                     else if (filterType == FilterType.StartsWith)
-                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'\t"); }
+                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'\t"); }
                                     else if (filterType == FilterType.EndsWith)
-                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'\t"); }
+                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{filterValue.ToLower()}'\t"); }
                                     else if (filterType == FilterType.Equals)
-                                    { filter.AppendLine($"OR LOWER(CAST([{filterColumn}] AS NVARCHAR)) = '{filterValue.ToLower()}'\t"); }
+                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) = '{filterValue.ToLower()}'\t"); }
                                 }
                                 else if (filterColumn.ToLower().Equals(pro.Name.ToLower()))
                                 {
                                     if (filterType == FilterType.NotEmpty)
                                     {
-                                        filter.AppendLine($"IIF([{filterColumn}] <> '',0,1) = 1;");
+                                        filter.AppendLine($"IIF([{filterColumn}] <> '',1,0) = 1 ");
                                     }
                                     else if (filterType == FilterType.Empty)
                                     {
-                                        filter.AppendLine($"IIF([{filterColumn}] = '',0,1) = 1;");
+                                        filter.AppendLine($"IIF([{filterColumn}] = '',0,1) = 1 ");
                                     }
                                     else if (filterType == FilterType.Contains)
                                     {

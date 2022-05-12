@@ -1,0 +1,17 @@
+export class B10Product {
+Code : string;  
+Name : string;  
+Alias : string;     
+ProductCategoryCode : string;   
+UnitCost : Number;     
+UnitPrice : Number;    
+Warranty : number;  
+Description : string;   
+Content : string;   
+Information : string;   
+IsActive : boolean ;    
+CreatedBy : number;     
+CreatedAt : Date;   
+ModifiedBy : number;    
+ModifiedAt : Date
+}

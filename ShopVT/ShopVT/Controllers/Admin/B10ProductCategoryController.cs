@@ -52,8 +52,7 @@ namespace ShopVT.Controllers.Admin
                 {
                     addRequest.Code = await GenerateId.NewId(GetCurrentUserId());
                 }
-
-                var result = await _edit.Add<B10ProductCategoryModel>(addRequest, _table, "Code", GetCurrentUserId());
+                var result = await _edit.AddRangeAsync<B10ProductCategoryModel>(addRequest, _table, "ProductCategoryCode",addRequest.Code,"Code", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -62,7 +61,6 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
-
         [HttpPut]
         [Route("update")]
         [RequiredOneOfPermissions(PermissionData.EditOther, PermissionData.Edit)]
@@ -78,7 +76,7 @@ namespace ShopVT.Controllers.Admin
                 {
                     return BadRequest(new ResponseMessageDto(MessageType.Error, "dữ liệu id không hợp lệ"));
                 }
-                var result = await _edit.Update<B10ProductCategoryModel>(updateRequest, _table, updateRequest.Id, "", GetCurrentUserId());
+                var result = await _edit.UpdateRangeAsync<B10ProductCategoryModel>(updateRequest, _table, updateRequest.Id, "ProductCategoryCode",updateRequest.Code,"", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -134,6 +132,9 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
+
+
+
         [HttpPost]
         [Route("group")]
         public async Task<IActionResult> GetGroup()

@@ -5,7 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NguoiDung } from '../shared/models/NguoiDung';
-import { JwtHelperService} from '@auth0/angular-jwt'
+import { JwtHelperService } from '@auth0/angular-jwt'
+import { JwtInterceptor } from '@auth0/angular-jwt';
  
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -25,8 +26,9 @@ export class AuthenticationService {
        
     }
 
-    login(UserName: string, PassWord: string) {
-        return this.http.post<any>(`${environment.apiUrl}/api/LoginAdmin/Login`, { UserName, PassWord})
+    login(userName: string, passWord: string) {
+        debugger;
+        return this.http.post<any>(`${environment.apiUrl}/api/LoginAdmin/Login`, { userName, passWord})
             .pipe(map(user => {
                 if(user.token){
                     localStorage.setItem('token',user.token);

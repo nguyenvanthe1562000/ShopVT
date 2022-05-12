@@ -1,0 +1,173 @@
+<div class="top">
+    <h2>Danh sách sản phẩm</h2>
+    <div class="right">
+        <!-- <button class="btnX" pButton type="button" (click)="showAdd()" lable="Thêm"></button> -->
+        <p-button (click)="showAdd()" icon="pi pi-external-link" label="Thêm"></p-button>
+        
+    </div>
+</div>
+<div class="bot">
+    <p-panel header="Tìm kiếm" [style]="{'margin-top': '2px'}">
+        <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="search()">
+            <div class="form-group">
+                <label class="col-sm-1 control-label no-padding-right"> Tên sản phẩm </label>
+                <div class="col-sm-11">
+                    <input formControlName="tenSanPham" class="form-control" type="text" placeholder="Tên sản phẩm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label no-padding-right"></label>
+                <div class="col-sm-11">
+                    <button (click)="search()" class="btn btn-sm btn-primary">Tìm kiếm</button>
+                </div>
+            </div>
+        </form> 
+    </p-panel>
+    <p-table selectionMode="single" [value]="products" styleClass="p-datatable-gridlines" [style]="{'margin-top': '2px', 'width': '100%'}" >
+        <ng-template pTemplate="header">
+            <tr>
+                <th >STT</th>
+                <th>Tên sản phẩm</th>
+                <th>Loại</th>
+                <th>Hãng</th>
+                <th>Xuất xứ</th>
+                <th>Bảo hành</th>
+                <th>Màu sắc</th>
+                <th>Giá bán</th>
+              
+                <th>Hình ảnh</th>
+                <th>Thao tác</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product  let-i="rowIndex" let-expanded="expanded">
+            <tr>
+                <td style="text-align: center;">{{i+1}}</td>
+                <td style="text-align: center;">{{product.tenSanPham}}</td>
+                <td>{{product.tenLoai}}</td>
+                <td>{{product.tenHang}}</td>
+                <td>{{product.xuatXu}}</td>
+                <td>{{product.baoHanh}}</td>
+                <td>{{product.mauSac}}</td>
+                <td>{{product.giaBan}}</td>
+          
+                <td> <img src="https://localhost:5001{{product.anh}}" style="width: 80px;"></td>
+                <td  style="text-align: center;">
+                    <button pButton type="button" (click)="edit(product)" title="Sửa"  class="p-button-secondary"><i class="fas fa-edit"></i></button>
+                    <button pButton type="button" (click)="delete(product.maSanPham)" title="Xóa"  class="p-button-danger"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <div class="mt-5" style="position: relative;margin-left: 40%;">
+        <ngb-pagination [collectionSize]="totalItems" [pageSize]="pageSize" [(page)]="page" [maxSize]="10" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+    </div>
+</div>
+
+<!-- Add -->
+<p-dialog [(visible)]="displayAdd" [style]="{width: '60vw'}" [dismissableMask]="true" [modal]="true">
+    
+    <form (ngSubmit)="AddNewProduct(form)" #form="ngForm">
+        <h3>Thêm sản phẩm mới </h3>
+        <div style="width: 100%; margin-left: 5%;">
+            <input type="hidden"name="maSanPham"  ngModel #maSanPham="ngModel" >
+            <label style="font-weight: bold;">Tên sản phẩm:</label>
+            <input type="text" class="form-control" name="tenSanPham"  ngModel #tenSanPham="ngModel" placeholder="Tên sản phẩm">
+            <label style="font-weight: bold;">Loại sản phẩm:</label>
+            <p-dropdown class="form-control" [options]="categories" [(ngModel)]="selectedCategory" 
+            placeholder="Chọn loại sản phẩm" optionLabel="tenLoai" optionValue="maLoai" [showClear]="true" name="maLoai"  ngModel #maLoai="ngModel"></p-dropdown>
+            <label style="font-weight: bold;">Hãng sản phẩm:</label>
+            <p-dropdown class="form-control" [options]="brands" [(ngModel)]="selectedBrand"
+            placeholder="Chọn hãng sản phẩm" optionLabel="tenHang" optionValue="maHang" [showClear]="true" name="maHang"  ngModel #maHang="ngModel"></p-dropdown>
+            <label style="font-weight: bold;">Xuất xứ:</label>
+            <input type="text" class="form-control"  placeholder="Xuất xứ" name="xuatXu"  ngModel #xuatXu="ngModel">
+            <label style="font-weight: bold;">Bảo hành:</label>
+            <input type="text" class="form-control" placeholder="Bảo hành" name="baoHanh"  ngModel #baoHanh="ngModel" >
+            <label style="font-weight: bold;">Màu sắc:</label>
+            <input type="text" class="form-control" placeholder="Màu sắc" name="mauSac"  ngModel #mauSac="ngModel" >
+            <label style="font-weight: bold;">Giá bán:</label>
+            <input type="number" class="form-control" placeholder="Giá bán" name="giaBan"  ngModel #giaBan="ngModel">
+            <label style="font-weight: bold;">Mô tả:</label>
+            <p-editor [style]="{'height':'320px'}" name="moTa"  ngModel #moTa="ngModel"></p-editor>
+            <label style="font-weight: bold;">Ghi Chú:</label>
+            <p-editor [style]="{'height':'320px'}" name="ghiChu"  ngModel #ghiChu="ngModel"></p-editor>
+            <label style="font-weight: bold;">Hình ảnh:</label>
+            <input type="file" class="form-control" (change)="onChange($event)">
+            <img [src]="image" style="max-height:200px;">
+            <label style="font-weight: bold;">CPUType:</label>
+            <input type="text" class="form-control"  name="CPUType"  ngModel #CPUType="ngModel">
+            <label style="font-weight: bold;">GraphicsCardType:</label>
+            <input type="text" class="form-control"  name="GraphicsCardType"  ngModel #GraphicsCardType="ngModel">
+            <label style="font-weight: bold;">AmountRAM:</label>
+            <input type="text" class="form-control"  name="AmountRAM"  ngModel #AmountRAM="ngModel">
+            <label style="font-weight: bold;">HardDrive:</label>
+            <input type="text" class="form-control"  name="HardDrive"  ngModel #HardDrive="ngModel">
+            <label style="font-weight: bold;">ScreenSize:</label>
+            <input type="text" class="form-control"  name="ScreenSize"  ngModel #ScreenSize="ngModel">
+            <label style="font-weight: bold;">ScreenResolution:</label>
+            <input type="text" class="form-control"  name="ScreenResolution"  ngModel #CPUType="ngModel">
+            <label style="font-weight: bold;">Communication:</label>
+            <input type="text" class="form-control"  name="Communication"  ngModel #CPUType="ngModel">
+            <label style="font-weight: bold;">OperatingSystem:</label>
+            <input type="text" class="form-control"  name="OperatingSystem"  ngModel #OperatingSystem="ngModel">
+            <label style="font-weight: bold;">Size:</label>
+            <input type="text" class="form-control"  name="Size"  ngModel #Size="ngModel">
+            <label style="font-weight: bold;">WIFI:</label>
+            <input type="text" class="form-control"  name="WIFI"  ngModel #WIFI="ngModel">
+            <label style="font-weight: bold;">Bluetooth:</label>
+            <input type="text" class="form-control"  name="Bluetooth"  ngModel #Bluetooth="ngModel">
+            <label style="font-weight: bold;">Weight:</label>
+            <input type="text" class="form-control"  name="Weight"  ngModel #Weight="ngModel">
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="mdi mdi-check"></i>Thêm</button>
+                <button type="button" (click)="displayAdd=false" class="btn btn-danger btn-lg btn-block "> <i class="mdi mdi-window-close"></i>Huỷ</button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<p-dialog [(visible)]="isEdit" [style]="{width: '30vw'}" [dismissableMask]="true" [modal]="true">
+    <!-- Content -->
+    <form (ngSubmit)="SaveData()" #form="ngForm">
+        
+    
+            <h3>Sửa thông tin sản phẩm</h3>
+  
+        <div style="width: 90%; margin-left: 5%;">
+            
+            <label style="font-weight: bold;">Tên sản phẩm:</label>
+            <input type="text" class="form-control"  [(ngModel)]="product.tenSanPham" name="tenSanPham"  placeholder="Tên sản phẩm">
+            <label style="font-weight: bold;">Loại sản phẩm:</label>
+            <p-dropdown class="form-control" [options]="categories" [(ngModel)]="selectedCategory" 
+            placeholder="Chọn loại sản phẩm" optionLabel="tenLoai" optionValue="maLoai" [showClear]="true" name="maLoai"  ngModel #maLoai="ngModel"  [(ngModel)]="product.maLoai"></p-dropdown>
+            <label style="font-weight: bold;">Hãng sản phẩm:</label>
+            <p-dropdown class="form-control" [options]="brands" [(ngModel)]="selectedBrand"
+            placeholder="Chọn hãng sản phẩm" optionLabel="tenHang" optionValue="maHang" [showClear]="true" name="maHang"  ngModel #maHang="ngModel"   [(ngModel)]="product.maHang"></p-dropdown>
+            <label style="font-weight: bold;">Xuất xứ:</label>
+            <input type="text" class="form-control" [(ngModel)]="product.xuatXu" placeholder="Xuất xứ" name="xuatXu"  ngModel #xuatXu="ngModel">
+            <label style="font-weight: bold;">Bảo hành:</label>
+            <input type="text" class="form-control" placeholder="Bảo hành" name="baoHanh"  ngModel #baoHanh="ngModel" [(ngModel)]="product.baoHanh" >
+            <label style="font-weight: bold;">Màu sắc:</label>
+            <input type="text" class="form-control" placeholder="Màu sắc" name="mauSac"  ngModel #mauSac="ngModel"  [(ngModel)]="product.mauSac" >
+            <label style="font-weight: bold;">Giá bán:</label>
+            <input type="number" class="form-control" placeholder="Giá bán" name="giaBan"  ngModel #giaBan="ngModel" [(ngModel)]="product.giaBan">
+            <label style="font-weight: bold;">Mô tả:</label>
+            <p-editor [style]="{'height':'320px'}" name="moTa"  ngModel #moTa="ngModel" [(ngModel)]="product.moTa"></p-editor>
+            <label style="font-weight: bold;">Ghi chú:</label>
+            <p-editor [style]="{'height':'320px'}" name="ghiChu"  ngModel #ghiChu="ngModel" [(ngModel)]="product.ghiChu"></p-editor>
+            <label style="font-weight: bold;">Hình ảnh:</label>
+            <input type="file" class="form-control">
+            <img src="https://localhost:5001{{product.anh}}" width="100px"/>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary btn-lg btn-block"  >
+                    <i class="mdi mdi-check"></i>
+                    Lưu
+                </button>
+                <button type="button" (click)="isEdit=false" class="btn btn-danger btn-lg btn-block"> <i
+                    class="mdi mdi-window-close"></i>
+                    Huỷ</button>
+            </div>
+        </div>
+        </form>
+    </p-dialog>
+    
+    

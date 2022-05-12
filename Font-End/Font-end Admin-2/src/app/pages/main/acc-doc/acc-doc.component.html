@@ -1,0 +1,35 @@
+<div class="top">
+    <h2>Tồn đầu</h2>
+    <div class="right">
+        <!-- <button class="btnX" pButton type="button" (click)="showAdd()" lable="Thêm"></button> -->
+        <p-button (click)="CreateAccDoc()" icon="pi pi-external-link" label="Thêm"></p-button>
+        
+    </div>
+</div>
+<div class="bot">
+  
+    <p-table selectionMode="single" [value]="AccDocs" styleClass="p-datatable-gridlines" [style]="{'margin-top': '2px', 'width': '100%'}" >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th>ngày</th>
+                <th>nội dung</th>
+                <th>Số phiếu</th>
+                <th>Thao tác</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item  let-i="rowIndex" let-expanded="expanded">
+            <tr>
+                <td style="text-align: center;">{{i+1}}</td>
+                <td style="text-align: center;">{{item.docDate|date}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.stt}}</td>
+                <td  style="text-align: center;">
+                    <button pButton type="button" (click)="showEdit(item.id)" title="Sửa"  class="p-button-secondary"><i class="fas fa-edit"></i></button>
+                    <button pButton type="button" (click)="delete(item.stt)" title="Xóa"  class="p-button-danger"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
+</div>

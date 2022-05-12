@@ -20,8 +20,6 @@ namespace Model.Model
         //public DateTime CreatedAt { set; get; }
         //public int ModifiedBy { set; get; }
         //public DateTime ModifiedAt { set; get; }
-        
-        public List<B10PostModel> B10Post_Json { set; get; }
 
     }
 }

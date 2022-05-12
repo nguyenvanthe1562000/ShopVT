@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Table;
+using System;
 using System.Collections.Generic;
 namespace Model.Model
 {
@@ -19,7 +20,7 @@ namespace Model.Model
         public int ModifiedBy { set; get; }
         public DateTime ModifiedAt { set; get; }
         public bool ImageDefault { set; get; }
-
+   
     }
 }
 

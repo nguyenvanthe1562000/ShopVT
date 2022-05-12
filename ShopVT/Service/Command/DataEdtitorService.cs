@@ -993,7 +993,7 @@ namespace Service.Command
                 value += ", " + castValue;
             }
             else
-                value += ", '" + castValue + "'";
+                value += ", N'" + castValue + "'";
 
         }
         /// <summary>
