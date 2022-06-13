@@ -97,7 +97,7 @@ namespace Service.Command
                                   dataEditorAddRequestModel.ColumnValue += ", " + castValue;
                               }
                               else
-                                  dataEditorAddRequestModel.ColumnValue += ", '" + castValue + "'";
+                                  dataEditorAddRequestModel.ColumnValue += ", N'" + castValue + "'";
                               if (!string.IsNullOrEmpty(ConditionString))
                               {
                                   foreach (var item in columnCondition)
@@ -340,7 +340,7 @@ namespace Service.Command
                         {
                             if (int.TryParse(item.Value, out int _int) || double.TryParse(item.Value, out double _double) || long.TryParse(item.Value, out long _long))
                             {
-                                string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE " + item.Key + "=" + item.Value + ")) BEGIN SELECT 'MESSEAGE." + item.Key + " IS EXISTED' RETURN; END \t";
+                                string condition = "IF(EXISTS(SELECT TOP 1 * FROM " + table + " WHERE CAST(" + item.Key + " AS NVARCHAR)  = CAST(" + item.Value + " AS NVARCHAR))) BEGIN SELECT 'MESSEAGE." + item.Key + " IS EXISTED' RETURN; END \t";
                                 _condition.Append(condition);
                             }
                             else if (DateTime.TryParse(item.Value, out DateTime _))
@@ -441,7 +441,7 @@ namespace Service.Command
                                 continue;
                             }
                             else
-                                dataEditorUpdate.QueryUpdateData += "," + pro.Name + " = '" + castValue + "'";
+                                dataEditorUpdate.QueryUpdateData += "," + pro.Name + " = N'" + castValue + "'";
                             if (!string.IsNullOrEmpty(ConditionString))
                             {
                                 foreach (var item in columnCondition)
@@ -558,7 +558,7 @@ namespace Service.Command
                    foreach (PropertyInfo pro in temp.GetProperties())
                    {
                        var column = pro.Name;
-                       if (viewTable.Count > 0)
+                       if (viewTable.Count > 0 && !column.EndsWith("_Json"))
                        {
                            var _column = viewTable.FirstOrDefault(x => x.name.ToLower().Equals(pro.Name.ToLower()));
                            if (_column is null)

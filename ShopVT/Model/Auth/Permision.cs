@@ -38,8 +38,9 @@ namespace Model.Auth
     }
     //danh mục sản phẩm -403 thông báo ko có quyền
     // -- có quyền 2 api 
-    //    2 là api lấy nhóm dữ liệu
     //    1 api lấy danh sách dữ liệu 
+
+    //    2 là api lấy nhóm dữ liệu
     //    nếu danh mục sản phẩm ko có nhóm dữ liệu
     //    thì api lấy danh sách dữ liệu
     //    3 loại api

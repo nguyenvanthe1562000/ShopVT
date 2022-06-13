@@ -38,18 +38,24 @@ namespace ShopVT.Controllers.Admin
         }
         private async Task<string> SaveFile(IFormFile file)
         {
-            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            if (file == null) return ""; var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
         //[RequiredOneOfPermissions(PermissionData.Edit, PermissionData.EditOther)]
+        [Route("add")]
         [HttpPost]
-        public async Task<IActionResult> AddAsync([FromBody] B10PostCategoryModel model)
+        public async Task<IActionResult> AddAsync([FromForm] B10PostCategoryModel model)
         {
             try
             {
+                //foreach (var item in model.files)
+                //{
+                //    await SaveFile(item);
+                //}
                 var result = await _edit.Add<B10PostCategoryModel>(model, _table, "", GetCurrentUserId());
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -80,7 +86,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _edit.Delete(_table, rowid, 1);
+                var result = await _edit.Delete(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
 
@@ -93,13 +99,13 @@ namespace ShopVT.Controllers.Admin
         [HttpPut]
         [Route("restore")]
         [RequiredOneOfPermissions(PermissionData.Restore, PermissionData.RestoreOther)]
-        public async Task<IActionResult> RestoreAsync(int rowid)
+        public async Task<IActionResult> RestoreAsync( int rowid)
         {
 
             try
             {
                 var test = await GenerateId.NewId(GetCurrentUserId());
-                var result = await _edit.Restore(_table, rowid, 1);
+                var result = await _edit.Restore(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -184,8 +190,10 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _explore.GetData<PagedResult<B10PostCategoryModel>, B10PostCategoryModel>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
-                return Ok(result);
+                    
+                    var result = await _explore.GetData<PagedResult<B10PostCategoryModel>, B10PostCategoryModel>(_table,pagingRequest, 1);
+                    return Ok(result);
+                
             }
 
             catch (Exception ex)
@@ -200,11 +208,19 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetGroup<GroupData>(_table, "Description", "id", false, 1);
+                var result = await _explore.GetGroup<GroupData>(_table, "Name", "id", false, 1);
                 var childsHash = result.ToLookup(cat => cat.ParentId);
+                if (result.Count() == 0)
+                {
+                    return Ok(result);
+                }
+                if (result[0].Children is null)
+                {
+                    return Ok(result);
+                }
                 foreach (var cat in result)
                 {
-                    cat.Children = childsHash[cat.Id].ToList();
+                    cat.Children = childsHash[cat.Data].ToList();
                 }
                 return Ok(result);
             }
@@ -230,7 +246,7 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
-        [HttpPost]
+        [HttpGet]
         [Route("look-up")]
         public async Task<IActionResult> GetDataLookUp([FromQuery] string v)
         {

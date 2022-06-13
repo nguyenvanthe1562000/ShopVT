@@ -34,7 +34,7 @@ namespace ShopVT.EF
         public virtual DbSet<B10PostModel> B10Post { get; set; }
         public virtual DbSet<B10PostCategoryModel> B10PostCategory { get; set; }
         public virtual DbSet<B10PostTagModel> B10PostTag { get; set; }
-        public virtual DbSet<B10ProductModel> B10Product { get; set; }
+        public virtual DbSet<vB10ProductModel> B10Product { get; set; }
         public virtual DbSet<B10ProductCategoryModel> B10ProductCategory { get; set; }
         public virtual DbSet<B10ProductImgModel> B10ProductImg { get; set; }
         public virtual DbSet<B10ProductInformationModel> B10ProductInformation { get; set; }

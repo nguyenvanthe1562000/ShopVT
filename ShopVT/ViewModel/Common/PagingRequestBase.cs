@@ -12,6 +12,8 @@ namespace Common
         public  int PageSize { get; set; }
         public  string OrderBy { get; set; } = "id";
         public  bool OrderDesc { get; set; }
+       
+
 
     }
     public class PagingRequest : PagingRequestBase
@@ -20,6 +22,7 @@ namespace Common
         public string FilterColumn { get ; set; }
         public FilterType FilterType { get ; set; }
         public string FilterValue { get ; set; }
-       
+        public int ParentId { get; set; }
+        public bool DataIsActive { get; set; }
     }
 }

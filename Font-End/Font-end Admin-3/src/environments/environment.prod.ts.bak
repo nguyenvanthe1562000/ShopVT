@@ -1,0 +1,5 @@
+export const environment = {
+  production: true,
+  apiUrl: 'http://localhost:5001'
+};
+NODE_OPTIONS=--max_old_space_size=8048

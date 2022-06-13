@@ -1,4 +1,5 @@
-﻿using Model.Command;
+﻿using Common;
+using Model.Command;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -28,8 +29,8 @@ namespace Service.Command.Interface
         /// <param name="OrderDesc"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task<T> GetData<T,O>(string table, int PageSize, int PageIndex, bool DataIsActive, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId);
-
+        public Task<T> GetData<T,O>(string table, PagingRequest pagingRequest, int userId);
+        public Task<T> GetData<T, O>(string table, int PageSize, int PageIndex, bool DataIsActive, int ParentId, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId);
         //
         /// <summary>
         /// lấy dữ liệu theo nhóm, có phân trang
@@ -100,6 +101,6 @@ namespace Service.Command.Interface
         /// <param name="OrderDesc"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue , int RowsTotal, string OrderBy, bool OrderDesc, int userId);
+        public Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue , int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey="");
     }
 }

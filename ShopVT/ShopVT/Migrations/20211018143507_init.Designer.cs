@@ -864,7 +864,7 @@ namespace ShopVT.Migrations
                     b.ToTable("B10ProductInformation");
                 });
 
-            modelBuilder.Entity("Model.Model.B10ProductModel", b =>
+            modelBuilder.Entity("Model.Model.vB10ProductModel", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()

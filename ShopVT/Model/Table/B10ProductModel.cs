@@ -7,7 +7,9 @@ namespace Model.Model
 
 
         public int ID { set; get; }
-        public string code { set; get; }
+        public bool IsGroup { set; get; }
+        public int ParentId { set; get; }
+        public string Code { set; get; }
         public string Name { set; get; }
         public string Alias { set; get; }
         public string Unit0 { set; get; }
@@ -29,7 +31,10 @@ namespace Model.Model
         public int ModifiedBy { set; get; }
         public DateTime ModifiedAt { set; get; }
 
+
+        public List<B10ProductInformationModel> B10ProductInformation_Json { get; set; }
         public List<B10ProductImgModel> B10ProductImg_Json { get; set; }
+    
     }
 }
 

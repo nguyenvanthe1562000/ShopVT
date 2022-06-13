@@ -14,15 +14,17 @@ namespace API.AutoMapper
         public MappingProfile()
         {
 
-            CreateMap<ProductCreateRequest, B10ProductModel>()
+            CreateMap<ProductCreateRequest, vB10ProductModel>()
                   .ReverseMap();
-            CreateMap<ProductUpdateRequest, B10ProductModel>()
+            CreateMap<ProductUpdateRequest, vB10ProductModel>()
                  .ReverseMap();
             CreateMap<PostRequest,B10PostModel>()
                 .ReverseMap();
+            CreateMap<PostTransferRequest, B10PostModel>()
+              .ReverseMap();
             CreateMap<EmployeeRequest, B10EmployeeModel>()
                 .ReverseMap();
-            CreateMap<SlideRequest,B10SlideModel>().ReverseMap();
+            CreateMap<SlideRequest, vB10SlideModel>().ReverseMap();
 
         }
 

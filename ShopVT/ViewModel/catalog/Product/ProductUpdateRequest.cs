@@ -17,6 +17,7 @@ namespace ViewModel.catalog.Product
         public string Unit0 { set; get; }
         public decimal ConvertRate0 { set; get; }
         public string Unit { set; get; }
+        public decimal ConvertRate { set; get; }
         public string ManufacturerCode { set; get; }
         public string ProductCategoryCode { set; get; }
         public decimal UnitCost { set; get; }
@@ -26,10 +27,10 @@ namespace ViewModel.catalog.Product
         public int Warranty { set; get; }
         public string Description { set; get; }
         public string Content { set; get; }
-        public string Information { set; get; }
-       
-        public bool IsActive { set; get; }
-		public IFormFile ImageDefault { get; set; }
-		public List<IFormFile> ThumbnailImage { get; set; }
-	}
+        public string ProductInformation_Json { set; get; }
+        public IFormFile ImageDefault { get; set; }
+
+        public List<IFormFile> ThumbnailImage { get; set; }
+    }
+
 }

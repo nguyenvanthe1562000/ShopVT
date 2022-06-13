@@ -91,7 +91,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _edit.Delete(_table, rowid, 1);
+                var result = await _edit.Delete(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -107,7 +107,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _edit.Restore(_table, rowid, 1);
+                var result = await _edit.Restore(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -122,7 +122,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetData<PagedResult<B10ProductCategoryModel>, B10ProductCategoryModel>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetData<PagedResult<B10ProductCategoryModel>, B10ProductCategoryModel>(_table,pagingRequest, 1);
                 return Ok(result);
             }
 
@@ -135,23 +135,21 @@ namespace ShopVT.Controllers.Admin
 
 
 
-        [HttpPost]
-        [Route("group")]
-        public async Task<IActionResult> GetGroup()
+     
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
+
             try
             {
-                var result = await _explore.GetGroup<GroupData>(_table, "name", "id", false, 1);
-                var childsHash = result.ToLookup(cat => cat.ParentId);
-                foreach (var cat in result)
-                {
-                    cat.Children = childsHash[cat.Id].ToList();
-                }
-                return Ok(childsHash);
+                var result = await _explore.GetDataByIdMultipleTable<B10ProductCategoryModel>(_table, id, "Code", "ProductCategoryCode", "id", true, 1);
+                return Ok(result);
             }
+
             catch (Exception ex)
             {
-                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last());
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { id = id });
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
@@ -167,6 +165,50 @@ namespace ShopVT.Controllers.Admin
             catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { pagingRequest = pagingRequest });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
+        [HttpGet]
+        [Route("group")]
+        public async Task<IActionResult> GetGroup()
+        {
+            try
+            {
+                var result = await _explore.GetGroup<GroupData>(_table, "Name", "id", false, 1);
+                if (result.Count() == 0)
+                {
+                    return Ok(result);
+                }
+                if (result[0].Children is null)
+                {
+                    return Ok(result);
+                }
+                var childsHash = result.ToLookup(cat => cat.ParentId);
+                foreach (var cat in result)
+                {
+                    cat.Children = childsHash[cat.Data].ToList();
+                }
+                return Ok(result);
+            }
+
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last());
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
+        [HttpGet]
+        [Route("look-up")]
+        public async Task<IActionResult> GetDataLookUp([FromQuery] string v)
+        {
+            try
+            {
+                var result = await _explore.Lookup<B10PostCategoryModel>(_table, "Code", v, 10, "", false, GetCurrentUserId(), filterKey: "IsGroup=0");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { loolupData = v });
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Auth;
 using Model.Model;
+using Model.Table;
+using Newtonsoft.Json;
 using Service.Command.Interface;
 using ShopVT.Auth;
 using ShopVT.Extensions;
@@ -31,7 +33,7 @@ namespace ShopVT.Controllers.Admin
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
         //private readonly IDataExploreService _explore;
         private readonly ILogger _logger;
-        private readonly string _table = "B10Product";
+        private readonly string _table = "vB10Product";
 
         public B10ProductController(IDataEdtitorService dataEdtitor, IDataExploreService explore, ILogger logger, IStorageService storageService, IMapper mapper)
         {
@@ -43,7 +45,7 @@ namespace ShopVT.Controllers.Admin
         }
         private async Task<string> SaveFile(IFormFile file)
         {
-            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            if (file == null) return ""; var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
@@ -60,7 +62,8 @@ namespace ShopVT.Controllers.Admin
                     addRequest.Code = await GenerateId.NewId(GetCurrentUserId());
                 }
 
-                var b10product = _map.Map<B10ProductModel>(addRequest);
+                var b10product = _map.Map<vB10ProductModel>(addRequest);
+                b10product.B10ProductInformation_Json = JsonConvert.DeserializeObject<List<B10ProductInformationModel>>(addRequest.ProductInformation_Json);
                 List<B10ProductImgModel> b10ProductImgs = new List<B10ProductImgModel>();
                 B10ProductImgModel productImgModel = new B10ProductImgModel()
                 {
@@ -85,7 +88,7 @@ namespace ShopVT.Controllers.Admin
                     }
                 }
                 b10product.B10ProductImg_Json = b10ProductImgs;
-                 var result = await _edit.AddRangeAsync<B10ProductModel>(b10product, _table, "ProductCode", b10product.code,"Code", GetCurrentUserId());
+                 var result = await _edit.AddRangeAsync<vB10ProductModel>(b10product, _table, "ProductCode", b10product.Code,"Code", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -110,8 +113,10 @@ namespace ShopVT.Controllers.Admin
                 {
                     return BadRequest(new ResponseMessageDto(MessageType.Error, "dữ liệu id không hợp lệ"));
                 }
-                var b10product = _map.Map<B10ProductModel>(updateRequest);
+                var b10product = _map.Map<vB10ProductModel>(updateRequest);
+                b10product.B10ProductInformation_Json = JsonConvert.DeserializeObject<List<B10ProductInformationModel>>(updateRequest.ProductInformation_Json);
                 List<B10ProductImgModel> b10ProductImgs = new List<B10ProductImgModel>();
+
                 B10ProductImgModel productImgModel = new B10ProductImgModel()
                 {
                     ProductCode = updateRequest.Code,
@@ -136,7 +141,7 @@ namespace ShopVT.Controllers.Admin
                     }
                 }
                 b10product.B10ProductImg_Json = b10ProductImgs;
-                var result = await _edit.UpdateRangeAsync<B10ProductModel>(b10product, _table, b10product.ID, "ProductCode", b10product.code, "", GetCurrentUserId());
+                var result = await _edit.UpdateRangeAsync<vB10ProductModel>(b10product, _table, b10product.ID, "ProductCode", b10product.Code, "", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)    
@@ -151,7 +156,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _edit.Delete(_table, rowid, 1);
+                var result = await _edit.Delete(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
 
@@ -168,7 +173,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _edit.Restore(_table, rowid, 1);
+                var result = await _edit.Restore(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -184,7 +189,7 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _explore.GetDataByIdMultipleTable<B10ProductModel>(_table, id, "Code", "ProductCode", "id", true, 1);
+                var result = await _explore.GetDataByIdMultipleTable<vB10ProductModel>(_table, id, "Code", "ProductCode", "id", true, 1);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -200,7 +205,7 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _explore.GetData<PagedResult<B10ProductModel>,B10ProductModel>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetData<PagedResult<vB10ProductModel>,vB10ProductModel>(_table,pagingRequest, 1);
                 return Ok(result);
             }
 
@@ -210,20 +215,31 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
-        [HttpPost]
+        [HttpGet]
         [Route("group")]
         public async Task<IActionResult> GetGroup()
         {
             try
             {
-                var result = await _explore.GetGroup<GroupData>(_table, "name", "id", false, 1);
+                var result = await _explore.GetGroup<GroupData>(_table, "Name", "id", false, 1);
                 var childsHash = result.ToLookup(cat => cat.ParentId);
+                if (result.Count() == 0)
+                {
+                    return Ok(result);
+                }
+                if (result[0].Children is null)
+                {
+                    return Ok(result);
+                }
+               
                 foreach (var cat in result)
                 {
-                    cat.Children = childsHash[cat.Id].ToList();
+                    cat.Children = childsHash[cat.Data].ToList();
                 }
-                return Ok(childsHash);
+                
+                return Ok(result);
             }
+
             catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last());
@@ -242,6 +258,37 @@ namespace ShopVT.Controllers.Admin
             catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { pagingRequest = pagingRequest });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
+
+        [HttpGet]
+        [Route("look-up-product-info")]
+        public async Task<IActionResult> GetDataCategoryInfLookUp([FromQuery] string v)
+        {
+            try
+            {
+                var result = await _explore.Lookup<B10ProductCategoryInfModel>("B10ProductCategoryInf", "productcategorycode", v, 10, "", false, GetCurrentUserId(),true,"");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { loolupData = v });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
+        [HttpGet]
+        [Route("look-up")]
+        public async Task<IActionResult> GetDataLookUp([FromQuery] string v)
+        {
+            try
+            {
+                var result = await _explore.Lookup<vB10ProductModel>(_table, "Code", v, 10, "", false, GetCurrentUserId(),filterKey:"IsGroup=0");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { loolupData = v });
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }

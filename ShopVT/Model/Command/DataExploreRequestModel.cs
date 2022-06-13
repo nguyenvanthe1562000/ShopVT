@@ -55,6 +55,9 @@ namespace Model.Command
         Contains,
         StartsWith,
         EndsWith,
-        Equals
+        Equals,
+        GreaterThan,
+        LessThan,
+        Other,
     }
 }

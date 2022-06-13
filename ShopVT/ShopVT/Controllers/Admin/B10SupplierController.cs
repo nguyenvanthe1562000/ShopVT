@@ -46,7 +46,7 @@ namespace ShopVT.Controllers.Admin
         }
         private async Task<string> SaveFile(IFormFile file)
         {
-            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            if (file == null) return ""; var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
@@ -113,11 +113,11 @@ namespace ShopVT.Controllers.Admin
         }
         [HttpDelete]
         [RequiredOneOfPermissions(PermissionData.Delete, PermissionData.DeleteOrther)]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int rowid)
+        public async Task<IActionResult> DeleteAsync(int rowid)
         {
             try
             {
-                var result = await _edit.Delete(_table, rowid, 1);
+                var result = await _edit.Delete(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
 
@@ -134,7 +134,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _edit.Restore(_table, rowid, 1);
+                var result = await _edit.Restore(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -170,7 +170,7 @@ namespace ShopVT.Controllers.Admin
                 var childsHash = result.ToLookup(cat => cat.ParentId);
                 foreach (var cat in result)
                 {
-                    cat.Children = childsHash[cat.Id].ToList();
+                    cat.Children = childsHash[cat.Data].ToList();
                 }
                 return Ok(result);
             }
@@ -202,7 +202,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetData<PagedResult<B10SupplierModel>, B10SupplierModel>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetData<PagedResult<B10SupplierModel>, B10SupplierModel>(_table,pagingRequest, 1);
                 return Ok(result);
             }
             catch (Exception ex)

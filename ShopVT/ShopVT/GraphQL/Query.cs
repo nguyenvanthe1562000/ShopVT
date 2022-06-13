@@ -21,7 +21,7 @@ namespace TodoListGQL.GraphQL
         {
             ctor = shopVTDbContext;
         }
-        public IQueryable<B10ProductModel> GetProducts([Service] ShopVTDbContext ctx)
+        public IQueryable<vB10ProductModel> GetProducts([Service] ShopVTDbContext ctx)
         {
             var s = ctor.B10Product.ToList();
             return ctx.B10Product;

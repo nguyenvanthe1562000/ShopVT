@@ -8,7 +8,6 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Main</li>
                 
-                
                 <li>
                     <a [routerLink]="['/dashboard']"  class="waves-effect">
                         <span class="badge rounded-pill bg-primary float-end">20+</span>
@@ -17,79 +16,6 @@
                     </a>
                 </li>
                 
-                <!-- <li>
-                    <a [routerLink]="['/manage-products-group']" class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span> Nhóm sản phẩm </span>
-                    </a>
-                </li> -->
-                  <li>
-                    <a [routerLink]="['/tin-tuc']" class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span> tin tức </span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/manage-categories']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span> Loại sản phẩm </span>
-                    </a>
-                </li>
-                  <li>
-                    <a [routerLink]="['/manage-product-brand']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span> Hãng sản phẩm </span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/manage-products']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span> Sản phẩm </span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/manage-product-detail']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span> Thông tin sản phẩm </span>
-                    </a>
-                </li>
-                 <li>
-                    <a [routerLink]="['/manage-orders']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span> Hóa đơn </span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/manage-acc-doc']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span>Phiếu nhập </span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/manage-open-inventory']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span>Tồn đầu</span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/login-event']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span>Nhật ký </span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/open-inventory-system']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span>Tồn hàng hóa</span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/manage-users']"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span> Người dùng </span>
-                    </a>
-                </li>
-
                 <li>
                     <a (click)="onLogOut()"  class="waves-effect">
                         <i class="mdi mdi-view-dashboard"></i>
@@ -100,18 +26,61 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-view-dashboard"></i>
-                        <span> Nhân viên </span>
+                        <span>Danh mục </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a [routerLink]="['/manage-users']"  > nhân viên </a></li>
-                        <li><a  [routerLink]="['/manage-permision']" >Nhóm nhân viên</a></li>
-                        <li><a  [routerLink]="['/manage-permision-detail']" >Phân quyền</a></li>
+                        <li>
+                            <a [routerLink]="['/post-category']" >
+                                <span>Danh mục loại tin tức</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/post']" >
+                                <span>Danh mục tin tức</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/product-category']" >
+                                <span>Danh mục loại sản phẩm</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/product']" >
+                                <span>Danh mục sản phẩm</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span>Chứng từ </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a [routerLink]="['/post-category']" >
+                                <span>Loại tin tức</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span>Tổng hợp </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a [routerLink]="['/post-category']" >
+                                <span>Loại tin tức</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-email-outline"></i>
-                        <span> Thống kê </span>
+                        <span> Báo cáo</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a [routerLink]="['/manage-best-selling']">Thống kê sản phẩm bán chạy</a></li>

@@ -9,7 +9,7 @@ namespace ViewModel.catalog.Slide
 {
     public class SlideRequest
     {
-        public int ID { set; get; }
+        public int Id { set; get; }
         public bool IsGroup { set; get; }
         public int ParentId { set; get; }
         public string code { set; get; }
@@ -18,11 +18,13 @@ namespace ViewModel.catalog.Slide
         public IFormFile Image { set; get; }
         public string Url { set; get; }
         public int DisplayOrder { set; get; }
+        public bool Show { set; get; }
         public int Type { set; get; }
         public bool IsActive { set; get; }
         public int CreatedBy { set; get; }
         public DateTime CreatedAt { set; get; }
         public int ModifiedBy { set; get; }
         public DateTime ModifiedAt { set; get; }
+
     }
 }

@@ -34,7 +34,7 @@ namespace ShopVT.Controllers.Admin
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
         //private readonly IDataExploreService _explore;
         private readonly ILogger _logger;
-        private readonly string _table = "B10Slide";
+        private readonly string _table = "vB10Slide";
 
         public B10SlideController(IDataEdtitorService dataEdtitor, IDataExploreService explore, ILogger logger, IStorageService storageService, IMapper mapper)
         {
@@ -46,7 +46,7 @@ namespace ShopVT.Controllers.Admin
         }
         private async Task<string> SaveFile(IFormFile file)
         {
-            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            if (file == null) return ""; var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
@@ -54,14 +54,13 @@ namespace ShopVT.Controllers.Admin
         [HttpPost]
         [Route("add")]
         [RequiredOneOfPermissions(PermissionData.Create)]
-        public async Task<IActionResult> AddAsync([FromBody] SlideRequest addRequest)
+        public async Task<IActionResult> AddAsync([FromForm] SlideRequest addRequest)
         {
             try
             {
-
-                var B10Slide = _map.Map<B10SlideModel>(addRequest);
+                var B10Slide = _map.Map<vB10SlideModel>(addRequest);
                 B10Slide.Image = await SaveFile(addRequest.Image);
-                var result = await _edit.Add<B10SlideModel>(B10Slide, _table, "", GetCurrentUserId());
+                var result = await _edit.Add<vB10SlideModel>(B10Slide, _table, "", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -78,8 +77,8 @@ namespace ShopVT.Controllers.Admin
             try
             {
                 addRequest.IsGroup = true;
-                var B10Slide = _map.Map<B10SlideModel>(addRequest);
-                var result = await _edit.Add<B10SlideModel>(B10Slide, _table, "", GetCurrentUserId());
+                var B10Slide = _map.Map<vB10SlideModel>(addRequest);
+                var result = await _edit.Add<vB10SlideModel>(B10Slide, _table, "", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -91,7 +90,7 @@ namespace ShopVT.Controllers.Admin
         [HttpPut]
         [Route("update")]
         [RequiredOneOfPermissions(PermissionData.EditOther, PermissionData.Edit)]
-        public async Task<IActionResult> UpdateAsync([FromBody] PostRequest updateRequest)
+        public async Task<IActionResult> UpdateAsync([FromForm] SlideRequest updateRequest)
         {
             try
             {
@@ -99,8 +98,8 @@ namespace ShopVT.Controllers.Admin
                 {
                     return BadRequest(new ResponseMessageDto(MessageType.Error, "dữ liệu id không hợp lệ"));
                 }
-                var B10Slide = _map.Map<B10SlideModel>(updateRequest);
-                var result = await _edit.Update<B10SlideModel>(B10Slide, _table, B10Slide.ID,  "", GetCurrentUserId());
+                var B10Slide = _map.Map<vB10SlideModel>(updateRequest);
+                var result = await _edit.Update<vB10SlideModel>(B10Slide, _table, B10Slide.ID,  "", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -111,11 +110,11 @@ namespace ShopVT.Controllers.Admin
         }
         [HttpDelete]
         [RequiredOneOfPermissions(PermissionData.Delete, PermissionData.DeleteOrther)]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int rowid)
+        public async Task<IActionResult> DeleteAsync(int rowid)
         {
             try
             {
-                var result = await _edit.Delete(_table, rowid, 1);
+                var result = await _edit.Delete(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
 
@@ -132,7 +131,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _edit.Restore(_table, rowid, 1);
+                var result = await _edit.Restore(_table, rowid, GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -148,7 +147,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetDataByIdOneTable<B10SlideModel>(_table, id, 1);
+                var result = await _explore.GetDataByIdOneTable<vB10SlideModel>(_table, id, 1);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -168,7 +167,7 @@ namespace ShopVT.Controllers.Admin
                 var childsHash = result.ToLookup(cat => cat.ParentId);
                 foreach (var cat in result)
                 {
-                    cat.Children = childsHash[cat.Id].ToList();
+                    cat.Children = childsHash[cat.Data].ToList();
                 }
                 return Ok(result);
             }
@@ -185,7 +184,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetDataByGroup<PagedResult<B10SlideModel>, B10SlideModel>(_table, idGroup, pagingRequest.PageSize, pagingRequest.PageIndex, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetDataByGroup<PagedResult<vB10SlideModel>, vB10SlideModel>(_table, idGroup, pagingRequest.PageSize, pagingRequest.PageIndex, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -200,7 +199,8 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetData<PagedResult<B10SlideModel>, B10SlideModel>(_table, pagingRequest.PageSize, pagingRequest.PageIndex, true, pagingRequest.FilterColumn, pagingRequest.FilterType, pagingRequest.FilterValue, pagingRequest.OrderBy, pagingRequest.OrderDesc, 1);
+                var result = await _explore.GetData<PagedResult<vB10SlideModel>, vB10SlideModel>(_table,pagingRequest, GetCurrentUserId());
+               
                 return Ok(result);
             }
             catch (Exception ex)

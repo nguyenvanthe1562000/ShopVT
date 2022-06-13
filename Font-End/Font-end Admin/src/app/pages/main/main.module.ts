@@ -37,6 +37,13 @@ import { AccDocDetailComponent } from './acc-doc-detail/acc-doc-detail.component
 import { OpenInventoryComponent } from './open-inventory/open-inventory.component';
 import { OpenInventorySystemComponent } from './open-inventory-system/open-inventory-system.component';
 import { LoginEventComponent } from './login-event/login-event.component';
+
+
+import { PostCategoryComponent } from './post-category/post-category.component';
+import { PostComponent } from './post/post.component';
+import { ProductCategoryComponent } from './product-category/product-category.component';
+
+
 export const mainRoute: Routes = [
   {
     path: '',
@@ -124,6 +131,24 @@ export const mainRoute: Routes = [
         path: 'login-event',
         component: LoginEventComponent,
       },
+
+        //post category
+        {
+          path: 'post-category',
+          component: PostCategoryComponent,
+        },
+        //post
+        {
+          path: 'post',
+          component: PostComponent,
+        },
+         //product-category
+         {
+          path: 'product-category',
+          component: ProductCategoryComponent,
+        },
+      
+
     ]
   }
 ]
@@ -145,6 +170,6 @@ export const mainRoute: Routes = [
     ChartModule
   ],
   declarations: [MainComponent,    TintucComponent,
-    DashboardComponent, ManageCategoriesComponent, ManageProductsGroupComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent, ManageProductBrandComponent, DateVNPipe, PermisionComponent, PermisionDetailComponent, ProductInfomationComponent, ManageReportComponent, ManageAmountComponent, AccDocComponent, AccDocDetailComponent, OpenInventoryComponent, OpenInventorySystemComponent, LoginEventComponent]
+    DashboardComponent, ManageCategoriesComponent, ManageProductsGroupComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent, ManageProductBrandComponent, DateVNPipe, PermisionComponent, PermisionDetailComponent, ProductInfomationComponent, ManageReportComponent, ManageAmountComponent, AccDocComponent, AccDocDetailComponent, OpenInventoryComponent, OpenInventorySystemComponent, LoginEventComponent, PostCategoryComponent, PostComponent, ProductCategoryComponent]
 })
 export class MainModule { }

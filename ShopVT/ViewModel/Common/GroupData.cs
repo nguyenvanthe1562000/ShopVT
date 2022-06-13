@@ -8,9 +8,9 @@ namespace ViewModel.Common
 {
     public class GroupData
     {
-        public int Id { get; set; }
+        public int Data { get; set; }
         public int ParentId { get; set; }
-        public string Title { get; set; }
+        public string Label { get; set; }
         public List<GroupData> Children { get; set; }
     }
   
