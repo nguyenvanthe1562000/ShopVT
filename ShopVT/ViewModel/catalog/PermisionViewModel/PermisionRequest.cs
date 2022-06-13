@@ -38,6 +38,7 @@ namespace ViewModel.catalog.PermissionViewModel
     public class PermissionRequest
     {
         public int UserId { set; get; }
+        public string FullName { set; get; }
         public List<PermissionDataRequest> PermissionData{ set; get; }
         public List<PermissionFunctionRequest> PermissionFunctions { set; get; }
     }

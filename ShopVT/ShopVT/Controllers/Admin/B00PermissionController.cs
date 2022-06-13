@@ -160,6 +160,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
+
                 var result = await _explore.Lookup<B10PostCategoryModel>(_table, "UserId", Userid.ToString(), 9999, "FunctionType", false, GetCurrentUserId(), isAbsolute:true, "UserId = UserId OR UserId = -1");
                 return Ok(result);
             }
