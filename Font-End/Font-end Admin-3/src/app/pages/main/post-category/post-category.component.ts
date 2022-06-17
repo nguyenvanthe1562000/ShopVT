@@ -229,10 +229,16 @@ export class PostCategoryComponent extends BaseComponent implements OnInit {
 
     if (addDataIsGroup) {
       if (this.selectGroup) {
-        this.formData.append('ParentId', `${this.selectGroup.Data}`);
+        this.formData.append('ParentId', `${this.selectGroup.data}`);
       }
       else { this.formData.append('ParentId', `-1`); }
       this.formData.append('IsGroup', `${true}`);
+    }
+    else
+    {
+      if (this.selectGroup) {
+        this.formData.append('ParentId', `${this.selectGroup.data}`);
+      }
     }
     Object.keys(form.controls).forEach((control: string) => {
       const typedControl: AbstractControl = form.controls[control];

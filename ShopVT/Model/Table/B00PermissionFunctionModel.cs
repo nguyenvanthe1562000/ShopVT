@@ -10,6 +10,7 @@ namespace Model.Model
         public int UserId { set; get; }
         public string Description { set; get; }
         public PermissionFunction Permision { set; get; }
+        public int CommandTypeId { set; get; }
         public bool IsActive { set; get; }
         public int CreatedBy { set; get; }
         public DateTime CreatedAt { set; get; }

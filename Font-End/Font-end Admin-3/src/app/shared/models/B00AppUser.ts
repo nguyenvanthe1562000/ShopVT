@@ -11,6 +11,8 @@ export class B00AppUser {
     createdAt : Date;   
     modifiedBy : number;    
     modifiedAt : Date;  
-    employeeCode : string
+    employeeCode : string;
+    PermissionData : Array<any>;
+    PermissionFunction: any;
  }
     

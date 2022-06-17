@@ -101,6 +101,6 @@ namespace Service.Command.Interface
         /// <param name="OrderDesc"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue , int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey="");
+        public Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue , int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey="", bool AndOrFilterKey = true);
     }
 }

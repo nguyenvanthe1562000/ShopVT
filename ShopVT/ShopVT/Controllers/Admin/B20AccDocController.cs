@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Auth;
 using Model.Model;
+using Newtonsoft.Json;
 using Service.Command.Interface;
 using ShopVT.Auth;
 using ShopVT.Extensions;
@@ -16,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using ViewModel.catalog.AccDoc;
 using ViewModel.catalog.Post;
 using ViewModel.catalog.Product;
 using ViewModel.catalog.Slide;
@@ -54,14 +56,20 @@ namespace ShopVT.Controllers.Admin
         [HttpPost]
         [Route("add")]
         [RequiredOneOfPermissions(PermissionData.Create)]
-        public async Task<IActionResult> AddAsync([FromBody] B20AccDocProductModel addRequest)
+        public async Task<IActionResult> AddAsync([FromBody] AccDocProductRequest addRequest)
         {
             try
             {
-                if (addRequest.vB20AccDocProductDetail_Json is null) return BadRequest(new ResponseMessageDto(MessageType.Error, "chi tiết chứng từ không hợp lệ"));
-                if (addRequest.vB20AccDocProductDetail_Json.Count==0) return BadRequest(new ResponseMessageDto(MessageType.Error, "tối thiểu 1 dòng chi tiết chứng từ"));
+                if (addRequest.vB20AccDocProductDetail is null) return BadRequest(new ResponseMessageDto(MessageType.Error, "chi tiết chứng từ không hợp lệ"));
+                
+                if (addRequest.vB20AccDocProductDetail=="") return BadRequest(new ResponseMessageDto(MessageType.Error, "tối thiểu 1 dòng chi tiết chứng từ"));
                 addRequest.Stt=await GenerateId.NewId(GetCurrentUserId());
-                var result = await _edit.AddRangeAsync<B20AccDocProductModel>(addRequest, _table,"Stt",addRequest.Stt,"", GetCurrentUserId());
+
+                var add = _map.Map<B20AccDocProductModel>(addRequest);
+                add.DocCode = "NM";
+                add.vB20AccDocProductDetail_Json = JsonConvert.DeserializeObject<List<vB20AccDocProductDetailModel>>(addRequest.vB20AccDocProductDetail);
+                add.Amount = add.vB20AccDocProductDetail_Json.Sum(x => x.Amount);
+                var result = await _edit.AddRangeAsync<B20AccDocProductModel>(add, _table,"Stt",addRequest.Stt,"", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -74,13 +82,18 @@ namespace ShopVT.Controllers.Admin
         [HttpPut]
         [Route("update")]
         [RequiredOneOfPermissions(PermissionData.EditOther, PermissionData.Edit)]
-        public async Task<IActionResult> UpdateAsync([FromBody] B20AccDocProductModel updateRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] AccDocProductRequest updateRequest)
         {
             try
             {
-                if (updateRequest.vB20AccDocProductDetail_Json is null) return BadRequest(new ResponseMessageDto(MessageType.Error, "chi tiết chứng từ không hợp lệ"));
-                if (updateRequest.vB20AccDocProductDetail_Json.Count == 0) return BadRequest(new ResponseMessageDto(MessageType.Error, "tối thiểu 1 dòng chi tiết chứng từ"));
-                var result = await _edit.UpdateRangeAsync<B20AccDocProductModel>(updateRequest, _table, updateRequest.Id, "Stt",updateRequest.Stt,"", GetCurrentUserId());
+                if (updateRequest.vB20AccDocProductDetail is null) return BadRequest(new ResponseMessageDto(MessageType.Error, "chi tiết chứng từ không hợp lệ"));
+
+                if (updateRequest.vB20AccDocProductDetail == "") return BadRequest(new ResponseMessageDto(MessageType.Error, "tối thiểu 1 dòng chi tiết chứng từ"));
+                var update = _map.Map<B20AccDocProductModel>(updateRequest);
+                update.vB20AccDocProductDetail_Json = JsonConvert.DeserializeObject<List<vB20AccDocProductDetailModel>>(updateRequest.vB20AccDocProductDetail);
+                update.Amount = update.vB20AccDocProductDetail_Json.Sum(x => x.Amount);
+                update.DocCode = "NM";
+                var result = await _edit.UpdateRangeAsync<B20AccDocProductModel>(update, _table, updateRequest.Id, "Stt",updateRequest.Stt,"", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -149,6 +162,22 @@ namespace ShopVT.Controllers.Admin
             catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { pagingRequest = pagingRequest });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
+        [HttpGet]
+        [Route("group")]
+        public async Task<IActionResult> GetGroup()
+        {
+            try
+            {
+              
+                return Ok();
+            }
+
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last());
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }

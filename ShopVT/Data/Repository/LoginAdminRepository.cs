@@ -48,5 +48,32 @@ namespace Data.Repository
                 throw ex;
             }
         }
+
+        public async Task<IdentityClientModel> LoginClient(LoginRequest model)
+        {
+            string msgError = "";
+
+
+            try
+            {
+                IdentityClientModel identity = new IdentityClientModel();
+                await Task.Run(() =>
+                {
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "usp_Login_Client", "@userName",
+                       model.UserName, "@passWord",
+                        model.PassWord);
+                    if (!string.IsNullOrEmpty(msgError))
+                    {
+                        throw new Exception(msgError);
+                    }
+                    identity = dt.ConvertTo<IdentityClientModel>().ToList().FirstOrDefault();
+                });
+                return identity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

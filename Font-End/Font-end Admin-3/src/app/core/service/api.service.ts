@@ -151,6 +151,25 @@ export class ApiService {
         })
       );
   }
+  getLookup2(url: string,str :string) {
+    let token = localStorage.getItem('user');
+    this.user= <NguoiDung>JSON.parse(token);
+    let cloneHeader: any = {};
+    cloneHeader['Content-Type'] = 'application/json';
+    cloneHeader['Authorization'] = `Bearer ${this.user.token}`;
+    const headerOptions = new HttpHeaders(cloneHeader);
+    return this._http
+      .get(this.host+`/api/${url}?v=${str}`, { headers: headerOptions })
+      .pipe(
+        map((res: any) => {
+          return res;
+        })
+      ).pipe(
+        catchError((err: Response) => {
+          return this.handleError(err);
+        })
+      );
+  }
   putParamUrl(url: string, obj: number) {
     let token = localStorage.getItem('user');
     this.user= <NguoiDung>JSON.parse(token);

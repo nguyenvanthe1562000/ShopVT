@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Model.Model;
+using ViewModel.catalog.AccDoc;
 using ViewModel.catalog.Employee;
 using ViewModel.catalog.Post;
 using ViewModel.catalog.Product;
@@ -24,8 +25,10 @@ namespace API.AutoMapper
               .ReverseMap();
             CreateMap<EmployeeRequest, B10EmployeeModel>()
                 .ReverseMap();
+            CreateMap<AccDocProductRequest, B20AccDocProductModel>().ReverseMap();
+            CreateMap<B20AccDocProductModel, AccDocProductRequest>().ReverseMap();
             CreateMap<SlideRequest, vB10SlideModel>().ReverseMap();
-
+            CreateMap<OrderRequest, vB20OrderModel>().ReverseMap();
         }
 
     }

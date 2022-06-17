@@ -197,16 +197,20 @@ namespace Service.Command
                     foreach (PropertyInfo pro in temp.GetProperties())
                     {
                         var column = pro.Name;
-                        if (viewTable.Count > 0)
-                        {
-                           
-                            var _column = viewTable.FirstOrDefault(x => x.name.ToLower().Equals(pro.Name.ToLower()));
-                            if (_column is null)
+                        if(!column.EndsWith("_Json"))
                             {
-                                continue;
+                            if (viewTable.Count > 0)
+                            {
+
+                                var _column = viewTable.FirstOrDefault(x => x.name.ToLower().Equals(pro.Name.ToLower()));
+                                if (_column is null)
+                                {
+                                    continue;
+                                }
+                                column = _column.source_column;
                             }
-                            column = _column.source_column;
                         }
+                        
                         //check property is child object 
                         if (!pro.PropertyType.Namespace.Contains("System"))
                         {
@@ -616,19 +620,19 @@ namespace Service.Command
                                    tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{columnOriginalChild}') AS {columnOriginalChild},");
                                    if (objChildType.GetProperties()[i].GetValue(objChildData, null) is null)
                                    {
-                                       if (columnOriginalChild.ToUpper().Contains("CREATEDAT") || columnOriginalChild.ToUpper().Contains("MODIFIEDAT"))
+                                       if (columnOriginalChild.ToUpper().Equals("CREATEDAT") || columnOriginalChild.ToUpper().Contains("MODIFIEDAT"))
                                        {
                                            objChildType.GetProperties()[i].SetValue(objChildData, DateTime.Now, null);
                                        }
-                                       else if (columnOriginalChild.ToUpper().Contains("CREATEDBY") || columnOriginalChild.ToUpper().Contains("MODIFIEDBY"))
+                                       else if (columnOriginalChild.ToUpper().Equals("CREATEDBY") || columnOriginalChild.ToUpper().Contains("MODIFIEDBY"))
                                        {
                                            objChildType.GetProperties()[i].SetValue(objChildData, userId, null);
                                        }
-                                       else if (columnOriginalChild.Contains(foreignKey))
+                                       else if (columnOriginalChild.Equals(foreignKey))
                                        {
                                            objChildType.GetProperties()[i].SetValue(objChildData, foreignKeyValue, null);
                                        }
-                                       else if (columnOriginalChild.ToUpper().Contains("ID"))
+                                       else if (columnOriginalChild.ToUpper().Equals("ID"))
                                            objChildType.GetProperties()[i].SetValue(objChildData, -1, null);
                                        else
                                            DefaultValueForSystemType(objChildType.GetProperties()[i], objChildData);
@@ -693,15 +697,15 @@ namespace Service.Command
 
                                            if (objChildType.GetProperties()[i].GetValue(objChild, null) is null)
                                            {
-                                               if (columnOriginalChild.ToUpper().Contains("CREATEDAT") || columnOriginalChild.ToUpper().Contains("MODIFIEDAT"))
+                                               if (columnOriginalChild.ToUpper().Equals("CREATEDAT") || columnOriginalChild.ToUpper().Contains("MODIFIEDAT"))
                                                {
                                                    objChildType.GetProperties()[i].SetValue(objChild, DateTime.Now, null);
                                                }
-                                               else if (columnOriginalChild.ToUpper().Contains("CREATEDBY") || columnOriginalChild.ToUpper().Contains("MODIFIEDBY"))
+                                               else if (columnOriginalChild.ToUpper().Equals("CREATEDBY") || columnOriginalChild.ToUpper().Contains("MODIFIEDBY"))
                                                    objChildType.GetProperties()[i].SetValue(objChild, userId, null);
-                                               else if (columnOriginalChild.ToUpper().Contains("ID"))
+                                               else if (columnOriginalChild.ToUpper().Equals("ID"))
                                                    objChildType.GetProperties()[i].SetValue(objChild, -1, null);
-                                               else if (columnOriginalChild.Contains(foreignKey))
+                                               else if (columnOriginalChild.Equals(foreignKey))
                                                    objChildType.GetProperties()[i].SetValue(objChild, foreignKeyValue, null);
                                                else
                                                    DefaultValueForSystemType(objChildType.GetProperties()[i], objChild);
@@ -738,12 +742,12 @@ namespace Service.Command
                                            columnChild += ", " + proChild.Name;
                                            continue;
                                        }
-                                       if (proChild.Name.ToLower().Contains("id"))
+                                       if (proChild.Name.ToLower().Equals("id"))
                                        {
                                            tempTable.AppendLine($"\t JSON_VALUE(D.value, '$.{proChild.Name}') AS {proChild.Name},");
                                            continue;
                                        }
-                                       if (proChild.Name.ToUpper().Contains("CREATEDAT") || proChild.Name.ToUpper().Contains("MODIFIEDAT"))
+                                       if (proChild.Name.ToUpper().Equals("CREATEDAT") || proChild.Name.ToUpper().Equals("MODIFIEDAT"))
                                        {
                                            continue;
                                        }
@@ -799,7 +803,7 @@ namespace Service.Command
                                dataEditor.QueryUpdateData += "," + pro.Name + " = " + castValue;
                            }
                            else
-                               dataEditor.QueryUpdateData += "," + pro.Name + " = '" + castValue + "'";
+                               dataEditor.QueryUpdateData += "," + pro.Name + " = N'" + castValue + "'";
                            if (!string.IsNullOrEmpty(ConditionString))
                            {
                                foreach (var item in columnCondition)
@@ -977,7 +981,7 @@ namespace Service.Command
                 {
                     column += ", " + _column;
                 }
-                value += ", '" + foreignKeyValue + "'";
+                value += ", N'" + foreignKeyValue + "'";
                 return;
             }
             else

@@ -1,0 +1,43 @@
+<div class="top">
+    <h2>nhật ký lỗi</h2>
+    
+</div>
+<!--explore data -->
+
+<div class="bot">
+    <p-table   [resizableColumns]="true" selectionMode="single" [value]="listItem" styleClass="p-datatable-gridlines"
+        [style]="{'margin-top': '2px', 'width': '100%'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th >fileName</th>
+                <th >className</th>
+                <th >methodName</th>
+                <th >dòng</th>
+                <th >loại</th>
+                <th >thời gian</th>
+                <th>message</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr >
+                <td>{{i+1}}</td>
+                <td>{{item.fileName}}</td>
+                <td>{{item.className}}</td>
+                <td>{{item.methodName}}</td>
+                <td>{{item.lineNumber}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.time}}</td>
+                <td>{{item.message}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
+</div>
+
+
+<!--end explore data -->
+
+
+
+<!-- chuyển nhóm -->

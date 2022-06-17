@@ -251,12 +251,19 @@ export class ProductComponent extends BaseComponent implements OnInit {
 
     if (addDataIsGroup) {
       if (this.selectGroup) {
-        this.formData.append('ParentId', `${this.selectGroup.Data}`);
+        this.formData.append('ParentId', `${this.selectGroup.data}`);
       }
       else { this.formData.append('ParentId', `-1`); }
       this.formData.append('IsGroup', `${true}`);
     }
-   this.formData.append('ProductInformation_Json', JSON.stringify(this.fieldArray));
+    else
+    {
+      if (this.selectGroup) {
+        this.formData.append('parentId', `${this.selectGroup.data}`);
+      }
+    }
+  
+    this.formData.append('ProductInformation_Json', JSON.stringify(this.fieldArray));
     this.ConvertNgFormToFormData(form,this.formData);
     
     this._api.postFormData(`${this.api}/add`, this.formData).takeUntil(this.unsubscribe).subscribe(res => {
@@ -307,8 +314,8 @@ export class ProductComponent extends BaseComponent implements OnInit {
   }
   Transfer() {
     this.selectItem.parentId = this.selectGroup.node.data;
-
-    this._api.put(`${this.api}/transfer`, this.selectItem).takeUntil(this.unsubscribe).subscribe(res => {
+debugger;
+    this._api.put(`${this.api}/tranfer`, this.selectItem).takeUntil(this.unsubscribe).subscribe(res => {
       this.Filter(this.filter);
       alert(res.messages[0].message)
       this.displayConvert = false;

@@ -244,7 +244,7 @@ export class ProductCategoryComponent extends BaseComponent implements OnInit {
   }
   //data editor
   Add(form: NgForm, addDataIsGroup: boolean, addType: number) {
-
+debugger;
     if (addDataIsGroup) {
       if (this.selectGroup) {
         this.formData.append('ParentId', `${this.selectGroup.Data}`);
@@ -255,6 +255,8 @@ export class ProductCategoryComponent extends BaseComponent implements OnInit {
     this.ConvertNgFormToFormData(form,this.formData);
     let obj:B10ProductCategory = new B10ProductCategory();
     this.ConvertFormDataToObject(obj, this.formData);  
+    if(this.fieldArray==null)
+    {this.fieldArray=[]}
     obj.b10ProductCategoryInf_Json = this.fieldArray;
     this._api.post(`${this.api}/add`, obj).takeUntil(this.unsubscribe).subscribe(res => {
       alert(res.messages[0].message)
@@ -300,7 +302,7 @@ export class ProductCategoryComponent extends BaseComponent implements OnInit {
   Transfer() {
     this.selectItem.parentId = this.selectGroup.node.data;
 
-    this._api.put(`${this.api}/transfer`, this.selectItem).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.put(`${this.api}/update`, this.selectItem).takeUntil(this.unsubscribe).subscribe(res => {
       this.Filter(this.filter);
       alert(res.messages[0].message)
       this.displayConvert = false;

@@ -31,10 +31,10 @@ namespace Model.Model
         public int ModifiedBy { set; get; }
         public DateTime ModifiedAt { set; get; }
 
-
         public List<B10ProductInformationModel> B10ProductInformation_Json { get; set; }
         public List<B10ProductImgModel> B10ProductImg_Json { get; set; }
-    
+
+
     }
 }
 

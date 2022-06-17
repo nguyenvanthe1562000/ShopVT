@@ -148,17 +148,9 @@
                 </div>
                 <div class="col-md-6">
                     <label style="font-weight: bold;">Hãng sx:</label>
-            <p-autoComplete name="ProductCategoryCode" ngModel #ProductCategoryCode="ngModel" class="form-control"
-                [suggestions]="lookupManufacturer" [dropdown]="true"
-                (onSelect)="SelectForeignKey($event,'manufacturerCode')" field="name"
-                (completeMethod)="LookupCategory($event)"></p-autoComplete>
+                    <input name="manufacturerCode" ngModel #manufacturerCode="ngModel" type="text" class="form-control" placeholder="Tên nhóm">
                 </div>
-            </div>
-            <label style="font-weight: bold;">Loại sản phẩm:</label>
-            <p-autoComplete name="ProductCategoryCode" ngModel #ProductCategoryCode="ngModel" class="form-control"
-                [suggestions]="lookupProductCategoryData" [dropdown]="true"
-                (onSelect)="SelectForeignKey($event,'productCategoryCode')" field="name"
-                (completeMethod)="LookupCategory($event)"></p-autoComplete>
+            </div>           
             <div class="row">
                 <div class="col-md-6">
                     <label style="font-weight: bold;">Đơn vị tính chính:</label>
@@ -207,9 +199,7 @@
                 </div>
             </div>
 
-            <label style="font-weight: bold;">Đơn giá:</label>
-            <input name="unitCost" ngModel #unitCost="ngModel" type="number" class="form-control"
-                placeholder="Bảo hành">
+            
             <label style="font-weight: bold;">file ảnh :</label>
             <input (change)="SelectFile($event,'ImageDefault',false)" type="file" class="form-control"
                 placeholder="Hình ảnh">
@@ -352,7 +342,8 @@
                 #productCategoryCode="ngModel" class="form-control" [suggestions]="lookupProductCategoryData"
                 [dropdown]="true" (onSelect)="SelectForeignKey($event,'productCategoryCode')" field="name"
                 (completeMethod)="LookupCategory($event)"></p-autoComplete>
-
+                <label style="font-weight: bold;">Hãng sx:</label>
+                <input name="manufacturerCode" [(ngModel)]="selectItem.manufacturerCode" #manufacturerCode="ngModel" type="text" class="form-control" placeholder="Tên nhóm">
             <div class="row">
                 <div class="col-md-6">
                     <label style="font-weight: bold;">Đơn vị tính chính:</label>

@@ -19,7 +19,7 @@ namespace Model.Model
         public DateTime CreatedAt { set; get; }
         public int ModifiedBy { set; get; }
         public DateTime ModifiedAt { set; get; }
-        public List<B10ProductCategoryInfModel> B10ProductCategoryInf_Json { get; set; }
+        public List<B10ProductCategoryInfModel>? B10ProductCategoryInf_Json { get; set; }
     }
 }
 

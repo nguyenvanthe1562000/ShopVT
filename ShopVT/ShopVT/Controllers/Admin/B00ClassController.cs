@@ -52,6 +52,37 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
+        [HttpGet]
+        [Route("look-up-order-status")]
+        public async Task<IActionResult> GetDataLookUp1([FromQuery] string v)
+        {
+            try
+            {
+                var result = await _explore.Lookup<B00ClassModel>(_table, "Code", v, 10, "", false, GetCurrentUserId(), filterKey: "ParentCode='ORDER'");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { loolupData = v });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
+
+        [HttpGet]
+        [Route("look-up-payment-method")]
+        public async Task<IActionResult> GetDataLookUp2([FromQuery] string v)
+        {
+            try
+            {
+                var result = await _explore.Lookup<B00ClassModel>(_table, "Code", v, 10, "", false, GetCurrentUserId(), filterKey: "ParentCode='PAYMENT'");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { loolupData = v });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
     }
 
 }

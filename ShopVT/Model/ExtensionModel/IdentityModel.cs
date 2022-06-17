@@ -14,4 +14,12 @@ namespace Model.ExtensionModel
         public string EmployeeCode { get; set; }  
         public string Roles  { get; set; }
     }
+
+
+    public class IdentityClientModel
+    {
+        public int Id { get; set; }
+        public string Code { get; set; }
+        public string FullName { get; set; }
+    }
 }

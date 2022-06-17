@@ -252,7 +252,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.Lookup<B10PostCategoryModel>(_table, "Code,Name", v, 10, "", false, GetCurrentUserId());
+                var result = await _explore.Lookup<B10PostCategoryModel>(_table, "Code,Name", v, 10, "", false, GetCurrentUserId(),filterKey:"IsGroup=0",AndOrFilterKey:true);
                 return Ok(result);
             }
             catch (Exception ex)

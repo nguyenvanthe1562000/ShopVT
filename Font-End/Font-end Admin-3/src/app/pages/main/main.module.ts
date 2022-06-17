@@ -47,6 +47,12 @@ import { SlideComponent } from './slide/slide.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { CustomerComponent } from './customer/customer.component';
 import { AppUserComponent } from './app-user/app-user.component';
+// import { OrderComponent } from './order/order.component';
+import { AccDocProductComponent } from './acc-doc-product/acc-doc-product.component';
+import { OrderComponent } from './order/order.component';
+import { EventlogComponent } from './eventlog/eventlog.component';
+import { LogerrorComponent } from './logerror/logerror.component';
+import { OpeninventoryComponent } from './openinventory/openinventory.component';
 
 export const mainRoute: Routes = [
   {
@@ -96,6 +102,22 @@ export const mainRoute: Routes = [
         component: AppUserComponent,
       },
       {
+        path: 'acc-doc',
+        component: AccDocProductComponent,
+      },
+      {
+        path: 'order',
+        component: OrderComponent,
+      },
+      {
+        path: 'history',
+        component: EventlogComponent,
+      },
+      {
+        path: 'log',
+        component: LogerrorComponent,
+      },
+      {
         path: 'login-event',
         component: LoginEventComponent,
       },
@@ -124,6 +146,6 @@ export const mainRoute: Routes = [
   ],
   bootstrap:  [ MainComponent ],
   declarations: [MainComponent,    
-    DashboardComponent, ManageCategoriesComponent, ManageProductsGroupComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent, ManageProductBrandComponent, DateVNPipe, PermisionComponent,  ManageReportComponent, ManageAmountComponent, AccDocComponent, AccDocDetailComponent, OpenInventoryComponent, OpenInventorySystemComponent, LoginEventComponent, PostCategoryComponent, PostComponent, ProductCategoryComponent, ProductComponent, ManufacturerComponent, SlideComponent, EmployeeComponent, CustomerComponent, AppUserComponent]
+    DashboardComponent, ManageCategoriesComponent, ManageProductsGroupComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent, ManageProductBrandComponent, DateVNPipe, PermisionComponent,  ManageReportComponent, ManageAmountComponent, AccDocComponent, AccDocDetailComponent, OpenInventoryComponent, OpenInventorySystemComponent, LoginEventComponent, PostCategoryComponent, PostComponent, ProductCategoryComponent, ProductComponent, ManufacturerComponent, SlideComponent, EmployeeComponent, CustomerComponent, AppUserComponent, AccDocProductComponent,OrderComponent, EventlogComponent, LogerrorComponent, OpeninventoryComponent]
 })
 export class MainModule { }

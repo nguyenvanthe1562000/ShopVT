@@ -6,7 +6,8 @@ namespace Model.Model
      {
         
     public int Id { set; get; }
-    public DateTime DocDate { set; get; }
+        public string DocCode { set; get; }
+        public DateTime DocDate { set; get; }
     public string Stt { set; get; }
     public string SupplierCode { set; get; }
     public string Person { set; get; }

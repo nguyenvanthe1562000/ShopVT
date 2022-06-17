@@ -235,10 +235,16 @@ export class PostComponent extends BaseComponent implements OnInit {
 
     if (addDataIsGroup) {
       if (this.selectGroup) {
-        this.formData.append('ParentId', `${this.selectGroup.Data}`);
+        this.formData.append('ParentId', `${this.selectGroup.data}`);
       }
       else { this.formData.append('ParentId', `-1`); }
       this.formData.append('IsGroup', `${true}`);
+    }
+    else
+    {
+      if (this.selectGroup) {
+        this.formData.append('ParentId', `${this.selectGroup.data}`);
+      }
     }
     this.ConvertNgFormToFormData(form, this.formData);  
     this._api.postFormData(`${this.api}/add`, this.formData).takeUntil(this.unsubscribe).subscribe(res => {

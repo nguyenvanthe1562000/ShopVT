@@ -11,5 +11,7 @@ namespace Data.Repository.Interface
      public interface ILoginAdminRepository
     {
         Task<IdentityModel> Login(LoginRequest loginRequest);
+
+        Task<IdentityClientModel> LoginClient(LoginRequest loginRequest);
     }
 }

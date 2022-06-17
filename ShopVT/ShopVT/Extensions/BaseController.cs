@@ -28,9 +28,6 @@ namespace ShopVT.Extensions
                 throw new Exception(ex.Message.ToString());
             }
            
-           
-
-
         }
         protected string GetUserCode()
         {

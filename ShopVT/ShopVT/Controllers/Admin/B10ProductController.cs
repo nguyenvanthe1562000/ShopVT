@@ -150,6 +150,24 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
+        [HttpPut]
+        [Route("tranfer")]
+        [RequiredOneOfPermissions(PermissionData.EditOther, PermissionData.Edit)]
+        public async Task<IActionResult> UpdateAsync2([FromBody] ProductUpdateRequest updateRequest)
+        {
+            try
+            {
+               
+                var b10product = _map.Map<vB10ProductModel>(updateRequest);
+                var result = await _edit.Update<vB10ProductModel>(b10product, _table, b10product.ID, "", GetCurrentUserId());
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { ProductUpdateRequest = updateRequest });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
         [HttpDelete]
         [RequiredOneOfPermissions(PermissionData.Delete, PermissionData.DeleteOrther)]
         public async Task<IActionResult> DeleteAsync(int rowid)
@@ -283,7 +301,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.Lookup<vB10ProductModel>(_table, "Code", v, 10, "", false, GetCurrentUserId(),filterKey:"IsGroup=0");
+                var result = await _explore.Lookup<vB10ProductModel>(_table, "Code", v, 10, "", false, GetCurrentUserId(), filterKey: "IsGroup=0");
                 return Ok(result);
             }
             catch (Exception ex)

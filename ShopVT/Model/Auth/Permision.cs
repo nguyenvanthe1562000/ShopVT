@@ -28,7 +28,7 @@ namespace Model.Auth
     {
         //viết 1 enum
         //
-        AccessApplication = 0,
+        AccessApplication = 9,
         Category = 0100000000,//danh mục
         Receipt = 0200000000,//chứng từ - hóa đơn
         General = 0300000000,//tổng hợp -các thông tin tồn hàng hóa đầu kì.

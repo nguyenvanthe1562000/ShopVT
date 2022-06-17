@@ -1,0 +1,35 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+      "baseUrl": "./",
+      "outDir": "./dist/out-tsc",
+      "sourceMap": true,
+      "declaration": false,
+      "module": "esnext",       
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "target": "es5",
+      "typeRoots": [
+        "node_modules/@types"
+      ],
+      "lib": [
+          "es2018",
+          "dom"
+      ],
+      "paths": {
+          "core": [
+              "projects/core/src/public_api"
+          ],
+          "core/*": [
+              "dist/core/*"
+          ]          
+      },
+      "plugins": [
+          {
+              "name": "@angular/language-service"
+          }
+      ]
+  },
+  "exclude": ["node_modules/@types"]  
+}

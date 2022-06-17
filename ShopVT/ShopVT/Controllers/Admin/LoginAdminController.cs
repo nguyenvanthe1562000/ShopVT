@@ -62,19 +62,23 @@ namespace ShopVT.Controllers.Admin
                  {
                      var rolesModel = JsonConvert.DeserializeObject<List<RolesModel>>(identity.Roles);
                      List<Roles> listRoles = new List<Roles>();
-                     foreach (var item in rolesModel)
+                     if (!(rolesModel is null))
                      {
-                         Roles roles = new Roles();
-                         roles.Function = item.FunctionCode;
-                         roles.CanRead = item.CanRead ? ClaimAction.CANREAD : "";
-                         roles.CanCreate = item.CanCreate ? ClaimAction.CANCREATE : "";
-                         roles.CanUpdate = item.CanUpdate ? ClaimAction.CANUPDATE : "";
-                         roles.CanDelete = item.CanDelete ? ClaimAction.CANDELETE : "";
-                         roles.CanReport = item.CanReport ? ClaimAction.CANREPORT : "";
-                         listRoles.Add(roles);
+                         foreach (var item in rolesModel)
+                         {
+                             Roles roles = new Roles();
+                             roles.Function = item.FunctionCode;
+                             roles.CanRead = item.CanRead ? ClaimAction.CANREAD : "";
+                             roles.CanCreate = item.CanCreate ? ClaimAction.CANCREATE : "";
+                             roles.CanUpdate = item.CanUpdate ? ClaimAction.CANUPDATE : "";
+                             roles.CanDelete = item.CanDelete ? ClaimAction.CANDELETE : "";
+                             roles.CanReport = item.CanReport ? ClaimAction.CANREPORT : "";
+                             listRoles.Add(roles);
 
+                         }
+                         return JsonConvert.SerializeObject(listRoles);
                      }
-                     return JsonConvert.SerializeObject(listRoles);
+                     return "";
                  });
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

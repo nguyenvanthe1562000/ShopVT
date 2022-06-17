@@ -11,5 +11,6 @@ namespace Service.Admin.Service.Interface
     public interface ILoginAdminService
     {
         Task<IdentityModel> Login(LoginRequest request);
+        Task<IdentityClientModel> LoginClient(LoginRequest request);
     }
 }

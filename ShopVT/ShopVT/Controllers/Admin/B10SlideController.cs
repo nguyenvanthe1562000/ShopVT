@@ -98,7 +98,9 @@ namespace ShopVT.Controllers.Admin
                 {
                     return BadRequest(new ResponseMessageDto(MessageType.Error, "dữ liệu id không hợp lệ"));
                 }
+
                 var B10Slide = _map.Map<vB10SlideModel>(updateRequest);
+                B10Slide.Image = await SaveFile(updateRequest.Image);
                 var result = await _edit.Update<vB10SlideModel>(B10Slide, _table, B10Slide.ID,  "", GetCurrentUserId());
                 return Ok(result);
             }

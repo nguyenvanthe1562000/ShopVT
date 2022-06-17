@@ -55,6 +55,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
+                addRequest.Code= await GenerateId.NewId(GetCurrentUserId());
                 var result = await _edit.Add<B00AppUserModel>(addRequest, _table, "", GetCurrentUserId());   
                 return Ok(result);
             }
@@ -180,6 +181,7 @@ namespace ShopVT.Controllers.Admin
                 {
                     cat.Children = childsHash[cat.Data].ToList();
                 }
+
                 return Ok(result);
             }
 

@@ -19,6 +19,8 @@ import { GroupData } from '../../../shared/models/GroupData';
 import { css } from 'jquery';
 import { stringify } from 'querystring';
 import { B10Employee } from 'src/app/shared/models/B10Employee';
+import { B00permissionFunc } from 'src/app/shared/models/B00permissionFunc';
+import { vB00PermissionData } from 'src/app/shared/models/vB00PermissionData';
 interface FilterTypeColumn { value: string, viewValue: string }
 interface FilterTypeValue { value: FilterType, viewValue: string }
 @Component({
@@ -48,10 +50,14 @@ export class AppUserComponent extends BaseComponent implements OnInit {
   public addType: number = 0; //thao tác lưu dữ liệu vd 0: lưu và thêm mới
   public lookupRows: number = 10;
   public lookupData: B10Employee;
+  public permissionData: Array<vB00PermissionData>;
+  public permissionFunction: B00permissionFunc;
+
   //editordata
   public displayUpdate: boolean = false;
   public displayConvert: boolean = false;// chuyển nhóm dữ liệu
   displayAdd: boolean = false;
+  displayPermission: boolean = false;
   constructor(private fb: FormBuilder, private httpclient: HttpClient, injector: Injector, private route: ActivatedRoute, private router: Router) {
     super(injector);
     this.filter = new PagingRequest();
@@ -103,8 +109,8 @@ export class AppUserComponent extends BaseComponent implements OnInit {
     let orderBy = PagingRequest.OrderBy;
     this.route.params.subscribe(params => {
       this._api.post(`${this.api}/filter`, { pageIndex: PagingRequest.PageIndex, pageSize: PagingRequest.PageSize, orderBy: PagingRequest.OrderBy, orderDesc: PagingRequest.OrderDesc, filterColumn: PagingRequest.FilterColumn, filterType: PagingRequest.FilterType, filterValue: PagingRequest.FilterValue, ParentId: PagingRequest.ParentId, dataIsActive: PagingRequest.DataIsActive }).takeUntil(this.unsubscribe).subscribe(res => {
-        this.listItem.PageIndex = res.pageIndex?res.pageIndex:1;
-        this.listItem.PageSize = res.pageSize?res.pageSize:this.pageSize;
+        this.listItem.PageIndex = res.pageIndex ? res.pageIndex : 1;
+        this.listItem.PageSize = res.pageSize ? res.pageSize : this.pageSize;
         this.listItem.PageCount = res.pageCount;
         this.listItem.TotalRecords = res.totalRecords;
         this.listItem.Items = res.items;
@@ -215,8 +221,7 @@ export class AppUserComponent extends BaseComponent implements OnInit {
     this.displayEditChild = true;
   }
 
-  SelectForeignKey(event:any,foreignKey: string)
-  {
+  SelectForeignKey(event: any, foreignKey: string) {
     this.formData.append(foreignKey, event.code);
   }
   SelectFile(event: any, name: string, isMultiple: boolean) {
@@ -239,8 +244,9 @@ export class AppUserComponent extends BaseComponent implements OnInit {
       else { this.formData.append('ParentId', `-1`); }
       this.formData.append('IsGroup', `${true}`);
     }
-    this.ConvertNgFormToFormData(form, this.formData);  
-    this._api.postFormData(`${this.api}/add`, this.formData).takeUntil(this.unsubscribe).subscribe(res => {
+    // let obj:B00AppUser;
+    // this.ConvertNgFormToObject(form,obj);
+    this._api.post(`${this.api}/add`, form.value).takeUntil(this.unsubscribe).subscribe(res => {
       alert(res.messages[0].message)
       this.formData = new FormData();
       this.Filter(this.filter);
@@ -268,8 +274,7 @@ export class AppUserComponent extends BaseComponent implements OnInit {
       form.resetForm();
     }
     else if (addType == 1) {
-      if( form.control['code'])
-        {form.control['code'].setValue('');}
+      if (form.control['code']) { form.control['code'].setValue(''); }
     }
     else {
       form.resetForm();
@@ -290,7 +295,7 @@ export class AppUserComponent extends BaseComponent implements OnInit {
   }
   Delete(id: number) {
     if (confirm("Bạn có chắc chắn muốn xóa?")) {
-      this._api.deleteParamUrl(`${this.api}`,id).takeUntil(this.unsubscribe).subscribe(res => {
+      this._api.deleteParamUrl(`${this.api}`, id).takeUntil(this.unsubscribe).subscribe(res => {
         this.Filter(this.filter);
         alert(res.messages[0].message)
       });
@@ -298,7 +303,7 @@ export class AppUserComponent extends BaseComponent implements OnInit {
   }
 
   Lookup(str: any) {
-    this._api.getLookup(`employee`,str.query).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.getLookup(`employee`, str.query).takeUntil(this.unsubscribe).subscribe(res => {
       this.lookupData = res;
     });
   }
@@ -311,5 +316,48 @@ export class AppUserComponent extends BaseComponent implements OnInit {
       });
     }
     //end data editor
+  }
+
+  //Permission
+  _AccessApplication: boolean;
+  _Category: boolean;
+  _Receipt: boolean;
+  _General: boolean;
+  _Report: boolean;
+  _System: boolean;
+  permission(id: number) {
+    debugger;
+    this._api.get('/api/permission/' + id).takeUntil(this.unsubscribe).subscribe(res => {
+      this.permissionFunction = res.func;
+      this.permissionData = res.data;
+      this._AccessApplication = this.permissionFunction._AccessApplication;
+      this._Category = this.permissionFunction._Category;
+      this._Receipt = this.permissionFunction._Receipt;
+      this._General = this.permissionFunction._General;
+      this._Report = this.permissionFunction._Report;
+      this._System = this.permissionFunction._System;
+      // console.log(this.permissionFunction);
+      // console.log(this.selectItem);
+    });
+  }
+  changePermissionData(id: number, event: any, column: any) {
+    this.permissionData[id]["UserId"] = this.selectItem.id;
+    this.permissionData[id][column] = event.target.checked;
+    console.log(this.permissionData[id]);
+    // alert(this.permissionData[id][column] );
+  }
+  changePermissionFunction(event: any, column: any) {
+    this.permissionFunction[column] = event.target.checked;
+  }
+  updatePermission(form: NgForm, addType: number) {
+    debugger;
+    console.log(this.permissionFunction);
+    this.selectItem.PermissionData = this.permissionData;
+    this.ConvertObjectToFormData(this.selectItem, this.formData);
+    this.formData.append('permissionData1', JSON.stringify(this.permissionData));
+    this.formData.append('permissionFunction1', JSON.stringify(this.permissionFunction));
+    // this.selectItem.
+    this._api.postFormData(`/api/permission/update`, this.formData).takeUntil(this.unsubscribe).subscribe(res => { });
+
   }
 }

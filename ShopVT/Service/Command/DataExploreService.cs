@@ -652,7 +652,7 @@ namespace Service.Command
             }
         }
 
-        public async Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue, int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey="")
+        public async Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue, int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey="", bool AndOrFilterKey=true)
         {
             try
             {
@@ -717,11 +717,25 @@ namespace Service.Command
                     }
                     if (!string.IsNullOrEmpty(filterKey))
                     {
-                     
-                        if (string.IsNullOrEmpty(filter.ToString()))
-                             filter.Append($"({filterKey})");
+                      if(!AndOrFilterKey)
+                        {
+                            filter.Append($" OR ({filterKey})");
+                            if (string.IsNullOrEmpty(filterValue))
+                            {
+                                filter = filter.Remove(0, 2);
+                            }
+                        }    
                         else
+                        {
                             filter.Append($" AND ({filterKey})");
+                            if (string.IsNullOrEmpty(filterValue))
+                            {
+                                filter = filter.Remove(0, 4);
+                            }
+                        }    
+
+
+                        
                     }
                     dataExplore.TableName = table;
                     dataExplore.UserId = userId;

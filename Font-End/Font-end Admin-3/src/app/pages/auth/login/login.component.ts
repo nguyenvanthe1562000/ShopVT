@@ -12,51 +12,51 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  
-  frmLogin:FormGroup;
+
+  frmLogin: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
-  error='';
-  ipAddress='';
+  error = '';
+  ipAddress = '';
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private httpclient: HttpClient,
     private authenticationService: AuthenticationService
-    ) {
-      // redirect to home if already logged in
-      if (this.authenticationService.userValue) {
-        this.router.navigate(['/auth/login']);
-      }
+  ) {
+    // redirect to home if already logged in
+    if (this.authenticationService.userValue) {
+      this.router.navigate(['/auth/login']);
     }
-    
-    ngOnInit(): void {
-      this.frmLogin = this.formBuilder.group({
-        TaiKhoan: ['', Validators.required],
-        MatKhau: ['', Validators.required],
-        remember: [''],
-      });
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-      this.httpclient.get("http://api.ipify.org/?format=json").subscribe((res:any)=>{
-        this.ipAddress=res.ip;
-      });
+  }
+
+  ngOnInit(): void {
+    this.frmLogin = this.formBuilder.group({
+      TaiKhoan: ['', Validators.required],
+      MatKhau: ['', Validators.required],
+      remember: [''],
+    });
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.httpclient.get("http://api.ipify.org/?format=json").subscribe((res: any) => {
+      this.ipAddress = res.ip;
+    });
+  }
+
+  get f() {
+    return this.frmLogin.controls;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.frmLogin.invalid) {
+      return;
     }
-    
-    get f() {
-      return this.frmLogin.controls;
-    }
-    
-    onSubmit(){
-      this.submitted = true;
-      // stop here if form is invalid
-      if (this.frmLogin.invalid) {
-        return;
-      }
-      debugger;
-      this.loading = true;
-      this.authenticationService
+    debugger;
+    this.loading = true;
+    this.authenticationService
       .login(this.f.TaiKhoan.value, this.f.MatKhau.value, this.ipAddress)
       .pipe(first())
       .subscribe(
@@ -65,11 +65,10 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           alert("Đăng nhập thất bại");
-          this.loading = false;   
+          this.loading = false;
         }
-        );
-      }
+      );
+  }
 
-    
-    }
-    
+
+}

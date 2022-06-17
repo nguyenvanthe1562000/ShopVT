@@ -22,12 +22,13 @@ namespace API.Controllers.Admin.Service
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("filter")]
-        public IActionResult GetAsync(FilterLogDto filterDto)
+        public IActionResult GetAsync()
         {
             try
             {
+                FilterLogDto filterDto=new FilterLogDto();
                 var logs = _logger.QueryLog(filterDto.Type, filterDto.LogTimeFrom, filterDto.LogTimeTo, filterDto.FileName, filterDto.ClassName, filterDto.MethodName, filterDto.LineNumber);
                 return Ok(logs);
             }

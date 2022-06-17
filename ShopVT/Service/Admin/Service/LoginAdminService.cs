@@ -22,5 +22,10 @@ namespace Service.Admin.Service
         {
             return await _rep.Login(request);
         }
+
+        public async Task<IdentityClientModel> LoginClient(LoginRequest request)
+        {
+            return await _rep.LoginClient(request);
+        }
     }
 }

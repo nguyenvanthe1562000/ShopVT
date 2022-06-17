@@ -11,6 +11,8 @@ namespace ViewModel.catalog.Product
     {
 
         public int ID { set; get; }
+        public bool IsGroup { set; get; }
+        public int ParentId { set; get; }
         public string Code { set; get; }
         public string Name { set; get; }
         public string Alias { set; get; }

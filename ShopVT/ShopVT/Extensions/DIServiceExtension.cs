@@ -42,7 +42,6 @@ namespace ShopVT.Extensions
             #region service admin
          
             services.AddTransient<ILoginAdminService, LoginAdminService>();
-            services.AddTransient<ILoginAdminService, LoginAdminService>();
 
             services.AddTransient<IDataEdtitorService, DataEdtitorService>();
             #endregion
