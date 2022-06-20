@@ -3,6 +3,7 @@ export class vB20Order {
         
     iD : number;    
     code : string;  
+    customerCode : string;  
     customerName : string;  stt : string; 
     customerAddress : string;   
     customerEmail : string;     
@@ -21,6 +22,6 @@ export class vB20Order {
     orderStatusName : string;   
     paymentMethodName : string
     vB20OrderDetail : Array<any>;
-    
+    docDate : Date;  
     }
     

@@ -59,6 +59,12 @@
                                 <span>Danh mục Silde</span>
                             </a>
                         </li>
+                        <li>
+                            <a [routerLink]="['/customiz-home-page']" >
+                                <span>Tùy chỉnh trang chủ</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
                 <li>
@@ -78,7 +84,7 @@
                             </a>
                         </li>
                         <li>
-                            <a [routerLink]="['/acc-doc']" >
+                            <a [routerLink]="['/order-return']" >
                                 <span>Hàng bán bị trả lại</span>
                             </a>
                         </li>
@@ -91,7 +97,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a [routerLink]="['/post-category']" >
+                            <a [routerLink]="['/opent-inventory']" >
                                 <span>Tồn Đầu </span>
                             </a>
                         </li>
@@ -104,9 +110,11 @@
                         <i class="mdi mdi-email-outline"></i>
                         <span> Báo cáo</span>
                     </a>
+              
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a [routerLink]="['/manage-best-selling']">Thống kê sản phẩm bán chạy</a></li>
-                        <li><a [routerLink]="['/manage-amount']">Thống kê số lượng</a></li>
+                        <li><a [routerLink]="['/report-nhap']">Thống kê Nhập</a></li>
+                        <li><a [routerLink]="['/report-xuat']">Thống kê bán chạy</a></li>
+                        <li><a [routerLink]="['/report-ton']">Thống kê Tồn</a></li>
                     </ul>
                 </li>
                 <li>
@@ -118,6 +126,11 @@
                         <li>
                             <a [routerLink]="['/app-user']" >
                                 <span>Người dùng</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/back-up']" >
+                                <span>Sao lưu cơ sở dữ liệu</span>
                             </a>
                         </li>
                         <li>

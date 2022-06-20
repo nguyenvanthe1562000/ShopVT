@@ -1,0 +1,47 @@
+<p-panel header="Điều kiện lọc" [style]="{'margin-top': '2px'}" >
+    <form class="form-horizontal" (ngSubmit)="search(form)" #form="ngForm">
+        <div class="form-group">
+            <div class="col-sm-11">
+                <label style="font-weight: bold;">Từ ngày  :</label>
+                <input name="DocDate1" ngModel #DocDate1="ngModel" type="date" class="form-control" required="">
+                <label style="font-weight: bold;">đến ngày  :</label>
+                <input name="DocDate2" ngModel #DocDate2="ngModel" type="date" class="form-control" required="">
+                <label style="font-weight: bold;">Mã sản phẩm  :</label>
+                <input name="ItemCode" ngModel #ItemCode="ngModel" type="text" class="form-control" required="">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-11">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Chạy</button>
+            </div>
+        </div>
+    </form>
+</p-panel>
+
+
+
+<div class="bot">
+    <p-table   [resizableColumns]="true" selectionMode="single" [value]="listItem" styleClass="p-datatable-gridlines"
+        [style]="{'margin-top': '2px', 'width': '100%'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+                <th>Hình ảnh</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr >
+                <td style="text-align: center;">{{i+1}}</td>
+                <td>{{item.productCode}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.totalAmount|currency}}</td>
+                <td>{{item.quantity|number}}</td>
+                <td> <img [hidden]="item.image==undefined?true:false || item.image.trim()==''?true:false" src="{{_url}}/{{item.image}}" style="width: 80px;"></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -2,6 +2,7 @@
 using AutoMapper;
 using Common;
 using Common.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Auth;
@@ -63,9 +64,7 @@ namespace ShopVT.Controllers.Admin
                 if (addRequest.vB20OrderDetail=="") return BadRequest(new ResponseMessageDto(MessageType.Error, "tối thiểu 1 dòng chi tiết chứng từ"));
                 addRequest.Stt=await GenerateId.NewId(1);
                 addRequest.code="HD";
-
                 var add = _map.Map<vB20OrderModel>(addRequest);
-
                 add.vB20OrderDetail_Json = JsonConvert.DeserializeObject<List<vB20OrderDetailModel>>(addRequest.vB20OrderDetail);
                 add.Amount = add.vB20OrderDetail_Json.Sum(x => x.Amount);
                 var result = await _edit.AddRangeAsync<vB20OrderModel>(add, _table,"Stt",addRequest.Stt,"",1);
@@ -78,20 +77,16 @@ namespace ShopVT.Controllers.Admin
             }
         }
       
-        [HttpPut]
+        [HttpPost]
         [Route("update")]
+        [Authorize]
         public async Task<IActionResult> UpdateAsync([FromBody] OrderRequest updateRequest)
         {
             try
             {
-                if (updateRequest.vB20OrderDetail is null) return BadRequest(new ResponseMessageDto(MessageType.Error, "chi tiết chứng từ không hợp lệ"));
-
-                if (updateRequest.vB20OrderDetail == "") return BadRequest(new ResponseMessageDto(MessageType.Error, "tối thiểu 1 dòng chi tiết chứng từ"));
+               
                 var update = _map.Map<vB20OrderModel>(updateRequest);
-                update.vB20OrderDetail_Json = JsonConvert.DeserializeObject<List<vB20OrderDetailModel>>(updateRequest.vB20OrderDetail);
-                update.Amount = update.vB20OrderDetail_Json.Sum(x => x.Amount);
-                update.code = "HD";
-                var result = await _edit.UpdateRangeAsync<vB20OrderModel>(update, _table, updateRequest.ID, "Stt",updateRequest.Stt,"", GetCurrentUserId());
+                var result = await _edit.Update<vB20OrderModel>(update, _table, update.ID,"", 1);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -104,6 +99,7 @@ namespace ShopVT.Controllers.Admin
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             try
@@ -117,22 +113,27 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
-        [HttpPost]
-        [Route("filter")]
-        public async Task<IActionResult> GetData([FromBody] PagingRequest pagingRequest)
+  
+
+        [HttpGet]
+        [Route("get-data")]
+        [Authorize]
+        public async Task<IActionResult> GetDataOrder([FromQuery] string code, [FromQuery] string v)
         {
             try
             {
-                var result = await _explore.GetData<PagedResult<vB20OrderModel>, vB20OrderModel>(_table,pagingRequest, GetCurrentUserId());
+                var result = await _explore.Lookup<vB20OrderModel>(_table, "OrderStatus", v, 100, "CreatedAt", true, 1, filterKey: $"CustomerCode='{code}'");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { pagingRequest = pagingRequest });
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { CustomerCode = code, loolupData2 =v });
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
-       
+
+
+      
     }
 }
 

@@ -3,6 +3,8 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { vB20Order } from 'src/app/shared/model/vB20Order';
 import { vB20OrderDetail } from 'src/app/shared/model/vB20OrderDetail';
 import { BaseComponent } from '../../../core/base-component';
+import jwt_decode from 'jwt-decode';
+import { NguoiDung } from 'src/app/shared/model/NguoiDung';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -17,7 +19,10 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
   ngayDat:any;
   public api: string = '/api/client/order' ;
   order:vB20Order;
-  totalqty:number = 0;
+  totalqty:number = 0;  frmLogin: FormGroup;
+  loading = false;
+  submitted = false;
+  returnUrl: string;
   constructor(injector: Injector) { 
     super(injector);
   }
@@ -26,6 +31,7 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
     window.scrollTo(0,0);
     var today = new Date();
     this.ngayDat = today.toLocaleDateString();
+    this.GetData();
     this.frmCheckout = new FormGroup({
       txtHo: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       txtNote: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -63,36 +69,42 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
   
   public onSubmit(value: any) {
     debugger;
-    this.order= new vB20Order();
-   let vB20OrderDetails = new Array<vB20OrderDetail>();
-    this.order.customerName = value.txtHo ;
-    this.order.customerAddress = value.txtDiaChi;
-    this.order.customerMobile = value.txtSDT;
-    this.order.customerEmail = value.txtEmail;
-    this.order.note = value.txtNote;
-    this.order.orderStatus = 0;
-    this.order.amount = this.total;
-    this.items.forEach(element => {
-      let orderDetail = new vB20OrderDetail();
-      orderDetail.amount= element.money;
-      orderDetail.productCode= element.code;
-      orderDetail.quantity= element.quantity;
-      orderDetail.unitPrice= element.unitPrice;
-      orderDetail.productName= element.name;
-      vB20OrderDetails.push(orderDetail);
-    });
-    this.order.vB20OrderDetail = JSON.stringify(vB20OrderDetails);
-    console.log(JSON.stringify(this.order));
-    this._api.post(`${this.api}/add`, this.order).takeUntil(this.unsubscribe).subscribe(res => {
-      if(res)
-      {
-        alert("Đặt hàng thành công");
-        window.location.href = "/";
-        this._cart.clearCart();
-      }
-    });
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.frmLogin.invalid) {
+      return;
+    }
+    debugger;
+   
 
     }
-   
+    listItem:any;
+    public _userCode:any;
+    getDecodedAccessToken(token: string): any {
+      try {
+        return jwt_decode(token);
+      } catch(Error) {
+        return null;
+      }
+    }
+    GetData(){
+      let token = localStorage.getItem('user');
+      let user = <NguoiDung>JSON.parse(token);
+      this._userCode = this.getDecodedAccessToken(user.token);
+      if(token)  
+      {
+        this._api.getAuth(`/api/client/customer/get-address?code=${this._userCode.UserCode}`).takeUntil(this.unsubscribe).subscribe(res => {
+          this.listItem = res;
+        });
+      }
+     
+     }
+     selectAddress(item:any)
+     {
+
+      this.frmCheckout.controls['txtHo'].setValue(item.fullName);
+      this.frmCheckout.controls['txtDiaChi'].setValue(item.address);
+      this.frmCheckout.controls['txtSDT'].setValue(item.phone);
+     }
   }
  

@@ -12,6 +12,9 @@ namespace ShopVT.Extensions
         public const string UserCode = "UserCode";
         public const string EmpCode = "EmployeeCode";
         public const string FulName = "FullName";
+
+        public const string CustomerId = "CustomerId";
+        public const string CustomerCode = "CustomerId";
     }
     
 }

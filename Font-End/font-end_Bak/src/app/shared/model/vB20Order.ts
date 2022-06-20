@@ -5,6 +5,7 @@ export class vB20Order {
     code : string;  
     customerName : string;  stt : string; 
     customerAddress : string;   
+    customerCode : string;   
     customerEmail : string;     
     customerMobile : string;    
     idCardNo : number;  

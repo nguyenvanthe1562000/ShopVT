@@ -37,44 +37,32 @@ namespace Data.Command
 
         public async Task<ResponseMessageDto> Update(DataEditorUpdateRequestModel model)
         {
-            var result = await _dbHelper.ExecuteScalarSProcedureAsync("[usp_sys_DataEditorUpdateOneRow]", "@userId", model.UserId, "@table", model.TableName, "@queryUpdateData", model.QueryUpdateData, "@rowId", model.RowId, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
-            if (!string.IsNullOrEmpty(result.msgError.ToString()))
+            var result = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("[usp_sys_DataEditorUpdateOneRow]", "@userId", model.UserId, "@table", model.TableName, "@queryUpdateData", model.QueryUpdateData, "@rowId", model.RowId, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
+            if (!string.IsNullOrEmpty(result.message.ToString()))
             {
-
-                return new ResponseMessageDto(MessageType.Error, result.msgError);
+                throw new Exception(result.message);
             }
-            if (!(result.result is null))
-            {
-                return new ResponseMessageDto(MessageType.Warning, result.result.ToString());
-            }
+            
             return new ResponseMessageDto(MessageType.Success, "Update dữ liệu thành công");
         }
         public async Task<ResponseMessageDto> Delete(DataEditorDeleteRequestModel model)
         {
-            var result = await _dbHelper.ExecuteScalarSProcedureAsync("[usp_sys_DataEditorDelete]", "@userId", model.UserId, "@table", model.TableName, "@rowId", model.RowId, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
-            if (!string.IsNullOrEmpty(result.msgError.ToString()))
+            var result = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("[usp_sys_DataEditorDelete]", "@userId", model.UserId, "@table", model.TableName, "@rowId", model.RowId, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
+            if (!string.IsNullOrEmpty(result.message.ToString()))
             {
-
-                return new ResponseMessageDto(MessageType.Error, result.msgError);
+                throw new Exception(result.message);
             }
-            if (!(result.result is null))
-            {
-                return new ResponseMessageDto(MessageType.Warning, result.result.ToString());
-            }
+          
             return new ResponseMessageDto(MessageType.Success, "Xóa dữ liệu thành công");
         }
         public async Task<ResponseMessageDto> Restore(DataEditorRestoreRequestModel model)
         {
-            var result = await _dbHelper.ExecuteScalarSProcedureAsync("[usp_sys_DataEditorRestore]", "@userId", model.UserId, "@table", model.TableName, "@rowId", model.RowId, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
-            if (!string.IsNullOrEmpty(result.msgError.ToString()))
+            var result = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("[usp_sys_DataEditorRestore]", "@userId", model.UserId, "@table", model.TableName, "@rowId", model.RowId, "@isRequired", model.Condition, "@requiredColumnPrimeryKey", model.ConditionString);
+            if (!string.IsNullOrEmpty(result.message.ToString()))
             {
-
-                return new ResponseMessageDto(MessageType.Error, result.msgError);
+                throw new Exception(result.message);
             }
-            if (!(result.result is null))
-            {
-                return new ResponseMessageDto(MessageType.Warning, result.result.ToString());
-            }
+           
             return new ResponseMessageDto(MessageType.Success, "Khôi phục dữ liệu thành công");
         }
         public async Task<ResponseMessageDto> AddRange(DataEditorAddRangeRequestModel model)

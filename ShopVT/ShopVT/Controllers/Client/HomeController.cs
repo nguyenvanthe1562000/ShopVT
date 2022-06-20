@@ -40,7 +40,32 @@ namespace ShopVT.Controllers.Admin
             _storageService = storageService;
             _map = mapper;
         }
-   
+
+
+        [HttpGet]
+        [Route("")]
+        public async Task<IActionResult> GetHome()
+        {
+            try
+            {
+                _table = "B10HomePage";
+                var result = await _explore.Lookup<B10HomePageModel>(_table, "Name", "", 99, "DisplayOrder", false, 1, filterKey: "Show=1");
+                for (int i = 0; i < result.Count; i++)
+                {
+                    _table = "vB10HomePageDetail";
+                    var result2 = await _explore.Lookup<vB10HomePageDetailModel>(_table, "stt", result[i].Stt, 99, "id", false, 1);
+                    result[i].vB10HomePageDetail_Json = result2.ToList();
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { loolupData = "" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
+            }
+        }
+
+
         [HttpGet]
         [Route("category-product")]
         public async Task<IActionResult> GetDataLookUp1()

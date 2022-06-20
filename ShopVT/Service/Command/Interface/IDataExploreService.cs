@@ -90,7 +90,8 @@ namespace Service.Command.Interface
         public Task<T> GetDataByIdMultipleTable<T>(string table, int RowId, string keyParent, string foreignKey, string OrderBy, bool OrderDesc, int userId);
         //
         /// <summary>
-        /// lookup table 
+        /// lookup table ;
+        /// true = and ; false = or
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="table"></param>
@@ -100,6 +101,7 @@ namespace Service.Command.Interface
         /// <param name="OrderBy"></param>
         /// <param name="OrderDesc"></param>
         /// <param name="userId"></param>
+        /// <param name="AndOrFilterKey">true = and ; false = or</param>
         /// <returns></returns>
         public Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue , int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey="", bool AndOrFilterKey = true);
     }

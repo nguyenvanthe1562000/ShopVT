@@ -53,6 +53,12 @@ import { OrderComponent } from './order/order.component';
 import { EventlogComponent } from './eventlog/eventlog.component';
 import { LogerrorComponent } from './logerror/logerror.component';
 import { OpeninventoryComponent } from './openinventory/openinventory.component';
+import { BackUpComponent } from './back-up/back-up.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { OrderReturnComponent } from './order-return/order-return.component';
+import { ReportNhapComponent } from './report-nhap/report-nhap.component';
+import { ReportXuatComponent } from './report-xuat/report-xuat.component';
+import { ReportTonComponent } from './report-ton/report-ton.component';
 
 export const mainRoute: Routes = [
   {
@@ -121,6 +127,34 @@ export const mainRoute: Routes = [
         path: 'login-event',
         component: LoginEventComponent,
       },
+      {
+        path: 'opent-inventory',
+        component: OpeninventoryComponent,
+      },
+      {
+        path: 'customiz-home-page',
+        component: HomePageComponent,
+      },
+      {
+        path: 'back-up',
+        component: BackUpComponent,
+      },
+      {
+        path: 'order-return',
+        component: OrderReturnComponent,
+      },
+      {
+        path: 'report-nhap',
+        component: ReportNhapComponent,
+      },
+      {
+        path: 'report-xuat',
+        component: ReportXuatComponent,
+      },
+      {
+        path: 'report-ton',
+        component: ReportTonComponent,
+      },
     ]
   }
 ]
@@ -146,6 +180,6 @@ export const mainRoute: Routes = [
   ],
   bootstrap:  [ MainComponent ],
   declarations: [MainComponent,    
-    DashboardComponent, ManageCategoriesComponent, ManageProductsGroupComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent, ManageProductBrandComponent, DateVNPipe, PermisionComponent,  ManageReportComponent, ManageAmountComponent, AccDocComponent, AccDocDetailComponent, OpenInventoryComponent, OpenInventorySystemComponent, LoginEventComponent, PostCategoryComponent, PostComponent, ProductCategoryComponent, ProductComponent, ManufacturerComponent, SlideComponent, EmployeeComponent, CustomerComponent, AppUserComponent, AccDocProductComponent,OrderComponent, EventlogComponent, LogerrorComponent, OpeninventoryComponent]
+    DashboardComponent, ManageCategoriesComponent, ManageProductsGroupComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent, ManageProductBrandComponent, DateVNPipe, PermisionComponent,  ManageReportComponent, ManageAmountComponent, AccDocComponent, AccDocDetailComponent, OpenInventoryComponent, OpenInventorySystemComponent, LoginEventComponent, PostCategoryComponent, PostComponent, ProductCategoryComponent, ProductComponent, ManufacturerComponent, SlideComponent, EmployeeComponent, CustomerComponent, AppUserComponent, AccDocProductComponent,OrderComponent, EventlogComponent, LogerrorComponent, OpeninventoryComponent, BackUpComponent, HomePageComponent, OrderReturnComponent, ReportNhapComponent, ReportXuatComponent, ReportTonComponent]
 })
 export class MainModule { }

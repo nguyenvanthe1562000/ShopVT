@@ -8,6 +8,10 @@ const routes: Routes = [
   { path: '', loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule)} ,
   { path: 'shopping', loadChildren: () => import('./pages/shopping/shopping.module').then(m => m.ShoppingModule)} ,
   {path:'customer',loadChildren:()=>import('./pages/customer/customer.module').then(m=>m.CustomerModule),canActivate:[AuthGuard]},
+  { 
+    path: 'auth', 
+    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
+  },
   {
     path: '**',
     component: PageNotFoundComponent,

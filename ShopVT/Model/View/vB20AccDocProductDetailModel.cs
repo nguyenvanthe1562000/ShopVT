@@ -10,7 +10,7 @@ namespace Model.Model
         public string ProductCode { set; get; }
         public string ProductName { set; get; }
         public string Unit { set; get; }
-        public int Quantitty { set; get; }
+        public int Quantity { set; get; }
         public decimal UnitPrice { set; get; }
         public decimal Amount { set; get; }
         public bool IsActive { set; get; }

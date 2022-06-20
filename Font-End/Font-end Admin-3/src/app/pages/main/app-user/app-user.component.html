@@ -102,10 +102,10 @@
             <input name="UserName" ngModel #UserName="ngModel" type="text" class="form-control" placeholder="Tên nhóm"
                 required>
             <label style="font-weight: bold;">Mật khẩu:</label>
-            <input name="PassWord" ngModel #PassWord="ngModel" type="text" class="form-control" placeholder="Tên nhóm"
+            <input name="PassWord" ngModel [minlength]="6" maxlength="8" #PassWord="ngModel" type="password" class="form-control" placeholder="Tên nhóm"
                 required>
             <label style="font-weight: bold;">Nhập lại mật khẩu:</label>
-            <input name="RepeatPassWord" ngModel #RepeatPassWord="ngModel" type="text" class="form-control"
+            <input name="RepeatPassWord" [minlength]="6" maxlength="8"  ngModel #RepeatPassWord="ngModel" type="password" class="form-control"
                 placeholder="Tên nhóm" required
                 [ngClass]="{'has-error':(PassWord.invalid && (PassWord.dirty || PassWord.touched)) && (PassWord!=RepeatPassWord)}">
             <label style="font-weight: bold;">Tên người sử dụng:</label>

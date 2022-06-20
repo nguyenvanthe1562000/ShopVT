@@ -1,0 +1,36 @@
+<div class="top">
+    <h2>Sao lưu csdl</h2>
+    <p-button (click)="showAdd()" icon="pi pi-external-link" label="Sao lưu ngay"></p-button>
+</div>
+<!--explore data -->
+
+<div class="bot">
+    <p-table   [resizableColumns]="true" selectionMode="single" [value]="listItem.Items" styleClass="p-datatable-gridlines"
+        [style]="{'margin-top': '2px', 'width': '100%'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th >fileName</th>
+                <th >Size</th>
+                <th >Ngày sao lưu</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr >
+                <td>{{i+1}}</td>
+                <td>{{item.fileName}}</td>
+                <td>{{item.size}}</td>
+                <td>{{item.methodName}}</td>
+                <td>{{item.docDate}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
+</div>
+
+
+<!--end explore data -->
+
+
+
+<!-- chuyển nhóm -->

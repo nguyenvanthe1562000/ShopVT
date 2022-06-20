@@ -8,6 +8,8 @@ namespace Model.Model
         public int ID { set; get; }
         public string Stt { set; get; }
         public string code { set; get; }
+        public DateTime DocDate { set; get; }
+        public string CustomerCode { set; get; }
         public string CustomerName { set; get; }
         public string CustomerAddress { set; get; }
         public string CustomerEmail { set; get; }

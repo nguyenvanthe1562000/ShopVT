@@ -144,7 +144,10 @@
             <p-autoComplete name="ProductCategoryCode" ngModel #ProductCategoryCode="ngModel" class="form-control"
                 [suggestions]="lookupProductCategoryData" [dropdown]="true"
                 (onSelect)="SelectForeignKey($event,'productCategoryCode')" field="name"
-                (completeMethod)="LookupCategory($event)"></p-autoComplete>
+                (completeMethod)="LookupCategory($event)">
+            
+                
+            </p-autoComplete>
                 </div>
                 <div class="col-md-6">
                     <label style="font-weight: bold;">Hãng sx:</label>
@@ -341,7 +344,8 @@
             <p-autoComplete name="productCategoryCode" [(ngModel)]="selectItem.productCategoryCode"
                 #productCategoryCode="ngModel" class="form-control" [suggestions]="lookupProductCategoryData"
                 [dropdown]="true" (onSelect)="SelectForeignKey($event,'productCategoryCode')" field="name"
-                (completeMethod)="LookupCategory($event)"></p-autoComplete>
+                (completeMethod)="LookupCategory($event)" [placeholder]="selectItem.productCategoryCode">
+            </p-autoComplete>
                 <label style="font-weight: bold;">Hãng sx:</label>
                 <input name="manufacturerCode" [(ngModel)]="selectItem.manufacturerCode" #manufacturerCode="ngModel" type="text" class="form-control" placeholder="Tên nhóm">
             <div class="row">

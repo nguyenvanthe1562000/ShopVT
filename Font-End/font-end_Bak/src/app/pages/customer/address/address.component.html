@@ -1,0 +1,98 @@
+
+<div class="main-content">
+    <div id="wrapper-site">
+        <div id="content-wrapper">
+            <div id="main">
+                <div class="page-home">
+
+                    <!-- breadcrumb -->
+                    <nav class="breadcrumb-bg">
+                        <div class="container no-index">
+                            <div class="breadcrumb">
+                                <ol>
+                                    <li>
+                                        <a routerLink="/">
+                                            <span>Trang chủ</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span>Tin Tức</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span>Chi tiết</span>
+                                        </a>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </nav>
+                    <br>
+                    <br>
+                    <div class="container">
+                        <div class="content">
+                            <div class="row">
+                                <div class="sidebar-3 sidebar-collection col-lg-3 col-md-3 col-sm-4">
+
+                                    <!-- category -->
+                                    <div class="sidebar-block">
+                                        <div class="title-block">Tài khoản của tôi</div>
+                                        <div class="block-content">
+                                            <div class="cateTitle hasSubCategory open level1">
+                                                <a class="cateItem" routerLink="/customer">Hồ sơ</a>
+                                            </div>
+                                            <div class="cateTitle hasSubCategory open level1">
+                                                <a class="cateItem" routerLink="/customer/address">Địa chỉ</a>
+                                            </div>
+                                            <div class="cateTitle hasSubCategory open level1">
+                                                <a class="cateItem" routerLink="/customer/history-order">Đơn mua</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-lg-9 col-md-9 flex-xs-first main-blogs" style="width: 80%;">
+                                  
+                                    <div id="main">
+                                       
+                                        <div class="content" id="block-history">
+                                            
+                                            <table class="std table" *ngFor="let item of listItem; let i = index">
+                                                <tbody>                    
+                                                    <tr>
+                                                        <th class="first_item">Địa chỉ số : {{i+1}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="first_item">Người nhận :</th>
+                                                        <td>{{item.fullName}}</td>
+                                                    </tr>
+                                                  
+                                                    <tr>
+                                                        <th class="first_item">Địa chỉ :</th>
+                                                        <td>{{item.address}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="first_item">Số điện thoại :</th>
+                                                        <td>{{item.phone}}</td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                                <br>
+                                                <br>
+                                            </table>                    
+                                        </div>
+                                     
+                                      
+                                    </div>
+                                   
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -29,7 +29,6 @@ export class TintucDetailComponent extends BaseComponent implements OnInit {
     this.getSlide();
     this.route.params.subscribe(params => {
       let id = params['id'];
-      debugger;
       this._api.get('/api/client/post/' + id).takeUntil(this.unsubscribe).subscribe(res => {
         this.item = res;
         this.getRelated();

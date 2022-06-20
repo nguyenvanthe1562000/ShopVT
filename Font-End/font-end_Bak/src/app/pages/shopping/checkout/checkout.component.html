@@ -32,26 +32,40 @@
                                     <div class="col-md-9 check-info">
                                         <div class="checkout-personal-step">
                                             <h3 class="step-title h3 info">
-                                                <span class="step-number">1</span>Thông tin người dùng
+                                                <span class="step-number">1</span>Xác nhận đơn đặt hàng
                                             </h3>
                                         </div>
                                         <div class="content">
-                                            <ul class="nav nav-inline">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" data-toggle="tab"
-                                                        href="#checkout-guest-form">
-                                                        Đặt hàng
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab" href="#checkout-login-form">
-                                                        SIGN IN
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                            
                                             <div class="tab-content">
                                                 <div class="tab-pane fade in active show" id="checkout-guest-form"
                                                     role="tabpanel">
+                                                    <div class="d-flex sort-by-row justify-content-lg-end justify-content-md-end" [hidden]="_userCode!=undefined">
+
+                                                        <div class="products-sort-order dropdown">
+                                                            <label class="label-sort-by" for="select-sort-by">
+                                                                <span>Địa Chỉ Nhận Hàng:--</span>
+                                                            </label>
+                                                            <div class="content" id="block-history">
+                                            
+                                                                <table class="std table" >
+                                                                    <tbody>                    
+                                                                       
+                                                                        <tr *ngFor="let item of listItem">
+                                                                            <td><input (click)="selectAddress(item)" type="radio" name="address" checked></td>
+                                                                            <th class="first_item">{{item.fullName}} 
+                                                                                <tr>{{item.phone}} </tr>
+                                                                            </th>
+                                                                            <td>{{item.address}}</td>
+                                                                        </tr>
+                                                                       
+                                                                    </tbody>
+                                                                    <br>
+                                                                    
+                                                                </table>                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <form [formGroup]="frmCheckout" class="js-customer-form"
                                                         (ngSubmit)="onSubmit(frmCheckout.value)">
 

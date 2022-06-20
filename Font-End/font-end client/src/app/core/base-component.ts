@@ -4,6 +4,8 @@ import { of as observableOf, Subject } from 'rxjs';
 import { ApiService } from './service/api.service';
 import { CartService } from './service/cart.service';
 import { environment } from '../../environments/environment'
+
+import { NguoiDung } from '../shared/model/NguoiDung';
 export class BaseComponent {
    public unsubscribe = new Subject();
    public _renderer: any;
@@ -11,13 +13,16 @@ export class BaseComponent {
    public _cart: CartService;
    public _route: ActivatedRoute;
    public _url:any;
+
    constructor(injector: Injector) {
       this._renderer = injector.get(Renderer2);
       this._cart = injector.get(CartService);
       this._api = injector.get(ApiService);
       this._route = injector.get(ActivatedRoute);
       this._url=environment.apiUrl;
+      
    }
+ 
    public loadScripts() {
       
      this.renderExternalScript('assets/libs/jquery/jquery.min.js').onload = () => { },

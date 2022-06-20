@@ -1,1 +1,202 @@
-<p>openinventory works!</p>
+<div class="top">
+    <div class="left">
+        <p-button (click)="showAdd()" icon="pi pi-external-link" label="Thêm"></p-button>
+        <p-button (click)="IsActive()" [style]="{'margin-left': '5px','class':'p-button-danger'}"
+            label="Dữ liệu đẫ đình chỉ"></p-button>
+    </div>
+</div>
+<!--explore data -->
+<p-panel header="Tìm kiếm" [style]="{'margin-top': '2px'}" [hidden]="filter.FilterColumn==null?true:false">
+    <form class="form-horizontal" (ngSubmit)="search(form)" #form="ngForm">
+        <div class="form-group">
+            <div class="col-sm-11">
+                <input type="text" (change)="InitValueFormFilter()" [(ngModel)]="filter.FilterValue"
+                    class="form-control" placeholder="nhập giá trị tìm kiếm" name="FilterValue">
+
+                <p-dropdown [options]="filterTypeColumn" placeholder="Tùy chọn cột" optionLabel="viewValue"
+                    optionValue="value" (onChange)="InitValueFormFilter()" [(ngModel)]="filter.FilterColumn"
+                    name="FilterColumn" ngModel #FilterColumn="ngModel">
+                </p-dropdown>
+
+                <p-dropdown [options]="filterTypeValue" (onChange)="InitValueFormFilter()"
+                    [(ngModel)]="filter.FilterType" placeholder="Tùy chọn so sánh" editable="true"
+                    optionLabel="viewValue" optionValue="value" [showClear]="true" name="FilterValue" ngModel
+                    #FilterValue="ngModel"></p-dropdown>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-11">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Tìm</button>
+            </div>
+        </div>
+    </form>
+</p-panel>
+
+
+<div class="bot">
+    <p-table   [resizableColumns]="true" selectionMode="single" [value]="listItem.Items" styleClass="p-datatable-gridlines"
+        [style]="{'margin-top': '2px', 'width': '100%'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th id="productCode"  (dblclick)="ChangeColorColumnIsClick('productCode')" (click)="OrderBy('productCode')">Mã sản phẩm</th>
+                <th id="productName" (dblclick)="ChangeColorColumnIsClick('productName')" (click)="OrderBy('productName')">Tên sản phẩm</th>
+                <th id="unitCost"  (dblclick)="ChangeColorColumnIsClick('unitCost')" (click)="OrderBy('unitCost')">Đơn giá</th>
+                <th id="quantity"  (dblclick)="ChangeColorColumnIsClick('quantity')" (click)="OrderBy('quantity')">Số lượng</th>
+                <th id="unit"  (dblclick)="ChangeColorColumnIsClick('unit')" (click)="OrderBy('unit')"> đơn vị tính</th>
+                <th id="amount"  (dblclick)="ChangeColorColumnIsClick('amount')" (click)="OrderBy('amount')">Thành tiền</th>
+                <th id="productImage"  (dblclick)="ChangeColorColumnIsClick('productImage')" (click)="OrderBy('productImage')">Ảnh</th>
+                <th id="note" (dblclick)="ChangeColorColumnIsClick('note')" (click)="OrderBy('note')">Ghi chú</th>
+                <th id="month"  (dblclick)="ChangeColorColumnIsClick('month')" (click)="OrderBy('month')">Tháng</th>
+                <th id="year"  (dblclick)="ChangeColorColumnIsClick('year')" (click)="OrderBy('year')">Năm</th>
+                <th>Cập nhật</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr [style.Color]="item.isGroup == true  ? 'Blue' : ''" (dblclick)="nodeSelect(undefined,item)">
+                <td style="text-align: center;">{{i+1}}</td>
+                <td style="text-align: center;">{{item.productCode}}</td>
+                <td style="text-align: center;">{{item.productName}}</td>
+                <td style="text-align: center;">{{item.unitCost|currency}}</td>
+                <td style="text-align: center;">{{item.quantity}}</td>
+                <td style="text-align: center;">{{item.unit}}</td>
+                <td style="text-align: center;">{{item.amount|currency}}</td>
+                <td> <img [hidden]="item.productImage==undefined?true:false || item.productImage.trim()==''?true:false"
+                    src="{{_url}}/{{item.productImage}}" style="width: 80px;"></td>
+                <td style="text-align: center;">{{item.note}}</td>
+                <td style="text-align: center;">{{item.month}}</td>
+                <td style="text-align: center;">{{item.year}}</td>
+             
+                <td style="text-align: center;" >
+                    <div [hidden]="item.isActive">
+                        <button (click)="Restore(item.id)" pButton type="button" title="Khôi phục" class="p-button-secondary"><i
+                                class="fas fa-edit"></i></button>
+                    </div>
+                    <div [hidden]="!item.isActive">
+                        <button (click)="showEdit(item)" pButton type="button" title="Sửa" class="p-button-secondary"><i
+                                 class="fas fa-edit"></i></button>
+                        <button (click)="Delete(item.id)" pButton type="button" title="Xóa" class="p-button-danger"><i
+                                class="fas fa-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <div class="mt-5" style="position: relative;margin-left: 40%;">
+        <ngb-pagination [collectionSize]="listItem.TotalRecords" [pageSize]="listItem.PageSize"
+            [(page)]="listItem.PageIndex" [maxSize]="10" [rotate]="true" (pageChange)="loadPage($event)">
+        </ngb-pagination>
+    </div>
+</div>
+<!--end explore data -->
+
+<!-- Start Display form Add new-->
+<p-dialog [(visible)]="displayAdd" [style]="{width: '80vw'}" [dismissableMask]="true" [modal]="true">
+        
+    <ng-template   pTemplate="header">
+        <h3  [hidden]="!displayEditGroup" > Thêm nhóm</h3>
+        <h3 [hidden]="!displayEditChild">Thêm </h3>
+    </ng-template>
+    <!-- Content -->
+
+    <form (ngSubmit)="Add(form2,false,addType); "  #form2="ngForm" [hidden]="!displayEditChild">
+        
+
+
+        <div style="width: 90%; margin-left: 5%;">
+            <!-- <label [hidden]="selectGroup != null?false:true"  style="font-weight: bold;">nhóm mẹ: {{selectGroup.label}}</label> -->
+            <label style="font-weight: bold;">ngày:</label>
+            <input name="docDate" ngModel #docDate="ngModel" type="date" class="form-control" placeholder="">
+            <label style="font-weight: bold;">Mã sản phẩm:</label>
+            <p-autoComplete name="productCode" ngModel #productCode="ngModel" class="form-control" [suggestions]="lookupData" field="name"  (onSelect)="SelectForeignKey($event,'productCode'); "   (completeMethod)="Lookup($event)" required > 
+          
+            </p-autoComplete >
+            <label style="font-weight: bold;">Tên sản phẩm :</label>
+            <input name="productName" ngModel #productName="ngModel" value="" type="text" class="form-control" >
+            <label style="font-weight: bold;"> Đơn giá:</label>
+            <input name="unitCost" ngModel #unitCost="ngModel" type="text" class="form-control" placeholder="">
+            <label style="font-weight: bold;"> Số lượng:</label>
+            <input name="quantity" ngModel #quantity="ngModel" type="text" class="form-control" placeholder="">
+            <label style="font-weight: bold;"> Đơn vị tính:</label>
+            <input name="unit" ngModel #unit="ngModel" type="text" class="form-control" placeholder="">
+            <label style="font-weight: bold;"> Thành tiền:</label>
+            <input name="amount" ngModel #amount="ngModel" type="text" class="form-control" placeholder="">
+            <label style="font-weight: bold;">Ghi chú :</label>
+            <input name="note" ngModel #note="ngModel" type="text" class="form-control" placeholder="">
+        
+          
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}"  (click)="addType=0" class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1" class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm bản sao mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2" class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và quay ra
+            </button>
+        </div>
+        
+    </form>
+    <ng-template pTemplate="footer">
+        <button type="button" (click)="displayAdd = false" class="btn btn-danger waves-effect waves-light"> <i
+            class="mdi mdi-window-close"></i>
+        Huỷ</button>
+    </ng-template>
+</p-dialog>
+
+
+<!-- Start Display form edit-->
+<p-dialog [(visible)]="displayUpdate" [style]="{width: '80vw'}" [dismissableMask]="true" [modal]="true">
+        
+    <ng-template   pTemplate="header">
+        <h3 [hidden]="!displayEditChild">Cập nhật </h3>
+    </ng-template>
+    <!-- Content -->
+
+   
+    <form (ngSubmit)="Update(form2,addType)"  #form2="ngForm" [hidden]="!displayEditChild">
+        
+        <div style="width: 90%; margin-left: 5%;">
+            <label style="font-weight: bold;">ngày:</label>
+            <input name="docDate" [ngModel]="selectItem.docDate| date:'yyyy-MM-dd'" #docDate="ngModel" type="date" class="form-control" placeholder="" required>
+            <label style="font-weight: bold;">Mã :</label>
+            <p-autoComplete name="productCode"  [(ngModel)]="selectItem.productCode" #productCode="ngModel" class="form-control" [suggestions]="lookupData" field="name"  (onSelect)="SelectForeignKey($event,'productCode'); "   (completeMethod)="Lookup($event)" required [placeholder]="selectItem.productCode"></p-autoComplete >
+            <label style="font-weight: bold;">Tên sản phẩm :</label>
+            <input name="productName" [(ngModel)]="selectItem.productName" #productName="ngModel" type="text" class="form-control" placeholder="">
+            <label style="font-weight: bold;"required> Đơn giá:</label>
+            <input name="unitCost" [(ngModel)]="selectItem.unitCost" #unitCost="ngModel" type="number" class="form-control" placeholder="">
+            <label style="font-weight: bold;"> Số lượng:</label>
+            <input name="quantity" [(ngModel)]="selectItem.quantity" #quantity="ngModel" type="number" class="form-control" placeholder=""required>
+            <label style="font-weight: bold;"> Đơn vị tính:</label>
+            <input name="unit" [(ngModel)]="selectItem.unit" #unit="ngModel"  type="text" class="form-control" placeholder="">
+           
+            <label style="font-weight: bold;">Ghi chú :</label>
+            <input name="note" ngModel #note="ngModel" type="text" class="form-control" placeholder="">
+        
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}"  (click)="addType=0" class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1" class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm bản sao mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2" class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và quay ra
+            </button>
+        </div>
+        
+    </form>
+    <ng-template pTemplate="footer">
+        <button type="button" (click)="displayUpdate = false" class="btn btn-danger waves-effect waves-light"> <i
+            class="mdi mdi-window-close"></i>
+        Huỷ</button>
+    </ng-template>
+   
+</p-dialog>
+<!-- End Display form edit-->
+

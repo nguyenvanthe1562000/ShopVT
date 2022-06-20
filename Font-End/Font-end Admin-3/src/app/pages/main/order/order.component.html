@@ -42,8 +42,9 @@
                 <th>STT</th>
                 <th id="Code" (dblclick)="ChangeColorColumnIsClick('Code')" (click)="OrderBy('Name')">Mã</th>
                 <th id="stt" (dblclick)="ChangeColorColumnIsClick('stt')" (click)="OrderBy('stt')">serial</th>
-                <th id="CreatedAt" (dblclick)="ChangeColorColumnIsClick('CreatedAt')" (click)="OrderBy('CreatedAt')">
+                <th id="docDate" (dblclick)="ChangeColorColumnIsClick('docDate')" (click)="OrderBy('docDate')">
                     Ngày</th>
+                    <th id="CustomerCode" (dblclick)="ChangeColorColumnIsClick('CustomerCode')" (click)="OrderBy('CustomerCode')">Mã kH</th>
                 <th id="CustomerName" (dblclick)="ChangeColorColumnIsClick('CustomerName')"
                     (click)="OrderBy('CustomerName')">Tên Kh</th>
                 <th id="CustomerAddress" (dblclick)="ChangeColorColumnIsClick('CustomerAddress')"
@@ -64,7 +65,8 @@
                 <td style="text-align: center;">{{i+1}}</td>
                 <td>{{item.code}}</td>
                 <td>{{item.stt}}</td>
-                <td>{{item.createdAt|DateVN}}</td>
+                <td>{{item.docDate|DateVN}}</td>
+                <td>{{item.customerCode}}</td>
                 <td>{{item.customerName}}</td>
                 <td>{{item.customerAddress}}</td>
                 <td>{{item.customerEmail}}</td>
@@ -121,7 +123,7 @@
                 </div>
                 <div class="col-md-6">
                     <label style="font-weight: bold;">ngày:</label>
-                    <input name="CreatedAt" ngModel #CreatedAt="ngModel" type="date" class="form-control">
+                    <input name="docDate" ngModel #docDate="ngModel" type="date" class="form-control">
                 </div>
             </div>
             <div class="row">
@@ -262,7 +264,7 @@
             <label style="font-weight: bold;">Mã:</label>
             <input name="code" [(ngModel)]="selectItem.code" #code="ngModel" type="text" class="form-control">
             <label style="font-weight: bold;">ngày:</label>
-            <input name="createdAt" [ngModel]="selectItem.createdAt| date:'yyyy-MM-dd'"  (ngModelChange)="selectItem.createdAt = $event"
+            <input name="docDate" [ngModel]="selectItem.docDate| date:'yyyy-MM-dd'"  (ngModelChange)="selectItem.docDate = $event"
                 #docDate="ngModel" type="date" class="form-control">
             <label style="font-weight: bold;">tên kh:</label>
             <input name="customerName" [(ngModel)]="selectItem.customerName" #customerName="ngModel" type="text"

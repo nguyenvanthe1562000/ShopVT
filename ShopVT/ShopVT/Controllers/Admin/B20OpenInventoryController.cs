@@ -2,6 +2,7 @@
 using AutoMapper;
 using Common;
 using Common.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Auth;
@@ -24,7 +25,8 @@ namespace ShopVT.Controllers.Admin
 {
     [Route("api/open-inventory")]
     [ApiController]
-    [RequirePermissions(PermissionFunction.Category)]
+    [RequirePermissions(PermissionFunction.General)]
+
     public class B20OpenInventoryController : BaseController
     {
         private readonly IDataEdtitorService _edit;
@@ -54,11 +56,14 @@ namespace ShopVT.Controllers.Admin
         [HttpPost]
         [Route("add")]
         [RequiredOneOfPermissions(PermissionData.Create)]
-        public async Task<IActionResult> AddAsync([FromBody] vB20OpenInventoryModel addRequest)
+        public async Task<IActionResult> AddAsync([FromForm] vB20OpenInventoryModel addRequest)
         {
             try
             {
                 if (string.IsNullOrEmpty(addRequest.ProductCode)) return BadRequest(new ResponseMessageDto(MessageType.Error, "ProductCode không hợp lệ"));
+                addRequest.Year = addRequest.DocDate.Year.ToString();
+                addRequest.Month = addRequest.DocDate.Month.ToString();
+                addRequest.Amount = addRequest.Quantity * addRequest.Amount;
                 var result = await _edit.Add<vB20OpenInventoryModel>(addRequest, _table, "", GetCurrentUserId());
                 return Ok(result);
             }
@@ -98,7 +103,7 @@ namespace ShopVT.Controllers.Admin
                     return BadRequest(new ResponseMessageDto(MessageType.Error, "dữ liệu id không hợp lệ"));
                 }
                 if (string.IsNullOrEmpty(updateRequest.ProductCode)) return BadRequest(new ResponseMessageDto(MessageType.Error, "Mã không hợp lệ"));
-           
+
 
                 var result = await _edit.Update<vB20OpenInventoryModel>(updateRequest, _table, updateRequest.ID, "", GetCurrentUserId());
                 return Ok(result);
@@ -200,7 +205,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetData<PagedResult<vB20OpenInventoryModel>, vB20OpenInventoryModel>(_table,pagingRequest, 1);
+                var result = await _explore.GetData<PagedResult<vB20OpenInventoryModel>, vB20OpenInventoryModel>(_table, pagingRequest, 1);
                 return Ok(result);
             }
             catch (Exception ex)
