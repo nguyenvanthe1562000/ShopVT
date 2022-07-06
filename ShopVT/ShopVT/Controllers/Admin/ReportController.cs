@@ -85,7 +85,7 @@ namespace ShopVT.Controllers.Admin
                 string msgError = "";
                 var resutl = await Task.Run(() =>
                 {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "usp_banchay", "@_itemCode",
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "usp_ton", "@_itemCode",
                        reportRequest.ItemCode);
                     if (!string.IsNullOrEmpty(msgError))
                     {
@@ -111,7 +111,7 @@ namespace ShopVT.Controllers.Admin
              
                 var resutl = await Task.Run(() =>
                 {
-                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "usp_banchay", "@_docdate1",
+                    var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "usp_nhap", "@_docdate1",
                        reportRequest.DocDate1, "@_docdate2",
                        reportRequest.DocDate2, "@_itemCode",
                        reportRequest.ItemCode);

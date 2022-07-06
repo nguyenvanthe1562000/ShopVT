@@ -47,7 +47,7 @@
                                                 <a class="cateItem" href="#">Danh mục</a>
                                                 <div class="subCategory collapse" id="livingroom" aria-expanded="true" role="status">
                                                     <div class="cateTitle" *ngFor="let item of categories">
-                                                        <a routerLink="tin-tuc-chi-tiet/{{item.id}}" class="cateItem">{{item.name}}</a>
+                                                        <a routerLink="/tin-tuc-chi-tiet/{{item.id}}" class="cateItem">{{item.name}}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -62,7 +62,7 @@
                                         <div class="post-item-content">
                                             <div *ngFor="let item of itemRelated">
                                                 <div class="late-item first-child">
-                                                    <a  routerLink="tin-tuc-chi-tiet/{{item.id}}">
+                                                    <a  routerLink="/tin-tuc-chi-tiet/{{item.id}}">
                                                         <p class="content-title">{{item.name}}</p>
                                                     </a>
                                                     <span>
@@ -74,7 +74,7 @@
                                                     overflow: hidden;">{{item.description}}</p>
                                                     
                                                     <p class="remove">
-                                                        <a  routerLink="tin-tuc-chi-tiet/{{item.id}}">Xem</a>
+                                                        <a  routerLink="/tin-tuc-chi-tiet/{{item.id}}">Xem</a>
                                                     </p>
                                                 </div>
                                             </div>
@@ -109,14 +109,14 @@
                                             <div class="row">
                                                 <div class="col-md-4" *ngFor="let item of itemRelated">
                                                     <div class="hover-after">
-                                                        <a routerLink="tin-tuc-chi-tiet/{{item.id}}">
+                                                        <a routerLink="/tin-tuc-chi-tiet/{{item.id}}">
                                                             <img  width="200px" style="height:140px ;" src="{{_url}}{{item.image}}" alt="img" class="img-fluid">
                                                         </a>
                                                     </div>
                                                     <div class="late-item">
                                                         <br>
                                                         <p class="content-title">
-                                                            <a routerLink="tin-tuc-chi-tiet/{{item.id}}">{{item.name}}</a>
+                                                            <a routerLink="/tin-tuc-chi-tiet/{{item.id}}">{{item.name}}</a>
                                                         </p>
                                                         <p class="description" style="line-height: 1.2em;
                                                         height: 3.6em;
