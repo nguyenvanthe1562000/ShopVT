@@ -120,6 +120,26 @@ namespace Data.Command
             }
         }
 
+        public async Task<DataTable> GetDataLookUp2(DataExploreLookup2RequestModel model)
+        {
+            try
+            {
+                var result = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("[usp_sys_LookUp2]", "@_UserId", model.UserId, "@_LookupKey", model.LookupKey, "@_LookupValue", model.LookupValue, "@_LoadFilterExpr", model.LoadFilterExpr, "@_NumberRow", model.NumberRow, "@_SortExpr", model.SortExpr);
+                if (!string.IsNullOrEmpty(result.message.ToString()))
+                {
+                    throw new Exception(result.message);
+                }
+                return result.Item2;
+            }
+            catch (Exception ex)
+            {
+
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = model });
+                return null;
+            }
+        }
+       
+
         public async Task<DataTable> GetGroup(DataExploreGetGroupRequestModel model)
         {
             try
@@ -138,6 +158,30 @@ namespace Data.Command
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = model });
                 return null;
             }
+        }
+        public async Task<DataTable> ServerConstraintFunction(ServerConstraintRequestModel model)
+        {
+
+            try
+            {
+                var result = await _dbHelper.ExecuteServerConstraintFunctionReturnDataTableAsync(model.Command, model.Parameters);
+                if (!string.IsNullOrEmpty(result.message.ToString()))
+                {
+                    throw new Exception(result.message);
+                }
+                return result.Item2;
+            }
+            catch (Exception ex)
+            {
+
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = model });
+                return null;
+            }
+        }
+
+        public Task<DataTable> ServerConstraintStoreProcedure(ServerConstraintRequestModel model)
+        {
+            throw new NotImplementedException();
         }
         private bool disposed = false;
         public void Dispose()
@@ -161,7 +205,7 @@ namespace Data.Command
 
         }
 
-
+       
 
         ~DataExploreRepository()
         {

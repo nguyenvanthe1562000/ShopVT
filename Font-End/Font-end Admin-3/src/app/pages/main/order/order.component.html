@@ -34,25 +34,31 @@
 </p-panel>
 
 
+<!--end explore data -->
+
 <div class="bot">
-    <p-table [resizableColumns]="true" selectionMode="single" [value]="listItem.Items"
+    <p-table [resizableColumns]="true"   scrollHeight="30vw" selectionMode="single" [value]="listItem.Items"
         styleClass="p-datatable-gridlines" [style]="{'margin-top': '2px', 'width': '100%'}">
         <ng-template pTemplate="header">
             <tr>
                 <th>STT</th>
-                <th id="Code" (dblclick)="ChangeColorColumnIsClick('Code')" (click)="OrderBy('Name')">Mã</th>
-                <th id="stt" (dblclick)="ChangeColorColumnIsClick('stt')" (click)="OrderBy('stt')">serial</th>
+                <!-- <th id="Code" (dblclick)="ChangeColorColumnIsClick('Code')" (click)="OrderBy('Name')">Mã</th> -->
+                <!-- <th id="stt" (dblclick)="ChangeColorColumnIsClick('stt')" (click)="OrderBy('stt')">serial</th> -->
                 <th id="docDate" (dblclick)="ChangeColorColumnIsClick('docDate')" (click)="OrderBy('docDate')">
                     Ngày</th>
-                    <th id="CustomerCode" (dblclick)="ChangeColorColumnIsClick('CustomerCode')" (click)="OrderBy('CustomerCode')">Mã kH</th>
+                    
                 <th id="CustomerName" (dblclick)="ChangeColorColumnIsClick('CustomerName')"
                     (click)="OrderBy('CustomerName')">Tên Kh</th>
                 <th id="CustomerAddress" (dblclick)="ChangeColorColumnIsClick('CustomerAddress')"
                     (click)="OrderBy('CustomerAddress')">Địa chỉ</th>
-                <th id="CustomerEmail" (dblclick)="ChangeColorColumnIsClick('CustomerEmail')"
-                    (click)="OrderBy('CustomerEmail')">Email</th>
+                <!-- <th id="CustomerEmail" (dblclick)="ChangeColorColumnIsClick('CustomerEmail')"
+                    (click)="OrderBy('CustomerEmail')">Email</th> -->
                 <th id="CustomerMobile" (dblclick)="ChangeColorColumnIsClick('CustomerMobile')"
                     (click)="OrderBy('CustomerMobile')">SĐT</th>
+                    <th id="paymentMethod" (dblclick)="ChangeColorColumnIsClick('paymentMethod')"
+                    (click)="OrderBy('CustomerMobile')">Thanh toán</th>
+                    <th id="paymentStatus" (dblclick)="ChangeColorColumnIsClick('paymentStatus')"
+                    (click)="OrderBy('CustomerMobile')">Trạng thái TT</th>
                 <th id="Amount" (dblclick)="ChangeColorColumnIsClick('Amount')" (click)="OrderBy('Amount')">Tiền</th>
                 <th id="note" (dblclick)="ChangeColorColumnIsClick('note')" (click)="OrderBy('note')">Ghi Chú</th>
                 <th id="orderstatus" (dblclick)="ChangeColorColumnIsClick('orderstatus')"
@@ -63,17 +69,19 @@
         <ng-template pTemplate="body" let-item let-i="rowIndex">
             <tr [style.Color]="item.isGroup == true  ? 'Blue' : ''" (dblclick)="nodeSelect(undefined,item)">
                 <td style="text-align: center;">{{i+1}}</td>
-                <td>{{item.code}}</td>
-                <td>{{item.stt}}</td>
+                <!-- <td>{{item.code}}</td>
+                <td>{{item.stt}}</td> -->
                 <td>{{item.docDate|DateVN}}</td>
-                <td>{{item.customerCode}}</td>
+                <!-- <td>{{item.customerCode}}</td> -->
                 <td>{{item.customerName}}</td>
                 <td>{{item.customerAddress}}</td>
-                <td>{{item.customerEmail}}</td>
+                <!-- <td>{{item.customerEmail}}</td> -->
                 <td>{{item.customerMobile}}</td>
+                <td>{{item.PaymentMethodName}}</td>
+                <td>{{item.paymentStatus}}</td>
                 <td>{{item.amount|currency:'VND':true}}</td>
                 <td>{{item.note}}</td>
-                <td>{{item.orderStatusName}}</td>
+                <td [style.Color]="item.orderStatus == 0  ? 'Red' : ''" >{{item.orderStatusName}}</td>
                 <td style="text-align: center;">
                     <div [hidden]="item.isActive">
                         <button (click)="Restore(item.id)" pButton type="button" title="Khôi phục"
@@ -84,8 +92,7 @@
                                 class="fas fa-edit"></i></button>
                         <button (click)="Delete(item.id)" pButton type="button" title="Xóa" class="p-button-danger"><i
                                 class="fas fa-trash"></i></button>
-                        <button (click)="displayConvert=true; selectItem=item" pButton type="button"
-                            title="Chuyển nhóm"><i class="pi pi-reply"></i></button>
+                        
                     </div>
                 </td>
             </tr>
@@ -97,10 +104,13 @@
         </ngb-pagination>
     </div>
 </div>
-<!--end explore data -->
+
+
+
+
 
 <!-- Start Display form Add new-->
-<p-dialog [(visible)]="displayAdd" [style]="{width: '80vw'}" [dismissableMask]="true" [modal]="true">
+<p-dialog [(visible)]="displayAdd" [style]="{width: '80vw'}" [dismissableMask]="false" [modal]="true">
 
     <ng-template pTemplate="header">
         <h3>Thêm </h3>
@@ -117,10 +127,7 @@
            
 
             <div class="row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Mã:</label>
-                    <input name="Code" ngModel #Code="ngModel" type="text" class="form-control">
-                </div>
+             
                 <div class="col-md-6">
                     <label style="font-weight: bold;">ngày:</label>
                     <input name="docDate" ngModel #docDate="ngModel" type="date" class="form-control">
@@ -261,11 +268,14 @@
             <p-autoComplete class="form-control" [suggestions]="lookupOrderStatus" [dropdown]="true"
                 (onSelect)="SelectForeignKey($event,'OrderStatus')" field="name"
                 (completeMethod)="LookupOrderStatus($event); "></p-autoComplete>
-            <label style="font-weight: bold;">Mã:</label>
-            <input name="code" [(ngModel)]="selectItem.code" #code="ngModel" type="text" class="form-control">
+                <div class="row">
+                 
+                    <div class="col-md-6">
             <label style="font-weight: bold;">ngày:</label>
             <input name="docDate" [ngModel]="selectItem.docDate| date:'yyyy-MM-dd'"  (ngModelChange)="selectItem.docDate = $event"
                 #docDate="ngModel" type="date" class="form-control">
+            </div>
+        </div>
             <label style="font-weight: bold;">tên kh:</label>
             <input name="customerName" [(ngModel)]="selectItem.customerName" #customerName="ngModel" type="text"
                 class="form-control">

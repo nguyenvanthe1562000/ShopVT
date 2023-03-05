@@ -20,6 +20,8 @@ export class BaseComponent {
    public _api: ApiService;
    public _url = 'https://localhost:5001';
    public _route: ActivatedRoute;
+   public _apiLookUp = "/api/lookup";
+   public _currency ='VND'
    constructor(injector: Injector) {
 
       this._renderer = injector.get(Renderer2);

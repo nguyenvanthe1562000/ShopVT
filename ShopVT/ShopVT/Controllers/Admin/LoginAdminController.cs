@@ -39,7 +39,7 @@ namespace ShopVT.Controllers.Admin
             try
             {
                 var result = await _ser.Login(request);
-                if(result.Code==null ||result.Roles==null)
+                if(result.Code==null)
                 {
                     return NotFound();
                 }    

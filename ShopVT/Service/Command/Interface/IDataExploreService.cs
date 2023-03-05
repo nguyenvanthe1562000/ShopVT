@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Common;
 
 namespace Service.Command.Interface
 {
@@ -104,5 +105,7 @@ namespace Service.Command.Interface
         /// <param name="AndOrFilterKey">true = and ; false = or</param>
         /// <returns></returns>
         public Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue , int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey="", bool AndOrFilterKey = true);
+        public Task<DataTable> Lookup2 (LookUpRequest lookUpRequest);
+        public Task<DataTable> ServerConstraint(ServerConstraintRequest lookUpRequest);
     }
 }

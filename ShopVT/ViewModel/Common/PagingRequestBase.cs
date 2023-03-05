@@ -25,4 +25,6 @@ namespace Common
         public int ParentId { get; set; }
         public bool DataIsActive { get; set; }
     }
+
+    
 }

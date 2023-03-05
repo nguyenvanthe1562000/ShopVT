@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Common.Helper
 {
@@ -16,10 +18,11 @@ namespace Common.Helper
         public SqlConnection sqlConnection { get; set; }
         //NpgsqlTransaction 
         public SqlTransaction sqlTransaction { get; set; }
-
-        public DatabaseHelper(IConfiguration configuration)
+        private ILogger _logger;
+        public DatabaseHelper(IConfiguration configuration, ILogger logger)
         {
             StrConnection = configuration["ConnectionStrings:DefaultConnection"];
+            _logger = logger;
         }
         /// <summary>
         /// Set Connection String
@@ -645,6 +648,7 @@ namespace Common.Helper
             {
                 result = null;
                 msgError = exception.Message.ToString();
+                _logger.Log(LogType.Error, exception.Message, new StackTrace(exception, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = sprocedureName });
             }
             finally
             {
@@ -1000,6 +1004,10 @@ namespace Common.Helper
 
                 tbResult = await Task.Run(() =>
                        {
+                           try
+                           {
+
+                           
                            DataTable tb = new DataTable();
                            SqlCommand cmd = new SqlCommand { CommandType = CommandType.StoredProcedure, CommandText = sprocedureName };
                            SqlConnection connection = new SqlConnection(StrConnection);
@@ -1032,7 +1040,72 @@ namespace Common.Helper
                            ad.Dispose();
                            connection.DisposeAsync();
                            return tb;
+                           }
+                           catch (Exception ex)
+                           {
+                               _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { ExecuteSProcedureReturnDataTableAsync = sprocedureName });
+
+                               throw;
+                           }
                        });
+
+            }
+            catch (Exception exception)
+            {
+                tbResult = null;
+                msgError = exception.ToString();
+            }
+
+            return (msgError, tbResult);
+        }
+
+
+        /// <summary>
+        /// Execute Procedure return DataTale
+        /// </summary>
+        /// <param name="msgError">String.Empty when run query success or Message Error when run query happen issue</param>
+        /// <param name="sprocedureName">Procedure Name</param>
+        /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
+        /// <returns>Table result</returns>
+
+        public async Task<(string message, DataTable)> ExecuteServerConstraintFunctionReturnDataTableAsync(string functionName, List<object> paramObject)
+        {
+           
+            DataTable tbResult = new DataTable();
+            string msgError = "";
+            try
+            {
+
+                tbResult = await Task.Run(() =>
+                {
+                    try
+                    {
+                        
+                        string dboFunc = $"SELECT dbo.{functionName}";
+                        string param = "";
+                        foreach (object item in paramObject)
+                        {
+                                param = param + ",'" + item.ToString() + "'";
+                        }
+                        dboFunc = dboFunc + '(' + param.Substring(1) + ')';
+                        DataTable tb = new DataTable();
+                        SqlCommand cmd = new SqlCommand { CommandType = CommandType.Text, CommandText = dboFunc };
+                        SqlConnection connection = new SqlConnection(StrConnection);
+                        cmd.Connection = connection;
+                        SqlDataAdapter ad = new SqlDataAdapter(cmd);
+                        ad.Fill(tb);
+                        cmd.DisposeAsync();
+                        ad.Dispose();
+                        connection.DisposeAsync();
+                        return tb;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { ExecuteSProcedureReturnDataTableAsync = functionName, listparam= paramObject });
+
+                        throw;
+                    }
+                });
 
             }
             catch (Exception exception)
@@ -1242,6 +1315,9 @@ namespace Common.Helper
             }
 
         }
+
+       
+
         ~DatabaseHelper()
         {
             Dispose(false);

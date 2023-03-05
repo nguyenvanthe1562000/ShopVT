@@ -10,6 +10,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
+using ViewModel.Common;
 
 namespace Service.Command
 {
@@ -38,161 +40,158 @@ namespace Service.Command
         /// <param name="OrderDesc"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<T> GetData<T,O>(string table, PagingRequest pagingRequest, int userId)
+        public async Task<T> GetData<T, O>(string table, PagingRequest pagingRequest, int userId)
         {
             try
             {
-                
-                   var result = await Task.Run(async () =>
-                {
-                    DataExploreGetDataRequestModel dataExplore = new DataExploreGetDataRequestModel();
-                    StringBuilder filter = new StringBuilder();
-                    if (pagingRequest.PageIndex < 1)
-                    {
-                        pagingRequest.PageIndex = 1;
-                    }
-                  else  if (pagingRequest.PageIndex > 200)
-                    {
-                        pagingRequest.PageIndex = 200;
-                    }
-                  else  if (pagingRequest.PageSize < 10)
-                    {
-                        pagingRequest.PageSize = 10;
-                    }
-                    if(pagingRequest.ParentId!=0)
-                    {
-                        filter.AppendLine($" ParentId = {pagingRequest.ParentId} ");
-                    }    
-                    if (!(string.IsNullOrEmpty(pagingRequest.FilterValue)) && !(string.IsNullOrEmpty(pagingRequest.FilterColumn)))
-                    {
-                        var filters = pagingRequest.FilterColumn.Split(",");
-                        if (filters.Length > 1)
-                        {
-                            Type temp = typeof(O);
-                            foreach (var column in filters)
-                            {
-                                var pro = temp.GetProperty(column);
-                                if (pagingRequest.FilterColumn.Equals("*"))
-                                {
 
-                                    if (pagingRequest.FilterType == FilterType.Contains)
-                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}%'\t"); }
-                                    else if (pagingRequest.FilterType == FilterType.StartsWith)
-                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '{pagingRequest.FilterValue.ToLower()}%'\t"); }
-                                    else if (pagingRequest.FilterType == FilterType.EndsWith)
-                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}'\t"); }
-                                    else if (pagingRequest.FilterType == FilterType.Equals)
-                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) = '{pagingRequest.FilterValue.ToLower()}'\t"); }
-                                }
-                                if (pro != null)
-                                {
-                                    if (pagingRequest.FilterType == FilterType.NotEmpty)
-                                    {
-                                        filter.AppendLine($"OR IIF([{column}] <> '',0,1) = 1 ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.Empty)
-                                    {
-                                        filter.AppendLine($"OR IIF([{column}] = '',0,1) = 1 ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.Contains)
-                                    {
-                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}%'  ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.StartsWith)
-                                    {
-                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '{pagingRequest.FilterValue.ToLower()}%'  ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.EndsWith)
-                                    {
-                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}'  ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.Equals)
-                                    {
-                                        filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) = '{pagingRequest.FilterValue.ToLower()}'  ");
-                                    }
-                                }   
-                            }
-                            if(!(string.IsNullOrEmpty(filter.ToString())))
-                            {
-                                filter = filter.Remove(0, 2);
-                            }    
-                        }
-                        else
-                        {
-                            Type temp = typeof(O);
-                            foreach (PropertyInfo pro in temp.GetProperties())
-                            {
+                var result = await Task.Run(async () =>
+             {
+                 DataExploreGetDataRequestModel dataExplore = new DataExploreGetDataRequestModel();
+                 StringBuilder filter = new StringBuilder();
+                 if (pagingRequest.PageIndex < 1)
+                 {
+                     pagingRequest.PageIndex = 1;
+                 }
+                 else if (pagingRequest.PageIndex > 200)
+                 {
+                     pagingRequest.PageIndex = 200;
+                 }
+                 else if (pagingRequest.PageSize < 10)
+                 {
+                     pagingRequest.PageSize = 10;
+                 }
+                 if (pagingRequest.ParentId != 0)
+                 {
+                     filter.AppendLine($" ParentId = {pagingRequest.ParentId} ");
+                 }
+                 if (!(string.IsNullOrEmpty(pagingRequest.FilterValue)) && !(string.IsNullOrEmpty(pagingRequest.FilterColumn)))
+                 {
+                     var filters = pagingRequest.FilterColumn.Split(",");
+                     if (filters.Length > 1)
+                     {
+                         Type temp = typeof(O);
+                         foreach (var column in filters)
+                         {
+                             var pro = temp.GetProperty(column);
+                             if (pagingRequest.FilterColumn.Equals("*"))
+                             {
 
-                                if (pagingRequest.FilterColumn.Equals("*"))
-                                {
-                                    
-                                    if (pagingRequest.FilterType == FilterType.Contains)
-                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}%'\t"); }
-                                    else if (pagingRequest.FilterType == FilterType.StartsWith)
-                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '{pagingRequest.FilterValue.ToLower()}%'\t"); }
-                                    else if (pagingRequest.FilterType == FilterType.EndsWith)
-                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}'\t"); }
-                                    else if (pagingRequest.FilterType == FilterType.Equals)
-                                    { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) = '{pagingRequest.FilterValue.ToLower()}'\t"); }
-                                }
-                                else if (pagingRequest.FilterColumn.ToLower().Equals(pro.Name.ToLower()))
-                                {
-                                    if (pagingRequest.FilterType == FilterType.NotEmpty)
-                                    {
-                                        filter.AppendLine($"IIF([{pagingRequest.FilterColumn}] <> '',1,0) = 1 ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.Empty)
-                                    {
-                                        filter.AppendLine($"IIF([{pagingRequest.FilterColumn}] = '',0,1) = 1 ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.Contains)
-                                    {
-                                        filter.AppendLine($" LOWER(CAST([{pagingRequest.FilterColumn}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}%'  ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.StartsWith)
-                                    {
-                                        filter.AppendLine($" LOWER(CAST([{pagingRequest.FilterColumn}] AS NVARCHAR)) LIKE '{pagingRequest.FilterValue.ToLower()}%'  ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.EndsWith)
-                                    {
-                                        filter.AppendLine($" LOWER(CAST([{pagingRequest.FilterColumn}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}'  ");
-                                    }
-                                    else if (pagingRequest.FilterType == FilterType.Equals)
-                                    {
-                                        filter.AppendLine($" LOWER(CAST([{pagingRequest.FilterColumn}] AS NVARCHAR)) = '{pagingRequest.FilterValue.ToLower()}'  ");
-                                    }
-                                }
-                                else
-                                    continue;
-                            }
-                        }
-                        if (pagingRequest.FilterColumn.Equals("*"))
-                        {
-                            if (!string.IsNullOrEmpty(filter.ToString()))
-                                filter = filter.Remove(0, 2);
-                        }
+                                 if (pagingRequest.FilterType == FilterType.Contains)
+                                 { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}%'\t"); }
+                                 else if (pagingRequest.FilterType == FilterType.StartsWith)
+                                 { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '{pagingRequest.FilterValue.ToLower()}%'\t"); }
+                                 else if (pagingRequest.FilterType == FilterType.EndsWith)
+                                 { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}'\t"); }
+                                 else if (pagingRequest.FilterType == FilterType.Equals)
+                                 { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) = '{pagingRequest.FilterValue.ToLower()}'\t"); }
+                             }
+                             if (pro != null)
+                             {
+                                 if (pagingRequest.FilterType == FilterType.NotEmpty)
+                                 {
+                                     filter.AppendLine($"OR IIF([{column}] <> '',0,1) = 1 ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.Empty)
+                                 {
+                                     filter.AppendLine($"OR IIF([{column}] = '',0,1) = 1 ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.Contains)
+                                 {
+                                     filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}%'  ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.StartsWith)
+                                 {
+                                     filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '{pagingRequest.FilterValue.ToLower()}%'  ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.EndsWith)
+                                 {
+                                     filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}'  ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.Equals)
+                                 {
+                                     filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) = '{pagingRequest.FilterValue.ToLower()}'  ");
+                                 }
+                             }
+                         }
+                         if (!(string.IsNullOrEmpty(filter.ToString())))
+                         {
+                             filter = filter.Remove(0, 2);
+                         }
+                     }
+                     else
+                     {
+                         Type temp = typeof(O);
+                         foreach (PropertyInfo pro in temp.GetProperties())
+                         {
 
-                    }
-                    if (!string.IsNullOrEmpty(pagingRequest.OrderBy))
-                    {
-                        if (typeof(T).GetProperty(pagingRequest.OrderBy) != null)
-                        {
-                            dataExplore.OrderBy = pagingRequest.OrderBy;
-                            dataExplore.OrderDesc = pagingRequest.OrderDesc;
-                        }
-                        else
-                        { dataExplore.OrderBy = "ID"; dataExplore.OrderDesc = pagingRequest.OrderDesc; }
-                    }
-                    dataExplore.TableName = table;
-                    dataExplore.UserId = userId;
-                    dataExplore.DataIsActive = pagingRequest.DataIsActive;
-                    dataExplore.PageSize = pagingRequest.PageSize;
-                    dataExplore.PageIndex = pagingRequest.PageIndex;
-                    dataExplore.Filter = (!string.IsNullOrEmpty(filter.ToString()) ? filter.ToString() : " 1 = 1");
-                    var data = await _dataExplore.GetData(dataExplore);
-                    var result = CollectionHelper.ConvertTo<T>(data);
-                    return result.FirstOrDefault();
-                });
+                             if (pagingRequest.FilterColumn.Equals("*"))
+                             {
+
+                                 if (pagingRequest.FilterType == FilterType.Contains)
+                                 { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}%'\t"); }
+                                 else if (pagingRequest.FilterType == FilterType.StartsWith)
+                                 { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '{pagingRequest.FilterValue.ToLower()}%'\t"); }
+                                 else if (pagingRequest.FilterType == FilterType.EndsWith)
+                                 { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}'\t"); }
+                                 else if (pagingRequest.FilterType == FilterType.Equals)
+                                 { filter.AppendLine($"OR LOWER(CAST([{pro.Name}] AS NVARCHAR)) = '{pagingRequest.FilterValue.ToLower()}'\t"); }
+                             }
+                             else if (pagingRequest.FilterColumn.ToLower().Equals(pro.Name.ToLower()))
+                             {
+                                 if (pagingRequest.FilterType == FilterType.NotEmpty)
+                                 {
+                                     filter.AppendLine($"IIF([{pagingRequest.FilterColumn}] <> '',1,0) = 1 ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.Empty)
+                                 {
+                                     filter.AppendLine($"IIF([{pagingRequest.FilterColumn}] = '',0,1) = 1 ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.Contains)
+                                 {
+                                     filter.AppendLine($" LOWER(CAST([{pagingRequest.FilterColumn}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}%'  ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.StartsWith)
+                                 {
+                                     filter.AppendLine($" LOWER(CAST([{pagingRequest.FilterColumn}] AS NVARCHAR)) LIKE '{pagingRequest.FilterValue.ToLower()}%'  ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.EndsWith)
+                                 {
+                                     filter.AppendLine($" LOWER(CAST([{pagingRequest.FilterColumn}] AS NVARCHAR)) LIKE '%{pagingRequest.FilterValue.ToLower()}'  ");
+                                 }
+                                 else if (pagingRequest.FilterType == FilterType.Equals)
+                                 {
+                                     filter.AppendLine($" LOWER(CAST([{pagingRequest.FilterColumn}] AS NVARCHAR)) = '{pagingRequest.FilterValue.ToLower()}'  ");
+                                 }
+                             }
+                             else
+                                 continue;
+                         }
+                     }
+                     if (pagingRequest.FilterColumn.Equals("*"))
+                     {
+                         if (!string.IsNullOrEmpty(filter.ToString()))
+                             filter = filter.Remove(0, 2);
+                     }
+
+                 }
+                 if (!string.IsNullOrEmpty(pagingRequest.OrderBy))
+                 {
+                     dataExplore.OrderBy = pagingRequest.OrderBy;
+                     dataExplore.OrderDesc = pagingRequest.OrderDesc;
+                 }
+                 else
+                 { dataExplore.OrderBy = "ID"; dataExplore.OrderDesc = pagingRequest.OrderDesc; }
+                 dataExplore.TableName = table;
+                 dataExplore.UserId = userId;
+                 dataExplore.DataIsActive = pagingRequest.DataIsActive;
+                 dataExplore.PageSize = pagingRequest.PageSize;
+                 dataExplore.PageIndex = pagingRequest.PageIndex;
+                 dataExplore.Filter = (!string.IsNullOrEmpty(filter.ToString()) ? filter.ToString() : " 1 = 1");
+                 var data = await _dataExplore.GetData(dataExplore);
+                 var result = CollectionHelper.ConvertTo<T>(data);
+                 return result.FirstOrDefault();
+             });
                 return result;
             }
             catch (Exception ex)
@@ -203,7 +202,7 @@ namespace Service.Command
         }
 
 
-        public async Task<T> GetData<T, O>(string table, int PageSize, int PageIndex, bool DataIsActive,int ParentId, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
+        public async Task<T> GetData<T, O>(string table, int PageSize, int PageIndex, bool DataIsActive, int ParentId, string filterColumn, FilterType filterType, string filterValue, string OrderBy, bool OrderDesc, int userId)
         {
             try
             {
@@ -322,10 +321,10 @@ namespace Service.Command
                         }
 
                     }
-                    if(ParentId!=0)
+                    if (ParentId != 0)
                     {
                         filter.AppendLine($"AND ParentId = {ParentId} ");
-                    }    
+                    }
                     if (!string.IsNullOrEmpty(OrderBy))
                     {
                         if (typeof(T).GetProperty(OrderBy) != null)
@@ -652,7 +651,7 @@ namespace Service.Command
             }
         }
 
-        public async Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue, int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey="", bool AndOrFilterKey=true)
+        public async Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue, int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey = "", bool AndOrFilterKey = true)
         {
             try
             {
@@ -661,7 +660,7 @@ namespace Service.Command
                     DataExploreLookupRequestModel dataExplore = new DataExploreLookupRequestModel();
                     StringBuilder filter = new StringBuilder();
 
-                    if (!(string.IsNullOrEmpty(filterValue)) && !(string.IsNullOrEmpty(filterColumn)) )
+                    if (!(string.IsNullOrEmpty(filterValue)) && !(string.IsNullOrEmpty(filterColumn)))
                     {
                         var filters = filterColumn.Split(",");
 
@@ -673,10 +672,10 @@ namespace Service.Command
                                 var pro = temp.GetProperty(column);
                                 if (pro != null)
                                 {
-                                    if(isAbsolute)
+                                    if (isAbsolute)
                                     {
                                         filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) = N'{filterValue.ToLower()}'  ");
-                                    }   
+                                    }
                                     else
                                         filter.AppendLine($"OR LOWER(CAST([{column}] AS NVARCHAR)) LIKE '{filterValue.ToLower()}%'  ");
                                 }
@@ -691,7 +690,7 @@ namespace Service.Command
                             Type temp = typeof(T);
                             foreach (PropertyInfo pro in temp.GetProperties())
                             {
-                                 if (filterColumn.ToLower().Equals(pro.Name.ToLower()))
+                                if (filterColumn.ToLower().Equals(pro.Name.ToLower()))
                                 {
                                     if (isAbsolute)
                                     {
@@ -717,14 +716,14 @@ namespace Service.Command
                     }
                     if (!string.IsNullOrEmpty(filterKey))
                     {
-                      if(!AndOrFilterKey)
+                        if (!AndOrFilterKey)
                         {
                             filter.Append($" OR ({filterKey})");
                             if (string.IsNullOrEmpty(filterValue))
                             {
                                 filter = filter.Remove(0, 2);
                             }
-                        }    
+                        }
                         else
                         {
                             filter.Append($" AND ({filterKey})");
@@ -732,10 +731,10 @@ namespace Service.Command
                             {
                                 filter = filter.Remove(0, 4);
                             }
-                        }    
+                        }
 
 
-                        
+
                     }
                     dataExplore.TableName = table;
                     dataExplore.UserId = userId;
@@ -750,6 +749,85 @@ namespace Service.Command
             catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { table = table, user = userId });
+                throw ex;
+            }
+        }
+
+        public async Task<DataTable> Lookup2(LookUpRequest lookUpRequest)
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    DataExploreLookup2RequestModel dataExplore = new DataExploreLookup2RequestModel();
+                    dataExplore.LookupKey = lookUpRequest.LookupKey;
+                    dataExplore.LookupValue = lookUpRequest.LookupValue;
+                    dataExplore.LoadFilterExpr = lookUpRequest.LoadFilterExpr.Replace("`", "'");
+                    dataExplore.NumberRow = lookUpRequest.NumberRow;
+                    dataExplore.SortExpr = lookUpRequest.OrderBy;
+                    StringBuilder filter = new StringBuilder();
+
+                    if (string.IsNullOrEmpty(lookUpRequest.LookupKey))
+                    {
+                        return null;
+                    }
+
+                    var data = await _dataExplore.GetDataLookUp2(dataExplore);
+
+                    return data;
+                });
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { table = lookUpRequest });
+                throw ex;
+            }
+        }
+
+        public async Task<DataTable> ServerConstraint(ServerConstraintRequest serverConstraint)
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                  
+                    if (string.IsNullOrEmpty(serverConstraint.Command))
+                    {
+                        return new DataTable();
+                    }
+                    if (!serverConstraint.Command.StartsWith("ufn_"))
+                    {
+                        throw new Exception("bat buoc ten function phai bat dau bang ufn_");
+                    }
+                    ServerConstraintRequestModel requestModel = new ServerConstraintRequestModel();
+                    requestModel.Command = serverConstraint.Command;
+                    requestModel.Parameters = serverConstraint.Parameters;
+                    if (serverConstraint.Command.StartsWith("ufn_"))
+                    {
+                        string dboFunc = $"SELECT dbo.{serverConstraint.Command}";
+                        string param = "";
+                        foreach (object item in serverConstraint.Parameters)
+                        {
+                            param = "," + item ;
+                        }
+                        dboFunc = dboFunc + '(' + param.Substring(0, 1)+')';
+                        var data1 = await _dataExplore.ServerConstraintFunction(requestModel);
+                        return data1;
+                    }
+
+                    else if (serverConstraint.Command.StartsWith("usp_"))
+                    {
+                        var data2= await _dataExplore.ServerConstraintStoreProcedure(requestModel);
+                        return data2;
+                    }    
+                    return new DataTable(); 
+                });
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { model = serverConstraint });
                 throw ex;
             }
         }

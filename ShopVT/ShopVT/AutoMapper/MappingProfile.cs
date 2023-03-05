@@ -30,6 +30,8 @@ namespace API.AutoMapper
             CreateMap<SlideRequest, vB10SlideModel>().ReverseMap();
             CreateMap<OrderRequest, vB20OrderModel>().ReverseMap();
             CreateMap<HomePageRequest, B10HomePageModel>().ReverseMap();
+            CreateMap<AccDoc_PurchaseRequest, vB20AccDoc_PurchaseModel>().ReverseMap();
+
         }
 
     }

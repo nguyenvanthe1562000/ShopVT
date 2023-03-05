@@ -12,7 +12,7 @@ namespace Data.Command
     public class DataEditorRepository : IDataEditorRepository, IDisposable
     {
         private IDatabaseHelper _dbHelper;
-
+        private ILogger _logger;
         public DataEditorRepository(IDatabaseHelper databaseHelper)
         {
             _dbHelper = databaseHelper;

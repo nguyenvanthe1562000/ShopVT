@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,6 +15,9 @@ namespace Common.CustomConvert
     public static class MessageConvert
     {
         private static readonly JsonSerializerSettings Settings;
+        private static string _exeDir = AppDomain.CurrentDomain.BaseDirectory;
+        private static string _logFilePath = Path.Combine(_exeDir, @"log\log.json");
+
         static MessageConvert()
         {
             Settings = new JsonSerializerSettings
@@ -23,6 +27,7 @@ namespace Common.CustomConvert
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
+
         }
 
         public static string SerializeObject(this object obj)
@@ -32,24 +37,38 @@ namespace Common.CustomConvert
             return JsonConvert.SerializeObject(obj, Settings);
         }
 
-        public static T DeserializeObject<T>(this string json)
-        {
-
-            return JsonConvert.DeserializeObject<T>(json, Settings);
-
-        }
-
-        public static Object DeserializeObject(this string json, Type type)
+        public static T DeserializeObject<T>(this string json )
         {
             try
             {
+          
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public static Object DeserializeObject(this string json,  Type type  )
+        {
+            try
+            {
+              
                 return JsonConvert.DeserializeObject(json, type, Settings);
             }
-            catch
+            catch (Exception ex)
             {
+               
                 return null;
             }
+            finally
+            {
+
+            }
         }
+
     }
     public static class CollectionHelper
     {
@@ -145,6 +164,7 @@ namespace Common.CustomConvert
         public static T CreateItem<T>(DataRow row)
         {
             T obj = default(T);
+            string msg = "";
             if (row != null)
             {
                 obj = Activator.CreateInstance<T>();

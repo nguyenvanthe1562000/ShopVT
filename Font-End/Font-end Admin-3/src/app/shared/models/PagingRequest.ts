@@ -21,3 +21,12 @@ export enum FilterType {
     GreaterThan,
     LessThan
  }
+
+ export class lookupRequest {
+    LookupKey : string;     
+    LookupValue: string;
+    LoadFilterExpr : string;  
+    NumberRow : string
+    OrderBy: string;
+   
+ }

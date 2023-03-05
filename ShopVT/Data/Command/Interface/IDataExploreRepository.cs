@@ -21,5 +21,11 @@ namespace Data.Command
         //lấy dữ liệu theo kiêu cha con 1 cha nhiều con dùng cho xem chi tiết.
         public Task<DataTable> GetDataByIdMultipleTable(DataExploreGetMultipleDataByIdRequestModel model);
         public Task<DataTable> GetDataLookUp(DataExploreLookupRequestModel model);
+
+        public Task<DataTable> GetDataLookUp2(DataExploreLookup2RequestModel model);
+        //exec store và fuction trả về table
+ 
+        public Task<DataTable> ServerConstraintFunction(ServerConstraintRequestModel function);
+        public Task<DataTable> ServerConstraintStoreProcedure(ServerConstraintRequestModel model);
     }
 }

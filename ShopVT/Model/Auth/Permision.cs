@@ -74,7 +74,6 @@ namespace Model.Auth
         DeleteOrther = 0000040100,//Xóa dữ liệu người khác +  của mình
         Restore = 0000050000,//khôi phục dữ liệu 
         RestoreOther = 0000050100,//khôi phục dữ liệu người khác +  của mình
-
         ApplicationAdmin= 999900000
     }
 }

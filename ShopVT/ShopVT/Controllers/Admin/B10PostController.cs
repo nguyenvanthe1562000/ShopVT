@@ -170,6 +170,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
+              
                 var result = await _explore.GetData<PagedResult<B10PostModel>, B10PostModel>(_table,pagingRequest, GetCurrentUserId());
                 return Ok(result);
             }
@@ -185,6 +186,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
+                return BadRequest();
                 var result = await _explore.GetGroup<GroupData>(_table, "Name", "id", false, GetCurrentUserId());
                 if (result.Count() == 0)
                 {

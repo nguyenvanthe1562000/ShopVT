@@ -18,14 +18,14 @@
                 
                 <li>
                     <a (click)="onLogOut()"  class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
+                        <i class="mdi mdi-login"></i>
                         <span> Đăng xuất </span>
                     </a>
                 </li>
               
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
+                        <i class="mdi mdi-file-document"></i>
                         <span>Danh mục </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -69,7 +69,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
-                        <i class="mdi mdi-view-dashboard"></i>
+                        <i class="mdi mdi-table-edit"></i>
                         <span>Chứng từ </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -78,6 +78,12 @@
                                 <span>Phiếu nhập mua</span>
                             </a>
                         </li>
+                        <li>
+                            <a [routerLink]="['/acc-doc-purchase']" >
+                                <span>Phiếu nhập mua(new)</span>
+                            </a>
+                        </li>
+
                         <li>
                             <a [routerLink]="['/order']" >
                                 <span>Đơn đặt hàng</span>
@@ -107,7 +113,7 @@
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-email-outline"></i>
+                        <i class="mdi mdi-chart-bar"></i>
                         <span> Báo cáo</span>
                     </a>
               
@@ -119,7 +125,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
+                        <i class="mdi mdi-auto-fix"></i>
                         <span>Hệ thống </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">

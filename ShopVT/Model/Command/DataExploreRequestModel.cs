@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Model.Command
 {
     public class DataExploreRequestModel:BaseCommand
@@ -13,6 +15,22 @@ namespace Model.Command
         public string OrderBy { get; set; }
         public bool OrderDesc { get; set; }
         public int RowsTotal { get; set; }
+    }
+
+    public class DataExploreLookup2RequestModel : BaseCommand
+    {
+        public string LookupKey { get; set; }
+        public string LookupValue { get; set; }
+
+        public string LoadFilterExpr { get; set; }
+        public string NumberRow { get; set; }
+        public string SortExpr { get; set; }
+    }
+    public class ServerConstraintRequestModel : BaseCommand
+    {
+        public string Command { get; set; }
+   
+        public List<object> Parameters { get; set; }
     }
     public class DataExploreGetDataRequestModel : BaseCommand
     {

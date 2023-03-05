@@ -1,9 +1,12 @@
 <div class="top">
-    <h2>Danh mục loại tin</h2>
+    <h4>Danh mục loại sản phẩm</h4>
     <div class="left">
         <p-button (click)="showAdd()" icon="pi pi-external-link" label="Thêm"></p-button>
+       
         <p-treeSelect [style]="{'margin-left': '5px'}" [(ngModel)]="selectGroup" [options]="groupData" [display]=""
-            (onNodeSelect)=" nodeSelect($event)" selectionMode="single" placeholder="Select Item"></p-treeSelect>
+             (onNodeSelect)=" nodeSelect($event)" 
+             selectionMode="single" placeholder="Select Item"></p-treeSelect>
+         
         <p-button (click)="NotGroup()" [style]="{'margin-left': '5px'}" icon="pi pi-external-link"
             label="Không phân nhóm" class="p-button-secondary"></p-button>
         <p-button (click)="IsActive()" [style]="{'margin-left': '5px','class':'p-button-danger'}"

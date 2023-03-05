@@ -63,6 +63,7 @@ export class OrderComponent extends BaseComponent implements OnInit {
     this.filter.PageIndex = this.page;
     this.filter.PageSize = this.pageSize;
     this.filter.DataIsActive = true;
+    this.filter.OrderBy = "orderStatus";
     this.Filter(this.filter);
    
 
@@ -107,6 +108,7 @@ export class OrderComponent extends BaseComponent implements OnInit {
         this.listItem.PageCount = res.pageCount;
         this.listItem.TotalRecords = res.totalRecords;
         this.listItem.Items = res.items;
+        
         setTimeout(() => {
           this.loadScripts();
         });
@@ -338,7 +340,7 @@ export class OrderComponent extends BaseComponent implements OnInit {
         {
           this.fieldArray= [];;
         }
-      });    
+      } );    
   }
 
   Restore(id: number) {

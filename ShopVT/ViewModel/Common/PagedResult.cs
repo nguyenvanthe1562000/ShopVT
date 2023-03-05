@@ -13,7 +13,7 @@ namespace ViewModel.Common
         public int TotalRecords { get; set; }
 
         public int PageCount { get; set; }
-
+      
 
         public List<T> Items { set; get; }
     }

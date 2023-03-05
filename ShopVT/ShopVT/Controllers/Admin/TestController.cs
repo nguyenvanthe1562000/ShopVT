@@ -46,6 +46,36 @@ namespace ShopVT.Controllers.Admin
                 return BadRequest("Error at method: insert - product," + ex.InnerException.InnerException.Message + "");
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> get(  )
+        {
+            try
+            {
+                object test = new { status = false, message = "test"};
+                 
+                return Ok(test);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error at method: insert - product," + ex.InnerException.InnerException.Message + "");
+            }
+        }
+        [HttpGet]
+        [Route("get2")]
+        public async Task<IActionResult> get2222()
+        {
+            try
+            {
+                product test = new product ();
+                test.id = 1;
+                test.name = "test";
+                return Ok(test);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error at method: insert - product," + ex.InnerException.InnerException.Message + "");
+            }
+        }
     }
     public class product
     {

@@ -146,8 +146,11 @@ namespace Common.Helper
         /// <param name="outputParamCountNumber">outputParam Count Number</param>
         /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
         /// <returns>List Object Result in query</returns>
-        List<Object> ReturnValuesFromExecuteSProcedure(out string msgError, string sprocedureName, int outputParamCountNumber, params object[] paramObjects);
-        #endregion 
+        Task<(string message, DataTable)> ExecuteServerConstraintFunctionReturnDataTableAsync(string functionName, List<object> paramObject);
+
+        #endregion
+
+
     }
 
 }

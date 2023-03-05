@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {DialogModule} from 'primeng/dialog';
 import {EditorModule} from 'primeng/editor';
 import {TabViewModule} from 'primeng/tabview';
-
+import {DatePipe} from '@angular/common';
 import {AutoComplete, AutoCompleteModule} from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
@@ -29,6 +29,9 @@ import { Role } from '../../shared/models/Role';
 import { DateVNPipe } from '../../shared/pipes/DateVN.pipe';
 import {ChartModule} from 'primeng/chart';
 import {CalendarModule} from 'primeng/calendar';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {TreeTableModule} from 'primeng/treetable';
+//object
 import { PermisionComponent } from './permision/permision.component';
 import { ManageReportComponent } from './manage-report/manage-report.component';
 import { ManageAmountComponent } from './manage-amount/manage-amount.component';
@@ -59,6 +62,9 @@ import { OrderReturnComponent } from './order-return/order-return.component';
 import { ReportNhapComponent } from './report-nhap/report-nhap.component';
 import { ReportXuatComponent } from './report-xuat/report-xuat.component';
 import { ReportTonComponent } from './report-ton/report-ton.component';
+import { AccDoc_PurchaseComponent } from './acc-doc-purchasae/acc-doc-purchasae.component';
+import { AccDocPurchaseCreateComponent } from './acc-doc-purchase-create/acc-doc-purchase-create.component';
+import { AccDocPurchaseCreateTestComponent } from './acc-doc-purchase-create-test/acc-doc-purchase-create-test.component';
 
 export const mainRoute: Routes = [
   {
@@ -112,6 +118,26 @@ export const mainRoute: Routes = [
         component: AccDocProductComponent,
       },
       {
+        path: 'acc-doc-purchase',
+        component: AccDoc_PurchaseComponent,
+      },
+      {
+        path: 'acc-doc-purchase-edit/:id',
+        component: AccDocPurchaseCreateComponent,
+      },
+      {
+        path: 'acc-doc-purchase-edit',
+        component: AccDocPurchaseCreateComponent,
+      },
+      {
+        path: 'acc-doc-purchase-test',
+        component: AccDocPurchaseCreateTestComponent,
+      },
+      {
+        path: 'acc-doc-purchase-test/:id',
+        component: AccDocPurchaseCreateTestComponent,
+      },
+      {
         path: 'order',
         component: OrderComponent,
       },
@@ -160,8 +186,9 @@ export const mainRoute: Routes = [
 ]
 @NgModule({
   imports: [
-    CommonModule,CalendarModule,
+    CommonModule,CalendarModule,TreeTableModule,
     SharedModule,
+    InputNumberModule,
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forChild(mainRoute),
@@ -178,8 +205,11 @@ export const mainRoute: Routes = [
     AutoCompleteModule,
     TabViewModule
   ],
+  providers: [
+    DatePipe
+  ],
   bootstrap:  [ MainComponent ],
   declarations: [MainComponent,    
-    DashboardComponent, ManageCategoriesComponent, ManageProductsGroupComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent, ManageProductBrandComponent, DateVNPipe, PermisionComponent,  ManageReportComponent, ManageAmountComponent, AccDocComponent, AccDocDetailComponent, OpenInventoryComponent, OpenInventorySystemComponent, LoginEventComponent, PostCategoryComponent, PostComponent, ProductCategoryComponent, ProductComponent, ManufacturerComponent, SlideComponent, EmployeeComponent, CustomerComponent, AppUserComponent, AccDocProductComponent,OrderComponent, EventlogComponent, LogerrorComponent, OpeninventoryComponent, BackUpComponent, HomePageComponent, OrderReturnComponent, ReportNhapComponent, ReportXuatComponent, ReportTonComponent]
+    DashboardComponent, ManageCategoriesComponent, ManageProductsGroupComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent, ManageProductBrandComponent, DateVNPipe, PermisionComponent,  ManageReportComponent, ManageAmountComponent, AccDocComponent, AccDocDetailComponent, OpenInventoryComponent, OpenInventorySystemComponent, LoginEventComponent, PostCategoryComponent, PostComponent, ProductCategoryComponent, ProductComponent, ManufacturerComponent, SlideComponent, EmployeeComponent, CustomerComponent, AppUserComponent, AccDocProductComponent,OrderComponent, EventlogComponent, LogerrorComponent, OpeninventoryComponent, BackUpComponent, HomePageComponent, OrderReturnComponent, ReportNhapComponent, ReportXuatComponent, ReportTonComponent, AccDoc_PurchaseComponent, AccDocPurchaseCreateComponent, AccDocPurchaseCreateTestComponent]
 })
 export class MainModule { }

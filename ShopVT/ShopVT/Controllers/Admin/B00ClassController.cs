@@ -20,7 +20,7 @@ namespace ShopVT.Controllers.Admin
     [Route("api/class")]
     [ApiController]
     [Authorize]
-    public class LookUpController : BaseController
+    public class B00ClassController : BaseController
     {
         private readonly IDataEdtitorService _edit;
         private readonly IDataExploreService _explore;
@@ -29,7 +29,7 @@ namespace ShopVT.Controllers.Admin
         //private readonly IDataExploreService _explore;
         private readonly ILogger _logger;
         private readonly string _table = "B00Class";
-        public LookUpController(IDataEdtitorService dataEdtitor, IDataExploreService explore, ILogger logger, IStorageService storageService)
+        public B00ClassController(IDataEdtitorService dataEdtitor, IDataExploreService explore, ILogger logger, IStorageService storageService)
         {
             _edit = dataEdtitor;
             _explore = explore;

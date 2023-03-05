@@ -145,8 +145,7 @@
                 [suggestions]="lookupProductCategoryData" [dropdown]="true"
                 (onSelect)="SelectForeignKey($event,'productCategoryCode')" field="name"
                 (completeMethod)="LookupCategory($event)">
-            
-                
+             
             </p-autoComplete>
                 </div>
                 <div class="col-md-6">
@@ -157,7 +156,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <label style="font-weight: bold;">Đơn vị tính chính:</label>
-                    <input name="UnitCost" ngModel #Unit="ngModel" type="text" class="form-control"
+                    <input name="unit" ngModel #Unit="ngModel" type="text" class="form-control"
                         placeholder="Đơn vị tính">
                     <label style="font-weight: bold;">Quy đổi chính:</label>
                     <input name="ConvertRate" ngModel #ConvertRate="ngModel" type="number" class="form-control"
@@ -165,10 +164,10 @@
                 </div>
                 <div class="col-md-6">
                     <label style="font-weight: bold;">Đơn vị tính phụ:</label>
-                    <input name="UnitCost" ngModel #UnitCost0="ngModel" type="text" class="form-control"
+                    <input name="unit0" ngModel #UnitCost0="ngModel" type="text" class="form-control"
                         placeholder="Đơn vị tính">
                     <label style="font-weight: bold;">Quy đổi phụ:</label>
-                    <input name="UnitCost" ngModel #ConvertRate0="ngModel" type="number" class="form-control"
+                    <input name="convertRate0" ngModel #ConvertRate0="ngModel" type="number" class="form-control"
                         placeholder="Đơn vị tính">
                 </div>
             </div>
@@ -332,11 +331,11 @@
             </button>
         </div>
     </form>
-    <form (ngSubmit)="Update(form2,addType)" #form2="ngForm" [hidden]="!displayEditChild">
+    <form (ngSubmit)="Update(form2,addType)" #form2="ngForm" [hidden]="!displayEditChild"  >
         <div style="width: 90%; margin-left: 5%;">
             <label style="font-weight: bold;">Mã:</label>
             <input name="code" [(ngModel)]="selectItem.code" #code="ngModel" type="text" class="form-control"
-                placeholder="Tên nhóm">
+                placeholder="Tên nhóm" >
             <label style="font-weight: bold;">Tên:</label>
             <input name="name" [(ngModel)]="selectItem.name" #name="ngModel" type="text" class="form-control"
                 placeholder="Tên nhóm">

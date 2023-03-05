@@ -4,7 +4,7 @@ namespace Model.Model
 {
      public class B20OrderDetailModel 
      {
-       	
+    
 	public int ID { set; get; }
 	public string OrderCode { set; get; }
 	public string ProductCode { set; get; }
