@@ -15,25 +15,22 @@
                       <div class="title-block">
                           <span>Shop VT</span>
                           <span>Máy Tính</span>
-                         
                       </div>
         
                       <div class="row">
-                          <div class="lookbook owl-carousel owl-theme owl-loaded owl-drag">
-                              
 
-                              <div class="item"  *ngFor="let item of slide">
-                                  <!-- Module Lookbooks -->
-                                  <div class="tiva-lookbook default">
-                                      <div class="items col-lg-12 col-sm-12 col-xs-12">
-                                          <div class="tiva-content-lookbook">
-                                            <a href="{{item.url}}"><img class="img-fluid img-responsive" src="{{_url}}{{item.image}}" alt="lookbook"></a>  
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+                        <div class="tab-content">
+                            <div class="category-product-item owl-carousel owl-theme">
+                                <div class="item"  *ngFor="let item of slide">
+                                    <!-- Module Lookbooks -->
+                                    <a href="{{item.url}}"><img src="{{_url}}{{item.image}}" alt="lookbook"></a>  
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        
+                    </div>
                   </div>
 
                   <!-- product living room -->

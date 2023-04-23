@@ -24,16 +24,21 @@ export class BaseComponent {
    }
  
    public loadScripts() {
-      
-     this.renderExternalScript('assets/libs/jquery/jquery.min.js').onload = () => { },
-     this.renderExternalScript('assets/libs/popper/popper.min.js').onload = () => { },
-     this.renderExternalScript('assets/libs/bootstrap/js/bootstrap.min.js').onload = () => { },
+      // <script src="libs/jquery/jquery.min.js"></script>
+      // <script src="libs/popper/popper.min.js"></script>
+      // <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+      // <script src="libs/nivo-slider/js/jquery.nivo.slider.js"></script>
+      // <script src="libs/owl-carousel/owl.carousel.min.js"></script>
+  
+      this.renderExternalScript('assets/libs/jquery/jquery.min.js').onload = () => { },
+      this.renderExternalScript('assets/libs/popper/popper.min.js').onload = () => { },
+      this.renderExternalScript('assets/libs/bootstrap/js/bootstrap.min.js').onload = () => { },
      this.renderExternalScript('assets/libs/nivo-slider/js/jquery.nivo.slider.js').onload = () => { },
      this.renderExternalScript('assets/libs/owl-carousel/owl.carousel.min.js').onload = () => { },
-     this.renderExternalScript('assets/libs/slider-range/js/tmpl.js').onload = () => { },
-     this.renderExternalScript('assets/libs/slider-range/js/jquery.dependClass-0.1.js').onload = () => { },
-     this.renderExternalScript('assets/libs/slider-range/js/draggable-0.1.js').onload = () => { },
-     this.renderExternalScript('assets/libs/slider-range/js/jquery.slider.js').onload = () => { },
+   //   this.renderExternalScript('assets/libs/slider-range/js/tmpl.js').onload = () => { },
+   //   this.renderExternalScript('assets/libs/slider-range/js/jquery.dependClass-0.1.js').onload = () => { },
+   //   this.renderExternalScript('assets/libs/slider-range/js/draggable-0.1.js').onload = () => { },
+   //   this.renderExternalScript('assets/libs/slider-range/js/jquery.slider.js').onload = () => { },
      this.renderExternalScript('assets/js/theme.js').onload = () => { }
    
    }

@@ -8,6 +8,10 @@ export class PagingRequest {
     FilterType : FilterType;  
     FilterValue : string
     DataIsActive: boolean;
+    constructor (){
+        this.DataIsActive=true;
+        this.PageSize = 100;
+    }
    
 }
     

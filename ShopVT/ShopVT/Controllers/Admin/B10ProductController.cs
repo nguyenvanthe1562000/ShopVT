@@ -19,6 +19,8 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ViewModel.catalog.Product;
 using ViewModel.Common;
+using System.Drawing;
+using System.Drawing.Imaging;
 namespace ShopVT.Controllers.Admin
 {
     [Route("api/product")]
@@ -43,10 +45,14 @@ namespace ShopVT.Controllers.Admin
             _storageService = storageService;
             _map = mapper;
         }
-        private async Task<string> SaveFile(IFormFile file)
+        private async Task<string> SaveFile(IFormFile file, string code = "")
         {
+
+        
             if (file == null) return ""; var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            var fileName = $"{code}_{DateTime.Now.ToString("ddMMyyyyHHmm")}_{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            var lastDotIndex = fileName.LastIndexOf('.');
+            fileName = fileName.Substring(0, lastDotIndex) +".jpg";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
@@ -65,15 +71,20 @@ namespace ShopVT.Controllers.Admin
                 var b10product = _map.Map<vB10ProductModel>(addRequest);
                 b10product.B10ProductInformation_Json = JsonConvert.DeserializeObject<List<B10ProductInformationModel>>(addRequest.ProductInformation_Json);
                 List<B10ProductImgModel> b10ProductImgs = new List<B10ProductImgModel>();
-                B10ProductImgModel productImgModel = new B10ProductImgModel()
+                if(addRequest.ImageDefault != null)
                 {
-                    ProductCode = addRequest.Code,
-                    Caption = b10product.Alias,
-                    ImageDefault = true,
-                    ImagePath = await SaveFile(addRequest.ImageDefault)
-                };
-                b10ProductImgs.Add(productImgModel);
-                if(addRequest.ThumbnailImage !=null)
+                    B10ProductImgModel productImgModel = new B10ProductImgModel()
+                    {
+                        ProductCode = addRequest.Code,
+                        Caption = b10product.Alias,
+                        ImageDefault = true,
+                        ImglengthSize = addRequest.ImageDefault.Length,
+                        ImagePath = await SaveFile(addRequest.ImageDefault)
+                    };
+                    b10ProductImgs.Add(productImgModel);
+                }
+               
+                if (addRequest.ThumbnailImage != null)
                 {
                     foreach (var item in addRequest.ThumbnailImage)
                     {
@@ -82,13 +93,14 @@ namespace ShopVT.Controllers.Admin
                             ProductCode = addRequest.Code,
                             Caption = b10product.Alias,
                             ImageDefault = false,
+                            ImglengthSize = item.Length,
                             ImagePath = await SaveFile(item)
                         };
                         b10ProductImgs.Add(productImg);
                     }
                 }
                 b10product.B10ProductImg_Json = b10ProductImgs;
-                 var result = await _edit.AddRangeAsync<vB10ProductModel>(b10product, _table, "ProductCode", b10product.Code,"Code", GetCurrentUserId());
+                var result = await _edit.AddRangeAsync<vB10ProductModel>(b10product, _table, "ProductCode", b10product.Code, "Code", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -100,33 +112,32 @@ namespace ShopVT.Controllers.Admin
 
         [HttpPut]
         [Route("update")]
-        [RequiredOneOfPermissions(PermissionData.EditOther,PermissionData.Edit)]
+        [RequiredOneOfPermissions(PermissionData.EditOther, PermissionData.Edit)]
         public async Task<IActionResult> UpdateAsync([FromForm] ProductUpdateRequest updateRequest)
         {
             try
             {
-                if (string.IsNullOrEmpty(updateRequest.Code))
-                {
-                    return BadRequest(new ResponseMessageDto(MessageType.Error, "dữ liệu code không hợp lệ"));
-                }
-                if (updateRequest.ID ==0)
-                {
-                    return BadRequest(new ResponseMessageDto(MessageType.Error, "dữ liệu id không hợp lệ"));
-                }
+                 
                 var b10product = _map.Map<vB10ProductModel>(updateRequest);
                 b10product.B10ProductInformation_Json = JsonConvert.DeserializeObject<List<B10ProductInformationModel>>(updateRequest.ProductInformation_Json);
-                List<B10ProductImgModel> b10ProductImgs = new List<B10ProductImgModel>();
-
-                B10ProductImgModel productImgModel = new B10ProductImgModel()
+                b10product.B10ProductImg_Json = JsonConvert.DeserializeObject<List<B10ProductImgModel>>(updateRequest.ProductImg_Json);
+                if (!(updateRequest.ImageDefault is null))
                 {
-                    ProductCode = updateRequest.Code,
-                    Caption = b10product.Alias,
-                    ImageDefault = true,
-                    ImagePath = await SaveFile(updateRequest.ImageDefault)
-                };
-                b10ProductImgs.Add(productImgModel);
+                    
+                    B10ProductImgModel productImgModel = new B10ProductImgModel()
+                    {
+                        ProductCode = updateRequest.Code,
+                        Caption = b10product.Alias,
+                        ImageDefault = true,
+                        ImglengthSize = updateRequest.ImageDefault.Length,
+                        ImagePath =  await SaveFile(updateRequest.ImageDefault)
+                    };
+                    b10product.B10ProductImg_Json.Add(productImgModel);
+                }
+                
                 if (updateRequest.ThumbnailImage != null)
                 {
+                    b10product.B10ProductImg_Json.RemoveAll(i => i.ID < 0);
                     foreach (var item in updateRequest.ThumbnailImage)
                     {
                         B10ProductImgModel productImg = new B10ProductImgModel()
@@ -137,14 +148,13 @@ namespace ShopVT.Controllers.Admin
                             ImglengthSize = item.Length,
                             ImagePath = await SaveFile(item)
                         };
-                        b10ProductImgs.Add(productImg);
+                        b10product.B10ProductImg_Json.Add(productImg);
                     }
                 }
-                b10product.B10ProductImg_Json = b10ProductImgs;
                 var result = await _edit.UpdateRangeAsync<vB10ProductModel>(b10product, _table, b10product.ID, "ProductCode", b10product.Code, "", GetCurrentUserId());
                 return Ok(result);
             }
-            catch (Exception ex)    
+            catch (Exception ex)
             {
                 _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { ProductUpdateRequest = updateRequest });
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
@@ -157,7 +167,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-               
+
                 var b10product = _map.Map<vB10ProductModel>(updateRequest);
                 var result = await _edit.Update<vB10ProductModel>(b10product, _table, b10product.ID, "", GetCurrentUserId());
                 return Ok(result);
@@ -223,7 +233,7 @@ namespace ShopVT.Controllers.Admin
 
             try
             {
-                var result = await _explore.GetData<PagedResult<vB10ProductModel>,vB10ProductModel>(_table,pagingRequest, 1);
+                var result = await _explore.GetData<PagedResult<vB10ProductModel>, vB10ProductModel>(_table, pagingRequest, 1);
                 return Ok(result);
             }
 
@@ -245,16 +255,12 @@ namespace ShopVT.Controllers.Admin
                 {
                     return Ok(result);
                 }
-                if (result[0].Children is null)
-                {
-                    return Ok(result);
-                }
-               
+
                 foreach (var cat in result)
                 {
                     cat.Children = childsHash[cat.Data].ToList();
                 }
-                
+
                 return Ok(result);
             }
 
@@ -286,7 +292,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.Lookup<B10ProductCategoryInfModel>("B10ProductCategoryInf", "productcategorycode", v, 10, "", false, GetCurrentUserId(),true,"");
+                var result = await _explore.Lookup<B10ProductCategoryInfModel>("B10ProductCategoryInf", "productcategorycode", v, 10, "", false, GetCurrentUserId(), true, "");
                 return Ok(result);
             }
             catch (Exception ex)

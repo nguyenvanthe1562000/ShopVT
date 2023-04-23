@@ -46,32 +46,37 @@ namespace ShopVT.Controllers.Admin
             _storageService = storageService;
             _map = mapper;
         }
-        private async Task<string> SaveFile(IFormFile file)
+        private async Task<string> SaveFile(IFormFile file, string code = "")
         {
+
+
             if (file == null) return ""; var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            var fileName = $"{code}_{DateTime.Now.ToString("ddMMyyyyHHmm")}_{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            var lastDotIndex = fileName.LastIndexOf('.');
+            fileName = fileName.Substring(0, lastDotIndex) + ".jpg";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
         [HttpPost]
         [Route("add")]
         [RequiredOneOfPermissions(PermissionData.Create)]
-        public async Task<IActionResult> AddAsync([FromBody] HomePageRequest addRequest)
+        public async Task<IActionResult> AddAsync([FromForm] HomePageRequest addRequest)
         {
             try
             {
-                if (addRequest.vB10HomePageDetail is null) return BadRequest(new ResponseMessageDto(MessageType.Error, "chi tiết chứng từ không hợp lệ"));
-                
-               
-                addRequest.Stt=await GenerateId.NewId(GetCurrentUserId());
-
-                var add = _map.Map<B10HomePageModel>(addRequest);
-                add.vB10HomePageDetail_Json = JsonConvert.DeserializeObject<List<vB10HomePageDetailModel>>(addRequest.vB10HomePageDetail);
-                if(add.vB10HomePageDetail_Json.Count<=3 || add.vB10HomePageDetail_Json.Count%4 !=0)
+                if (addRequest.HomePageDetail_Json is null) return BadRequest(new ResponseMessageDto(MessageType.Error, "chi tiết chứng từ không hợp lệ"));
+                addRequest.Stt = await GenerateId.NewId(GetCurrentUserId());
+                var add = _map.Map<vB10HomePageModel>(addRequest);
+                add.vB10HomePageDetail_Json = JsonConvert.DeserializeObject<List<vB10HomePageDetailModel>>(addRequest.HomePageDetail_Json);
+                if (add.vB10HomePageDetail_Json.Count <= 4)
                 {
                     return StatusCode(StatusCodes.Status416RangeNotSatisfiable, new ResponseMessageDto(MessageType.Warning, "tối thiểu 4 và chi hết cho 4"));
-                }    
-                var result = await _edit.AddRangeAsync<B10HomePageModel>(add, _table,"Stt",addRequest.Stt,"", GetCurrentUserId());
+                }
+                if (addRequest.BannerImage != null)
+                {
+                    add.Banner = await SaveFile(addRequest.BannerImage);
+                }
+                var result = await _edit.AddRangeAsync<vB10HomePageModel>(add, _table, "Stt", addRequest.Stt, "", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -80,23 +85,29 @@ namespace ShopVT.Controllers.Admin
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
-      
+
         [HttpPut]
         [Route("update")]
         [RequiredOneOfPermissions(PermissionData.EditOther, PermissionData.Edit)]
-        public async Task<IActionResult> UpdateAsync([FromBody] HomePageRequest updateRequest)
+        public async Task<IActionResult> UpdateAsync([FromForm] HomePageRequest updateRequest)
         {
             try
             {
-                if (updateRequest.vB10HomePageDetail is null) return BadRequest(new ResponseMessageDto(MessageType.Error, "chi tiết chứng từ không hợp lệ"));
-                var update = _map.Map<B10HomePageModel>(updateRequest);
-                update.vB10HomePageDetail_Json = JsonConvert.DeserializeObject<List<vB10HomePageDetailModel>>(updateRequest.vB10HomePageDetail);
-                var result = await _edit.UpdateRangeAsync<B10HomePageModel>(update, _table, updateRequest.Id, "Stt",updateRequest.Stt,"", GetCurrentUserId());
+                if (updateRequest.HomePageDetail_Json is null) return BadRequest(new ResponseMessageDto(MessageType.Error, "chi tiết chứng từ không hợp lệ"));
+                if (string.IsNullOrEmpty(updateRequest.Stt))
+                { updateRequest.Stt = await GenerateId.NewId(GetCurrentUserId()); }
+                var update = _map.Map<vB10HomePageModel>(updateRequest);
+                update.vB10HomePageDetail_Json = JsonConvert.DeserializeObject<List<vB10HomePageDetailModel>>(updateRequest.HomePageDetail_Json);
+                if (updateRequest.BannerImage != null)
+                {
+                    update.Banner = await SaveFile(updateRequest.BannerImage);
+                }
+                var result = await _edit.UpdateRangeAsync<vB10HomePageModel>(update, _table, updateRequest.Id, "Stt", updateRequest.Stt, "", GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { B10HomePageModel = updateRequest });
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { PostRequest = updateRequest });
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessageDto(MessageType.Error, ""));
             }
         }
@@ -139,7 +150,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetDataByIdMultipleTable<B10HomePageModel>(_table, id,"Stt","Stt","id",false, GetCurrentUserId());
+                var result = await _explore.GetDataByIdMultipleTable<vB10HomePageModel>(_table, id, "Stt", "Stt", "id", false, GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -154,7 +165,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                var result = await _explore.GetData<PagedResult<B10HomePageModel>, B10HomePageModel>(_table,pagingRequest, GetCurrentUserId());
+                var result = await _explore.GetData<PagedResult<vB10HomePageModel>, vB10HomePageModel>(_table, pagingRequest, GetCurrentUserId());
                 return Ok(result);
             }
             catch (Exception ex)
@@ -169,7 +180,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-              
+
                 return Ok();
             }
 

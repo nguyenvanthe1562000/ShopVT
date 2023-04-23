@@ -30,6 +30,11 @@ namespace Model.Model
         public DateTime CreatedAt { set; get; }
         public int ModifiedBy { set; get; }
         public DateTime ModifiedAt { set; get; }
+        public decimal Weight { set; get; }
+        public string Gender { set; get; }
+        public string Size { set; get; }
+        public string ItemSetCode { set; get; }
+        public string ColorCode { set; get; }
         public string Image { set; get; }
         public string ImageCation { set; get; }
 

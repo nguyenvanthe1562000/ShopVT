@@ -27,7 +27,7 @@ namespace Data.Command
             try
             {
 
-                var result = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("[usp_sys_GetData]", "@userId", model.UserId, "@table", model.TableName, "@PageSize", model.PageSize, "@PageIndex", model.PageIndex, "@Filter", model.Filter, "@TypeData", model.DataIsActive, "@Orderby", model.OrderBy, "@OrderDesc", model.OrderDesc);
+              var result = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("[usp_sys_GetData]", "@userId", model.UserId, "@table", model.TableName, "@PageSize", model.PageSize, "@PageIndex", model.PageIndex, "@Filter", model.Filter, "@TypeData", model.DataIsActive, "@Orderby", model.OrderBy, "@OrderDesc", model.OrderDesc);
                 if (!string.IsNullOrEmpty(result.message.ToString()))
                 {
                     throw new Exception(result.message);
@@ -159,12 +159,12 @@ namespace Data.Command
                 return null;
             }
         }
-        public async Task<DataTable> ServerConstraintFunction(ServerConstraintRequestModel model)
+        public async Task<DataTable> ServerConstraintFunction(string function)
         {
 
             try
             {
-                var result = await _dbHelper.ExecuteServerConstraintFunctionReturnDataTableAsync(model.Command, model.Parameters);
+                var result = await _dbHelper.ExecuteServerConstraintReturnDataTableAsync(function);
                 if (!string.IsNullOrEmpty(result.message.ToString()))
                 {
                     throw new Exception(result.message);
@@ -174,14 +174,67 @@ namespace Data.Command
             catch (Exception ex)
             {
 
-                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = model });
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = function });
                 return null;
             }
         }
 
-        public Task<DataTable> ServerConstraintStoreProcedure(ServerConstraintRequestModel model)
+        public async Task<DataSet> ServerConstraintStoreProcedureMultipleTable(string store)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                var result = await _dbHelper.ExecuteServerConstraintReturnDataSetAsync(store);
+                if (!string.IsNullOrEmpty(result.message.ToString()))
+                {
+                    throw new Exception(result.message);
+                }
+                return result.Item2;
+            }
+            catch (Exception ex)
+            {
+
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = store });
+                return null;
+            }
+        }
+
+        public async Task<DataTable> ServerConstraintStoreProcedure(string store)
+        {
+            try
+            {
+                var result = await _dbHelper.ExecuteServerConstraintReturnDataTableAsync(store);
+                if (!string.IsNullOrEmpty(result.message.ToString()))
+                {
+                    throw new Exception(result.message);
+                }
+                return result.Item2;
+            }
+            catch (Exception ex)
+            {
+
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = store });
+                return null;
+            }
+        }
+
+        public async Task<DataSet> Report(string store)
+        {
+            try
+            {
+                var result = await _dbHelper.Report(store);
+                if (!string.IsNullOrEmpty(result.message.ToString()))
+                {
+                    throw new Exception(result.message);
+                }
+                return result.Item2;
+            }
+            catch (Exception ex)
+            {
+
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { DataExploreGetDataRequestModel = store });
+                return null;
+            }
         }
         private bool disposed = false;
         public void Dispose()

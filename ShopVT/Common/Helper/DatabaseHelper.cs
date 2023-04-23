@@ -642,7 +642,7 @@ namespace Common.Helper
                 }
 
                 result = await cmd.ExecuteScalarAsync();
-               await cmd.DisposeAsync();
+                await cmd.DisposeAsync();
             }
             catch (Exception exception)
             {
@@ -1007,39 +1007,39 @@ namespace Common.Helper
                            try
                            {
 
-                           
-                           DataTable tb = new DataTable();
-                           SqlCommand cmd = new SqlCommand { CommandType = CommandType.StoredProcedure, CommandText = sprocedureName };
-                           SqlConnection connection = new SqlConnection(StrConnection);
-                           cmd.Connection = connection;
-                           int parameterInput = (paramObjects.Length) / 2;
 
-                           int j = 0;
-                           for (int i = 0; i < parameterInput; i++)
-                           {
-                               string paramName = Convert.ToString(paramObjects[j++]).Trim();
-                               object value = paramObjects[j++];
-                               if (paramName.ToLower().Contains("json"))
+                               DataTable tb = new DataTable();
+                               SqlCommand cmd = new SqlCommand { CommandType = CommandType.StoredProcedure, CommandText = sprocedureName };
+                               SqlConnection connection = new SqlConnection(StrConnection);
+                               cmd.Connection = connection;
+                               int parameterInput = (paramObjects.Length) / 2;
+
+                               int j = 0;
+                               for (int i = 0; i < parameterInput; i++)
                                {
-                                   cmd.Parameters.Add(new SqlParameter()
+                                   string paramName = Convert.ToString(paramObjects[j++]).Trim();
+                                   object value = paramObjects[j++];
+                                   if (paramName.ToLower().Contains("json"))
                                    {
-                                       ParameterName = paramName,
-                                       Value = value ?? DBNull.Value,
-                                       SqlDbType = SqlDbType.NVarChar
-                                   });
+                                       cmd.Parameters.Add(new SqlParameter()
+                                       {
+                                           ParameterName = paramName,
+                                           Value = value ?? DBNull.Value,
+                                           SqlDbType = SqlDbType.NVarChar
+                                       });
+                                   }
+                                   else
+                                   {
+                                       cmd.Parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
+                                   }
                                }
-                               else
-                               {
-                                   cmd.Parameters.Add(new SqlParameter(paramName, value ?? DBNull.Value));
-                               }
-                           }
 
-                           SqlDataAdapter ad = new SqlDataAdapter(cmd);
-                           ad.Fill(tb);
-                           cmd.DisposeAsync();
-                           ad.Dispose();
-                           connection.DisposeAsync();
-                           return tb;
+                               SqlDataAdapter ad = new SqlDataAdapter(cmd);
+                               ad.Fill(tb);
+                               cmd.DisposeAsync();
+                               ad.Dispose();
+                               connection.DisposeAsync();
+                               return tb;
                            }
                            catch (Exception ex)
                            {
@@ -1068,9 +1068,9 @@ namespace Common.Helper
         /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
         /// <returns>Table result</returns>
 
-        public async Task<(string message, DataTable)> ExecuteServerConstraintFunctionReturnDataTableAsync(string functionName, List<object> paramObject)
+        public async Task<(string message, DataTable)> ExecuteServerConstraintReturnDataTableAsync(string CommandText)
         {
-           
+
             DataTable tbResult = new DataTable();
             string msgError = "";
             try
@@ -1080,16 +1080,9 @@ namespace Common.Helper
                 {
                     try
                     {
-                        
-                        string dboFunc = $"SELECT dbo.{functionName}";
-                        string param = "";
-                        foreach (object item in paramObject)
-                        {
-                                param = param + ",'" + item.ToString() + "'";
-                        }
-                        dboFunc = dboFunc + '(' + param.Substring(1) + ')';
+
                         DataTable tb = new DataTable();
-                        SqlCommand cmd = new SqlCommand { CommandType = CommandType.Text, CommandText = dboFunc };
+                        SqlCommand cmd = new SqlCommand { CommandType = CommandType.Text, CommandText = CommandText };
                         SqlConnection connection = new SqlConnection(StrConnection);
                         cmd.Connection = connection;
                         SqlDataAdapter ad = new SqlDataAdapter(cmd);
@@ -1101,7 +1094,97 @@ namespace Common.Helper
                     }
                     catch (Exception ex)
                     {
-                        _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { ExecuteSProcedureReturnDataTableAsync = functionName, listparam= paramObject });
+                        _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { ExecuteSProcedureReturnDataTableAsync = CommandText });
+
+                        throw ex;
+                    }
+                });
+
+            }
+            catch (Exception exception)
+            {
+                tbResult = null;
+                msgError = exception.ToString();
+            }
+
+            return (msgError, tbResult);
+        }
+
+        /// <summary>
+        /// Execute Procedure return DataTale
+        /// </summary>
+        /// <param name="msgError">String.Empty when run query success or Message Error when run query happen issue</param>
+        /// <param name="sprocedureName">Procedure Name</param>
+        /// <param name="paramObjects">List Param Objects, Each Item include 'ParamName' and 'ParamValue'</param>
+        /// <returns>Table result</returns>
+
+        public async Task<(string message, DataSet)> ExecuteServerConstraintReturnDataSetAsync(string CommandText)
+        {
+            DataSet tbResult = new DataSet();
+            string msgError = "";
+            try
+            {
+
+                tbResult = await Task.Run(() =>
+                {
+                    try
+                    {
+
+                        DataSet tb = new DataSet();
+                        SqlCommand cmd = new SqlCommand { CommandType = CommandType.Text, CommandText = CommandText };
+                        SqlConnection connection = new SqlConnection(StrConnection);
+                        cmd.Connection = connection;
+                        SqlDataAdapter ad = new SqlDataAdapter(cmd);
+                        ad.Fill(tb);
+                        cmd.DisposeAsync();
+                        ad.Dispose();
+                        connection.DisposeAsync();
+                        return tb;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { ExecuteSProcedureReturnDataTableAsync = CommandText });
+
+                        throw ex;
+                    }
+                });
+
+            }
+            catch (Exception exception)
+            {
+                tbResult = null;
+                msgError = exception.ToString();
+            }
+
+            return (msgError, tbResult);
+        }
+
+        public async Task<(string message, DataSet)> Report(string CommandText)
+        {
+
+            DataSet tbResult = new DataSet();
+            string msgError = "";
+            try
+            {
+                tbResult = await Task.Run(() =>
+                {
+                    try
+                    {
+                        DataSet tb = new DataSet();
+                        SqlCommand cmd = new SqlCommand { CommandType = CommandType.Text, CommandText = CommandText };
+                        SqlConnection connection = new SqlConnection(StrConnection);
+                        cmd.Connection = connection;
+                      
+                        SqlDataAdapter ad = new SqlDataAdapter(cmd);
+                        ad.Fill(tb);
+                        cmd.DisposeAsync();
+                        ad.Dispose();
+                        connection.DisposeAsync();
+                        return tb;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { ExecuteSProcedureReturnDataTableAsync = CommandText });
 
                         throw;
                     }
@@ -1316,7 +1399,7 @@ namespace Common.Helper
 
         }
 
-       
+
 
         ~DatabaseHelper()
         {

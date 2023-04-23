@@ -3,12 +3,16 @@
     <h2>Danh mục loại tin</h2>
     <div class="left">
         <p-button (click)="showAdd()" icon="pi pi-external-link" label="Thêm"></p-button>
-        <p-treeSelect [style]="{'margin-left': '5px'}" [(ngModel)]="selectGroup" [options]="groupData" [display]=""
-            (onNodeSelect)=" nodeSelect($event)" selectionMode="single" placeholder="Select Item"></p-treeSelect>
+       
         <p-button (click)="NotGroup()" [style]="{'margin-left': '5px'}" icon="pi pi-external-link"
             label="Không phân nhóm" class="p-button-secondary"></p-button>
         <p-button (click)="IsActive()" [style]="{'margin-left': '5px','class':'p-button-danger'}"
             label="Dữ liệu đẫ đình chỉ"></p-button>
+            <p-treeSelect [style]="{'margin-left': '5px','width':'20vw'}" [(ngModel)]="selectGroup" [options]="groupData" [display]=""
+            (onNodeSelect)=" nodeSelect($event)" selectionMode="single" placeholder="nhóm"  >
+        
+        </p-treeSelect>
+          
     </div>
 </div>
 <!--explore data -->
@@ -40,8 +44,9 @@
 
 
 <div class="bot">
-    <p-table   [resizableColumns]="true" selectionMode="single" [value]="listItem.Items" styleClass="p-datatable-gridlines"
-        [style]="{'margin-top': '2px', 'width': '100%'}">
+
+    <p-table   [resizableColumns]="true"   scrollHeight="30vw" styleClass="p-datatable-gridlines" selectionMode="single" [value]="listItem.Items" styleClass="p-datatable-gridlines"
+    [style]="{'margin-top': '2px', 'width': '100%'   }">
         <ng-template pTemplate="header">
             <tr>
                 <th>STT</th>
@@ -59,11 +64,11 @@
             <tr [style.Color]="item.isGroup == true  ? 'Blue' : ''" (dblclick)="nodeSelect(undefined,item)">
                 <td style="text-align: center;">{{i+1}}</td>
                 <td>{{item.code}}</td>
-                <td>{{item.name}}</td>
+                <td class="user-description-limit">{{item.name}}</td>
                 <td>{{item.unitCost}}</td>
                 <td>{{item.warranty}}</td>
                 <td> <img [hidden]="item.image==undefined?true:false || item.image.trim()==''?true:false"
-                        src="{{_url}}/{{item.image}}" style="width: 80px;"></td>
+                        src="{{_url}}/{{item.image}}" style="width: 3vw;"></td>
 
                 <td style="text-align: center;">
                     <div [hidden]="item.isActive">
@@ -91,403 +96,9 @@
 <!--end explore data -->
 
 <!-- Start Display form Add new-->
-<p-dialog [(visible)]="displayAdd" [style]="{width: '80vw'}" [dismissableMask]="true" [modal]="true">
-
-    <ng-template pTemplate="header">
-        <h3 [hidden]="!displayEditGroup"> Thêm nhóm</h3>
-        <h3 [hidden]="!displayEditChild">Thêm</h3>
-    </ng-template>
-    <!-- Content -->
-    <div class="right">
-        <p-button (click)="showAddGroup()" [style]="{'margin-left': '5px'}" label="Thêm nhóm"></p-button>
-        <p-button (click)="showAddChild()" [style]="{'margin-left': '5px'}" label="Thêm loại tin tức"></p-button>
-    </div>
-    <form (ngSubmit)="Add(form1,true,addType)" #form1="ngForm" [hidden]="!displayEditGroup">
-        <ng-template pTemplate="header">
-            <h3>Thêm nhóm</h3>
-        </ng-template>
-        <div style="width: 90%; margin-left: 5%;">
-            <label style="font-weight: bold;">Mã:</label>
-            <input name="Code" ngModel #Code="ngModel" type="text" class="form-control" placeholder="Tên nhóm"
-            required [class.invalid]="Code.invalid && Code.touched">
-            <label style="font-weight: bold;">Tên:</label>
-            <input name="Name" ngModel #Name="ngModel" type="text" class="form-control" placeholder="Tên nhóm"
-            required [class.invalid]="Code.Name && Code.Name">
-            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=0"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và thêm mới
-            </button>
-            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và thêm bản sao mới
-            </button>
-            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và quay ra
-            </button>
-        </div>
-
-    </form>
-    <form (ngSubmit)="Add(form2,false,addType); " #form2="ngForm" [hidden]="!displayEditChild">
-
-        <div style="width: 90%; margin-left: 5%;">
-            <label style="font-weight: bold;">Mã:</label>
-            <input name="Code" ngModel #Code="ngModel" type="text" class="form-control" placeholder="Tên nhóm">
-            <label style="font-weight: bold;">Tên:</label>
-            <input name="Name" ngModel #Name="ngModel" type="text" class="form-control" placeholder="Tên nhóm">
-            <div class="row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Loại sản phẩm:</label>
-            <p-autoComplete name="ProductCategoryCode" ngModel #ProductCategoryCode="ngModel" class="form-control"
-                [suggestions]="lookupProductCategoryData" [dropdown]="true"
-                (onSelect)="SelectForeignKey($event,'productCategoryCode')" field="name"
-                (completeMethod)="LookupCategory($event)">
-             
-            </p-autoComplete>
-                </div>
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Hãng sx:</label>
-                    <input name="manufacturerCode" ngModel #manufacturerCode="ngModel" type="text" class="form-control" placeholder="Tên nhóm">
-                </div>
-            </div>           
-            <div class="row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Đơn vị tính chính:</label>
-                    <input name="unit" ngModel #Unit="ngModel" type="text" class="form-control"
-                        placeholder="Đơn vị tính">
-                    <label style="font-weight: bold;">Quy đổi chính:</label>
-                    <input name="ConvertRate" ngModel #ConvertRate="ngModel" type="number" class="form-control"
-                        placeholder="Quy đổi">
-                </div>
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Đơn vị tính phụ:</label>
-                    <input name="unit0" ngModel #UnitCost0="ngModel" type="text" class="form-control"
-                        placeholder="Đơn vị tính">
-                    <label style="font-weight: bold;">Quy đổi phụ:</label>
-                    <input name="convertRate0" ngModel #ConvertRate0="ngModel" type="number" class="form-control"
-                        placeholder="Đơn vị tính">
-                </div>
-            </div>
-            <label style="font-weight: bold;">Bảo hành:</label>
-            <input name="Warranty" ngModel #Warranty="ngModel" type="number" class="form-control"
-                placeholder="Bảo hành">
-            <label style="font-weight: bold;">Số lượng tồn</label>
-            <div class="row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Max:</label>
-                    <input name="maxCloseQty" ngModel #maxCloseQty="ngModel" type="number" class="form-control"
-                        placeholder="Bảo hành">
-                </div>
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Min:</label>
-                    <input name="minCloseQty" ngModel #minCloseQty="ngModel" type="number" class="form-control"
-                        placeholder="Bảo hành">
-                </div>
-            </div>
-            <label style="font-weight: bold;">Giá sản phẩm</label>
-            <div class="row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Đơn giá nhập:</label>
-                    <input name="unitCost" [(ngModel)]="selectItem.unitCost" #unitCost="ngModel" type="number"
-                        class="form-control" placeholder="Bảo hành">
-                </div>
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Đơn giá bán:</label>
-                    <input name="unitPrice" [(ngModel)]="selectItem.unitPrice" #unitPrice="ngModel" type="number"
-                        class="form-control" placeholder="Bảo hành">
-                </div>
-            </div>
-
-            
-            <label style="font-weight: bold;">file ảnh :</label>
-            <input (change)="SelectFile($event,'ImageDefault',false)" type="file" class="form-control"
-                placeholder="Hình ảnh">
-            <label style="font-weight: bold;">file ảnh 2 :</label>
-            <input multiple (change)="SelectFile($event,'ThumbnailImage',true)" type="file" class="form-control"
-                placeholder="Hình ảnh">
-            <label style="font-weight: bold;">Mô tả:</label>
-            <input name="Description" ngModel #Description="ngModel" type="text" class="form-control" placeholder="">
-
-            <p-tabView>
-                <p-tabPanel header="Bài viết:">
-                    <p-editor [style]="{'height':'320px'}" name="Content" ngModel #Content="ngModel"></p-editor>
-                </p-tabPanel>
-                <p-tabPanel header="Thông số kỹ thuật ">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Tên thông số</th>
-                                <th>Mô tả</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let field of fieldArray; let i = index">
-                                <td>{{i+1}}</td>
-
-                                <td>
-                                    <input [(ngModel)]="field.name" class="form-control" type="text"
-                                        name="{{field.name}}" />
-                                </td>
-                                <td>
-                                    <input [(ngModel)]="field.description" class="form-control" type="text"
-                                        name="{{field.description}}" />
-                                </td>
-                                <td>
-                                    <button class="btn btn-default" type="button"
-                                        (click)="deleteFieldValue(i)">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {{fieldArray.length + 1}}
-                                </td>
-
-                                <td>
-                                    <input class="form-control" type="text" id="newAttributeCode"
-                                        [(ngModel)]="newAttribute.name" name="newAttributeCode" />
-                                </td>
-                                <td>
-                                    <input class="form-control" type="text" id="newAttributeCode"
-                                        [(ngModel)]="newAttribute.description" name="newAttributeCode" />
-                                </td>
-                                <td>
-                                    <button class="btn btn-default" type="button"
-                                        (click)="addFieldValue()">Thêm</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </p-tabPanel>
-
-            </p-tabView>
 
 
 
-            <!--  -->
-            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=0"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và thêm mới
-            </button>
-            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và thêm bản sao mới
-            </button>
-            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và quay ra
-            </button>
-        </div>
-
-    </form>
-    <ng-template pTemplate="footer">
-        <button type="button" (click)="displayAdd = false" class="btn btn-danger waves-effect waves-light"> <i
-                class="mdi mdi-window-close"></i>
-            Huỷ</button>
-    </ng-template>
-</p-dialog>
-
-
-<!-- Start Display form edit-->
-<p-dialog [(visible)]="displayUpdate" [style]="{width: '80vw'}" [dismissableMask]="true" [modal]="true">
-    <ng-template pTemplate="header">
-        <h3 [hidden]="!displayEditGroup">Cập nhật nhóm</h3>
-        <h3 [hidden]="!displayEditChild">Cập nhật loại tin tức</h3>
-    </ng-template>
-    <!-- Content -->
-
-    <form (ngSubmit)="Update(form1,addType)" #form1="ngForm" [hidden]="!displayEditGroup">
-        <ng-template pTemplate="header">
-            <h3>Cập nhật nhóm</h3>
-        </ng-template>
-        <div style="width: 90%; margin-left: 5%;">
-            <label style="font-weight: bold;">Mã :</label>
-            <input name="code" [(ngModel)]="selectItem.code" #code="ngModel" type="text" class="form-control"
-                placeholder="Tên nhóm">
-            <label style="font-weight: bold;">Tên :</label>
-            <input name="name" [(ngModel)]="selectItem.name" #name="ngModel" type="text" class="form-control"
-                placeholder="Tên nhóm">
-            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=0"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và thêm mới
-            </button>
-            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và thêm bản sao mới
-            </button>
-            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và quay ra
-            </button>
-        </div>
-    </form>
-    <form (ngSubmit)="Update(form2,addType)" #form2="ngForm" [hidden]="!displayEditChild"  >
-        <div style="width: 90%; margin-left: 5%;">
-            <label style="font-weight: bold;">Mã:</label>
-            <input name="code" [(ngModel)]="selectItem.code" #code="ngModel" type="text" class="form-control"
-                placeholder="Tên nhóm" >
-            <label style="font-weight: bold;">Tên:</label>
-            <input name="name" [(ngModel)]="selectItem.name" #name="ngModel" type="text" class="form-control"
-                placeholder="Tên nhóm">
-            <label style="font-weight: bold;">Loại sản phẩm:</label>
-            <p-autoComplete name="productCategoryCode" [(ngModel)]="selectItem.productCategoryCode"
-                #productCategoryCode="ngModel" class="form-control" [suggestions]="lookupProductCategoryData"
-                [dropdown]="true" (onSelect)="SelectForeignKey($event,'productCategoryCode')" field="name"
-                (completeMethod)="LookupCategory($event)" [placeholder]="selectItem.productCategoryCode">
-            </p-autoComplete>
-                <label style="font-weight: bold;">Hãng sx:</label>
-                <input name="manufacturerCode" [(ngModel)]="selectItem.manufacturerCode" #manufacturerCode="ngModel" type="text" class="form-control" placeholder="Tên nhóm">
-            <div class="row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Đơn vị tính chính:</label>
-                    <input name="unit" [(ngModel)]="selectItem.unit" #Unit="ngModel" type="text" class="form-control"
-                        placeholder="Đơn vị tính">
-                    <label style="font-weight: bold;">Quy đổi chính:</label>
-                    <input name="ConvertRate" [(ngModel)]="selectItem.convertRate" #ConvertRate="ngModel" type="number"
-                        class="form-control" placeholder="Quy đổi">
-                </div>
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Đơn vị tính phụ:</label>
-                    <input name="unit0" [(ngModel)]="selectItem.unit0" #unit0="ngModel" type="text" class="form-control"
-                        placeholder="Đơn vị tính">
-                    <label style="font-weight: bold;">Quy đổi phụ:</label>
-                    <input name="convertRate0" [(ngModel)]="selectItem.convertRate0" #convertRate0="ngModel"
-                        type="number" class="form-control" placeholder="Đơn vị tính">
-                </div>
-            </div>
-            <label style="font-weight: bold;">Bảo hành:</label>
-            <input name="warranty" [(ngModel)]="selectItem.warranty" #Warranty="ngModel" type="number"
-                class="form-control" placeholder="Bảo hành">
-            <label style="font-weight: bold;">Số lượng tồn</label>
-            <div class="row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Max:</label>
-                    <input name="maxCloseQty" [(ngModel)]="selectItem.maxCloseQty" #maxCloseQty="ngModel" type="number"
-                        class="form-control" placeholder="Bảo hành">
-                </div>
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Min:</label>
-                    <input name="minCloseQty" [(ngModel)]="selectItem.minCloseQty" #minCloseQty="ngModel" type="number"
-                        class="form-control" placeholder="Bảo hành">
-                </div>
-            </div>
-            <label style="font-weight: bold;">Giá sản phẩm</label>
-            <div class="row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Đơn giá nhập:</label>
-                    <input name="unitCost" [(ngModel)]="selectItem.unitCost" #unitCost="ngModel" type="number"
-                        class="form-control" placeholder="Bảo hành">
-                </div>
-                <div class="col-md-6">
-                    <label style="font-weight: bold;">Đơn giá bán:</label>
-                    <input name="unitPrice" [(ngModel)]="selectItem.unitPrice" #unitPrice="ngModel" type="number"
-                        class="form-control" placeholder="Bảo hành">
-                </div>
-            </div>
-           
-            <label style="font-weight: bold;">file ảnh :</label>
-            <input (change)="SelectFile($event,'ImageDefault',false)" type="file" class="form-control"
-                placeholder="Hình ảnh">
-            <label style="font-weight: bold;">file ảnh 2 :</label>
-            <input multiple (change)="SelectFile($event,'ThumbnailImage',true)" type="file" class="form-control"
-                placeholder="Hình ảnh" value="123">
-            <label style="font-weight: bold;">Mô tả:</label>
-            <input name="description" [(ngModel)]="selectItem.description" #description="ngModel" type="text"
-                class="form-control" placeholder="">
-            <p-tabView>
-                <p-tabPanel header="Bài viết:">
-                    <p-editor [style]="{'height':'320px'}" name="content" [(ngModel)]="selectItem.content"
-                        #content="ngModel"></p-editor>
-                </p-tabPanel>
-                <p-tabPanel header="Thông số kỹ thuật ">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Tên thông số</th>
-                                <th>Mô tả</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let field of fieldArray; let i = index">
-                                <td>{{i+1}}</td>
-
-                                <td>
-                                    <input [(ngModel)]="field.name" class="form-control" type="text"
-                                        name="{{field.name}}" />
-                                </td>
-                                <td>
-                                    <input [(ngModel)]="field.description" class="form-control" type="text"
-                                        name="{{field.description}}" />
-                                </td>
-                                <td>
-                                    <button class="btn btn-default" type="button"
-                                        (click)="deleteFieldValue(i)">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {{fieldArray.length + 1}}
-                                </td>
-
-                                <td>
-                                    <input class="form-control" type="text" id="newAttributeCode"
-                                        [(ngModel)]="newAttribute.name" name="newAttributeCode" />
-                                </td>
-                                <td>
-                                    <input class="form-control" type="text" id="newAttributeCode"
-                                        [(ngModel)]="newAttribute.description" name="newAttributeCode" />
-                                </td>
-                                <td>
-                                    <button class="btn btn-default" type="button"
-                                        (click)="addFieldValue()">Thêm</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </p-tabPanel>
-
-            </p-tabView>
-
-
-
-
-            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=0"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và thêm mới
-            </button>
-            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và thêm bản sao mới
-            </button>
-            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2"
-                class="btn btn-primary waves-effect waves-light mr-2">
-                <i class="mdi mdi-check"></i>
-                Lưu và quay ra
-            </button>
-        </div>
-    </form>
-    <ng-template pTemplate="footer">
-        <button type="button" (click)="displayUpdate = false" class="btn btn-danger waves-effect waves-light"> <i
-                class="mdi mdi-window-close"></i>
-            Huỷ</button>
-    </ng-template>
-
-</p-dialog>
-<!-- End Display form edit-->
 
 <!-- chuyển nhóm -->
 <p-dialog [(visible)]="displayConvert" [style]="{width: '80vw',height:'50vw'}" [dismissableMask]="true" [modal]="true">

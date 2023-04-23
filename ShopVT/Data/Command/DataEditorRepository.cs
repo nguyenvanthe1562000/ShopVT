@@ -77,6 +77,8 @@ namespace Data.Command
             if (!(result.result is null))
             {
                 return new ResponseMessageDto(MessageType.Warning, result.result.ToString());
+
+
             }
             return new ResponseMessageDto(MessageType.Success, "Thêm dữ liệu thành công");
         }

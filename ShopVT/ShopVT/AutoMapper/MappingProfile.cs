@@ -31,6 +31,10 @@ namespace API.AutoMapper
             CreateMap<OrderRequest, vB20OrderModel>().ReverseMap();
             CreateMap<HomePageRequest, B10HomePageModel>().ReverseMap();
             CreateMap<AccDoc_PurchaseRequest, vB20AccDoc_PurchaseModel>().ReverseMap();
+            CreateMap<HomePageRequest, vB10HomePageModel>().ReverseMap();
+            CreateMap<HomePageRequest, vB10HomePageModel>().ReverseMap();
+
+
 
         }
 

@@ -60,8 +60,13 @@
                             </a>
                         </li>
                         <li>
-                            <a [routerLink]="['/customiz-home-page']" >
+                            <a [routerLink]="['/home-page']" >
                                 <span>Tùy chỉnh trang chủ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/menu']" >
+                                <span>Menu trang chủ</span>
                             </a>
                         </li>
 
@@ -73,17 +78,17 @@
                         <span>Chứng từ </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                
                         <li>
-                            <a [routerLink]="['/acc-doc']" >
+                            <a [routerLink]="['/acc-doc-purchase']" >
                                 <span>Phiếu nhập mua</span>
                             </a>
                         </li>
                         <li>
-                            <a [routerLink]="['/acc-doc-purchase']" >
-                                <span>Phiếu nhập mua(new)</span>
+                            <a [routerLink]="['/acc-doc-sales']" >
+                                <span>Hóa đơn GTGT</span>
                             </a>
                         </li>
-
                         <li>
                             <a [routerLink]="['/order']" >
                                 <span>Đơn đặt hàng</span>
@@ -109,7 +114,17 @@
                         </li>
                     </ul>
                 </li>
-
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-currency-usd"></i>
+                        <span>Chính sách</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a [routerLink]="['/qou']">Mã khuyến mãi</a></li>
+                        <li><a [routerLink]="['/report-xuat']">Bảng giá bán</a></li>
+                        <li><a [routerLink]="['/report-ton']">Bảng giá bán sự kiện</a></li>
+                    </ul>
+                </li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">

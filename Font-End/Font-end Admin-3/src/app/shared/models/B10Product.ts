@@ -14,6 +14,8 @@ export class vB10Product {
     convertRate : number;  
     manufacturerCode : string;  
     productCategoryCode : string;   
+    productCategoryName : string;   
+
     unitCost : number;     
     unitPrice : number;    
     minCloseQty : number;   
@@ -27,7 +29,7 @@ export class vB10Product {
     createdAt : Date;   
     modifiedBy : number;    
     modifiedAt : Date;  
-    imagePath : string;     
+    image : string;     
     imageCation : string
         
 b10ProductInformation_Json:Array<any>;

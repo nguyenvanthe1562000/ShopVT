@@ -21,15 +21,17 @@ export class HomeComponent extends BaseComponent implements OnInit {
   api: string = "api/client/home";
   constructor(injector: Injector) {
     super(injector);
+
   }
   ngOnInit(): void {
     window.scroll(0,0);
     this._api.get('/api/client/home/category-product').takeUntil(this.unsubscribe).subscribe(res => {
       this.categories = res;
-      setTimeout(() => {
-        this.loadScripts();
-      });
+     
     }); 
+    setTimeout(() => {
+      this.loadScripts();
+    });
         this.getProductlaptop();
         this.getProductPc();
         this.getSlide();

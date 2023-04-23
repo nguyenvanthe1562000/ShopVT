@@ -55,8 +55,13 @@ namespace Service.Command
                       var viewTable = new List<OriginalTalbe>();
                       if (table.StartsWith("v"))
                       {
-                          viewTable = await GetColumnOriginalTable(table);
                           table = table.Remove(0, 1);
+                          var i = table.IndexOf('_');
+                          if (i > 0)
+                          {
+                              table = table.Substring(0, i);
+                          }
+                          viewTable = await GetColumnOriginalTable(table);
                       }
 
                       foreach (PropertyInfo pro in temp.GetProperties())
@@ -64,7 +69,7 @@ namespace Service.Command
                           var column = pro.Name;
                           if (viewTable.Count > 0)
                           {
-                              var _column = viewTable.FirstOrDefault(x => x.name.ToLower().Equals(pro.Name.ToLower()));
+                              var _column = viewTable.FirstOrDefault(x => x.name.ToLower().Equals(column.ToLower()));
                               if (_column is null)
                               {
                                   continue;
@@ -186,14 +191,19 @@ namespace Service.Command
                      var arrayCondition = new Dictionary<string, string>();
                      Type temp = typeof(T);
                      DataEditorAddRangeRequestModel dataEditorAddRequestModel = new DataEditorAddRangeRequestModel();
-                     dataEditorAddRequestModel.TableName = table;
                      dataEditorAddRequestModel.UserId = userId;
                      var viewTable = new List<OriginalTalbe>();
                      if (table.StartsWith("v"))
                      {
-                         viewTable = await GetColumnOriginalTable(table);
                          table = table.Remove(0, 1);
+                         var i = table.IndexOf('_');
+                         if (i>0)
+                         {
+                         table = table.Substring(0, i);
+                         }
+                         viewTable = await GetColumnOriginalTable(table);
                      }
+                     dataEditorAddRequestModel.TableName = table;
                      foreach (PropertyInfo pro in temp.GetProperties())
                      {
                          var column = pro.Name;
@@ -414,6 +424,11 @@ namespace Service.Command
                      {
                          viewTable = await GetColumnOriginalTable(table);
                          table = table.Remove(0, 1);
+                         var i = table.IndexOf('_');
+                         if (i > 0)
+                         {
+                             table = table.Substring(0, i);
+                         }
                      }
                      foreach (PropertyInfo pro in temp.GetProperties())
                      {
@@ -543,7 +558,7 @@ namespace Service.Command
                    var arrayCondition = new Dictionary<string, string>();
                    Type temp = typeof(T);
                    DataEditorUpdateRangeRequestModel dataEditor = new DataEditorUpdateRangeRequestModel();
-                   dataEditor.TableName = table;
+             
                    dataEditor.UserId = userId;
                    dataEditor.RowId = rowId;
                    Dictionary<string, object> ChildTables = new Dictionary<string, object>();
@@ -558,7 +573,13 @@ namespace Service.Command
                    {
                        viewTable = await GetColumnOriginalTable(table);
                        table = table.Remove(0, 1);
+                       var i = table.IndexOf('_');
+                       if (i > 0)
+                       {
+                           table = table.Substring(0, i);
+                       }
                    }
+                   dataEditor.TableName = table;
                    foreach (PropertyInfo pro in temp.GetProperties())
                    {
                        var column = pro.Name;
@@ -902,6 +923,15 @@ namespace Service.Command
                 {
                     var arrayCondition = new Dictionary<string, string>();
                     DataEditorDeleteRequestModel dataEditor = new DataEditorDeleteRequestModel();
+                    if(table.StartsWith('v'))
+                    {
+                        table = table.Remove(0, 1) ;
+                        var i = table.IndexOf('_');
+                        if (i > 0)
+                        {
+                            table = table.Substring(0, i);
+                        }
+                    }    
                     dataEditor.TableName = table;
                     dataEditor.UserId = userId;
                     dataEditor.RowId = rowId;
@@ -938,6 +968,15 @@ namespace Service.Command
                     //var column = ConditionString.Split(',');
                     var arrayCondition = new Dictionary<string, string>();
                     DataEditorRestoreRequestModel dataEditor = new DataEditorRestoreRequestModel();
+                    if (table.StartsWith('v'))
+                    {
+                        table = table.Remove(0, 1);
+                        var i = table.IndexOf('_');
+                        if (i > 0)
+                        {
+                            table = table.Substring(0, i);
+                        }
+                    }
                     dataEditor.TableName = table;
                     dataEditor.UserId = userId;
                     dataEditor.RowId = rowId;
@@ -1046,23 +1085,37 @@ namespace Service.Command
 
         private async Task<List<OriginalTalbe>> GetColumnOriginalTable(string tableView)
         {
+            try
+            {
 
-            var tb = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("sp_describe_first_result_set", "@tsql", $"SELECT * FROM dbo.{tableView};", "@params", null, "@browse_information_mode", 1);
-            if (!string.IsNullOrEmpty(tb.message))
-            {
-                throw new Exception(tb.message);
+
+                var tb = await _dbHelper.ExecuteSProcedureReturnDataTableAsync("sp_describe_first_result_set", "@tsql", $"SELECT * FROM dbo.{tableView};", "@params", null, "@browse_information_mode", 1);
+                if (!string.IsNullOrEmpty(tb.message))
+                {
+                    throw new Exception(tb.message);
+                }
+                if (tableView.StartsWith("v"))
+                {
+                    tableView = tableView.Remove(0, 1);
+                    var i = tableView.IndexOf('_');
+                    if (i > 0)
+                        tableView = tableView.Substring(0, i);
+                }
+                var result = ConvertHelper.ConvertTo<OriginalTalbe>(tb.Item2).ToList();
+                var originalColumn = result.Where(x => x.source_table.ToLower().Equals(tableView.ToLower()));
+                if (originalColumn == null)
+                {
+                    throw new Exception("không tải được dữ liệu bảng " + tableView);
+                }
+                return originalColumn.ToList();
             }
-            if (tableView.StartsWith("v"))
+            catch (Exception ex)
             {
-                tableView = tableView.Remove(0, 1);
+
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { table = tableView });
+                throw;
             }
-            var result = ConvertHelper.ConvertTo<OriginalTalbe>(tb.Item2).ToList();
-            var originalColumn = result.Where(x => x.source_table.ToLower().Equals(tableView.ToLower()));
-            if (originalColumn == null)
-            {
-                throw new Exception("không tải được dữ liệu bảng " + tableView);
-            }
-            return originalColumn.ToList();
+
         }
         private string FirstCharToLowerCase(string str)
         {

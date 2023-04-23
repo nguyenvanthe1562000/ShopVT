@@ -29,7 +29,11 @@ export class ApiService {
       const currentTime = Date.now() / 1000; // convert to seconds
       if (expirationTime < currentTime) {
         localStorage.removeItem('user')
+        this.router.navigate(['/auth/login']);
       }
+    }
+    else{
+      this.router.navigate(['/auth/login']);
     }
   }
   postFormData(url: string, formData: FormData) {
@@ -58,7 +62,6 @@ export class ApiService {
     Object.keys(form.controls).forEach((control: string) => {
       const typedControl: AbstractControl = form.controls[control];
       object[control] = typedControl.value;
-      // should log the form controls value and be typed correctly
     });
     var body = JSON.stringify(object);
 
@@ -66,11 +69,6 @@ export class ApiService {
     cloneHeader['Content-Type'] = 'application/json';
     cloneHeader['Authorization'] = `Bearer ${this.user.token}`;
     const headerOptions = new HttpHeaders(cloneHeader);
-    // let headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-    // let authToken = localStorage.getItem('auth_token');
-    // headers.append('Authorization', `Bearer ${authToken}`);
-
     return this._http
       .post<any>(this.host + url, body, { headers: headerOptions })
       .pipe(
@@ -92,11 +90,6 @@ export class ApiService {
     cloneHeader['Content-Type'] = 'application/json';
     cloneHeader['Authorization'] = `Bearer ${this.user.token}`;
     const headerOptions = new HttpHeaders(cloneHeader);
-    debugger;
-    // let headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-    // let authToken = localStorage.getItem('auth_token');
-    // headers.append('Authorization', `Bearer ${authToken}`);
 
     return this._http
       .post<any>(this.host + url, body, { headers: headerOptions })
@@ -110,7 +103,40 @@ export class ApiService {
         })
       );
   }
+  serverContraint(name:string, listParameters: Array<any>) {
+    try {
+      this.CheckTokenExpirationTime();
 
+      const serverContraintClass = {
+        command: false,
+        parameters: []
+      };
+      let contraint = Object.create(serverContraintClass);
+      contraint.command = name;
+      contraint.parameters = listParameters;
+      let token = localStorage.getItem('user');
+      this.user = <NguoiDung>JSON.parse(token);
+      const body = JSON.stringify(contraint);
+      let cloneHeader: any = {};
+      cloneHeader['Content-Type'] = 'application/json';
+      cloneHeader['Authorization'] = `Bearer ${this.user.token}`;
+      const headerOptions = new HttpHeaders(cloneHeader);
+      return this._http
+        .post<any>(this.host + '/api/server-contraint', body, { headers: headerOptions })
+        .pipe(
+          map((res: any) => {
+            return res;
+          })
+        ).pipe(
+          catchError((err: Response) => {
+            return this.handleError(err);
+          })
+        );
+    } catch (error) {
+      alert(error)
+    }
+ 
+  }
   get(url: string) {
     this.CheckTokenExpirationTime();
     let token = localStorage.getItem('user');

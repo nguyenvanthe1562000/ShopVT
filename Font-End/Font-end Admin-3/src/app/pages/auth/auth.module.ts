@@ -15,6 +15,8 @@ export const authRoute: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+
+    
     RouterModule.forChild(authRoute)
   ],
   declarations: [LoginComponent, RegisterComponent]

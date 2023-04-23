@@ -107,5 +107,8 @@ namespace Service.Command.Interface
         public Task<IList<T>> Lookup<T>(string table, string filterColumn, string filterValue , int RowsTotal, string OrderBy, bool OrderDesc, int userId, bool isAbsolute = false, string filterKey="", bool AndOrFilterKey = true);
         public Task<DataTable> Lookup2 (LookUpRequest lookUpRequest);
         public Task<DataTable> ServerConstraint(ServerConstraintRequest lookUpRequest);
+        public Task<DataSet> ServerConstraintDataSet(ServerConstraintRequest lookUpRequest);
+
+        public Task<DataSet> Reporter(ServerConstraintRequest serverConstraint);
     }
 }

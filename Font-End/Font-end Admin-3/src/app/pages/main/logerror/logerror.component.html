@@ -30,8 +30,7 @@
                 <td>{{item.lineNumber}}</td>
                 <td>{{item.type}}</td>
                 <td>{{item.time |date: "dd/MM/yyyy HH:mm"}}</td>
-                <td><p  [style]="{'width': '30vw','white-space': 'nowrap','overflow':'hidden','text-overflow':'ellipsis'
-                }">{{item.message}}</p></td>
+                <td><p class="user-description-limit">{{item.message}}</p></td>
                 <td></td>
             </tr>
         </ng-template>

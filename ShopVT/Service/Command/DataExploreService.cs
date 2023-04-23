@@ -791,15 +791,12 @@ namespace Service.Command
             {
                 var result = await Task.Run(async () =>
                 {
-                  
+
                     if (string.IsNullOrEmpty(serverConstraint.Command))
                     {
                         return new DataTable();
                     }
-                    if (!serverConstraint.Command.StartsWith("ufn_"))
-                    {
-                        throw new Exception("bat buoc ten function phai bat dau bang ufn_");
-                    }
+                    
                     ServerConstraintRequestModel requestModel = new ServerConstraintRequestModel();
                     requestModel.Command = serverConstraint.Command;
                     requestModel.Parameters = serverConstraint.Parameters;
@@ -807,21 +804,147 @@ namespace Service.Command
                     {
                         string dboFunc = $"SELECT dbo.{serverConstraint.Command}";
                         string param = "";
-                        foreach (object item in serverConstraint.Parameters)
+                        if ( serverConstraint.Parameters.Count > 0)
                         {
-                            param = "," + item ;
+                            foreach (object item in serverConstraint.Parameters)
+                            {
+                                param = param + ", '" + item.ToString() + "'";
+                            }
                         }
-                        dboFunc = dboFunc + '(' + param.Substring(0, 1)+')';
-                        var data1 = await _dataExplore.ServerConstraintFunction(requestModel);
+                        if (param.Length > 0)
+                            dboFunc = dboFunc + '(' + param.Substring(1) + ')';
+                        var data1 = await _dataExplore.ServerConstraintFunction(dboFunc);
                         return data1;
                     }
-
                     else if (serverConstraint.Command.StartsWith("usp_"))
                     {
-                        var data2= await _dataExplore.ServerConstraintStoreProcedure(requestModel);
+                        string dboUsp = $"EXEC dbo.{serverConstraint.Command}";
+                        string param = "";
+                        if(serverConstraint.Parameters.Count >0)
+                        {
+                            foreach (object item in serverConstraint.Parameters)
+                            {
+                                param = param + ", '" + item.ToString() + "'";
+                            }
+                        }    
+                        if(param.Length>0)
+                            dboUsp = dboUsp + param.Substring(1);
+                        var data2 = await _dataExplore.ServerConstraintStoreProcedure(dboUsp);
                         return data2;
-                    }    
-                    return new DataTable(); 
+                    }
+                    else
+                    {
+                        
+                            throw new Exception("bat buoc ten function phai bat dau bang ufn_ hoặc usp");
+                         
+                    }
+                    return new DataTable();
+                });
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { model = serverConstraint });
+                throw ex;
+            }
+        }
+
+        public async Task<DataSet> ServerConstraintDataSet(ServerConstraintRequest serverConstraint)
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+
+                    if (string.IsNullOrEmpty(serverConstraint.Command))
+                    {
+                        return new DataSet();
+                    }
+
+                    ServerConstraintRequestModel requestModel = new ServerConstraintRequestModel();
+                    requestModel.Command = serverConstraint.Command;
+                    requestModel.Parameters = serverConstraint.Parameters;
+                    if (serverConstraint.Command.StartsWith("ufn_"))
+                    {
+                        string dboFunc = $"SELECT dbo.{serverConstraint.Command}";
+                        string param = "";
+                        if (serverConstraint.Parameters.Count > 0)
+                        {
+                            foreach (object item in serverConstraint.Parameters)
+                            {
+                                param = param + ", '" + item.ToString() + "'";
+                            }
+                        }
+                        if (param.Length > 0)
+                            dboFunc = dboFunc + '(' + param.Substring(1) + ')';
+                        var data1 = await _dataExplore.ServerConstraintStoreProcedureMultipleTable(dboFunc);
+                        return data1;
+                    }
+                    else if (serverConstraint.Command.StartsWith("usp_"))
+                    {
+                        string dboUsp = $"EXEC dbo.{serverConstraint.Command}";
+                        string param = "";
+                        if (serverConstraint.Parameters.Count > 0)
+                        {
+                            foreach (object item in serverConstraint.Parameters)
+                            {
+                                param = param + ", '" + item.ToString() + "'";
+                            }
+                        }
+                        if (param.Length > 0)
+                            dboUsp = dboUsp + param.Substring(1);
+                        var data2 = await _dataExplore.ServerConstraintStoreProcedureMultipleTable(dboUsp);
+                        return data2;
+                    }
+                    else
+                    {
+
+                        throw new Exception("bat buoc ten function phai bat dau bang ufn_ hoặc usp");
+
+                    }
+                    return new DataSet();
+                });
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogType.Error, ex.Message, new StackTrace(ex, true).GetFrames().Last(), new { model = serverConstraint });
+                throw ex;
+            }
+        }
+
+
+        public async Task<DataSet> Reporter(ServerConstraintRequest serverConstraint)
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    string dboUsp = $"EXEC dbo.{serverConstraint.Command}";
+                    string param = "";
+                    if (serverConstraint.Parameters != null)
+                    {
+                        if(serverConstraint.Parameters.Count > 0 )
+                        {
+                            if (serverConstraint.Parameters.Count%2 >0)
+                            {
+                                throw new Exception("Tham số nhiều hơn số giá trị được đưa vào");
+                            }    
+                            int parameterInput = (serverConstraint.Parameters.Count) / 2;
+                            int j = 0;
+                            for (int i = 0; i < parameterInput; i++)
+                            {
+                                string paramName = Convert.ToString(serverConstraint.Parameters[j++]);
+                                object value = serverConstraint.Parameters[j++];
+                                param = param + $", @_{paramName} = '{value.ToString()}'";
+                            }
+
+                       
+                            dboUsp = dboUsp + param.Substring(1);
+                        }    
+                    }
+                    var data2 = await _dataExplore.Report(dboUsp);
+                    return data2;
                 });
                 return result;
             }

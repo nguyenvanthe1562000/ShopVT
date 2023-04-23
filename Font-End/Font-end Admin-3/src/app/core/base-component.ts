@@ -5,7 +5,7 @@ import { ApiService } from '../core/service/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Injector, Renderer2 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-
+import * as diacritic from 'diacritic';
 declare var $: any;
 
 export class BaseComponent {
@@ -22,6 +22,7 @@ export class BaseComponent {
    public _route: ActivatedRoute;
    public _apiLookUp = "/api/lookup";
    public _currency ='VND'
+   public _test = "test";
    constructor(injector: Injector) {
 
       this._renderer = injector.get(Renderer2);
@@ -103,6 +104,7 @@ export class BaseComponent {
   
 
    public convertToSlug(str: string): string {
+      str=diacritic.clean(str.toLowerCase())
       str = str.replace(/^\s+|\s+$/g, ''); // trim
       str = str.toLowerCase();
 
@@ -147,6 +149,19 @@ export class BaseComponent {
          formData.append(control, typedControl.value);
          // should log the form controls value and be typed correctly
       });
+   }
+
+   public MathRound(currencyCode,value:number)
+   {
+      if(this._currency == currencyCode)
+      {
+         value = Math.round(value);
+      }
+      else
+      {
+         value =  Math.round(value * 100) / 100;
+      }
+      return value
    }
 
    public getEncodeFromImage(fileUpload: FileUpload) {
@@ -293,5 +308,66 @@ export class BaseComponent {
       this._renderer.appendChild(document.body, script);
       return script;
    }
-
+    
+   public getDefaultValues<T extends object>(type: new () => T): T {
+      const defaultValues: Partial<T> = {};
+      Object.keys(new type()).forEach(key => {
+        switch (typeof defaultValues[key]) {
+          case 'number':
+            defaultValues[key] = 0;
+            break;
+          case 'boolean':
+            defaultValues[key] = false;
+            break;
+          case 'string':
+            defaultValues[key] = '';
+            break;
+          case 'object':
+            if (defaultValues[key] instanceof Date) {
+              defaultValues[key] = new Date();
+            }
+            break;
+          default:
+            defaultValues[key] = null;
+        }
+      });
+      return defaultValues as T;
+    }
+    public  setDefaultValues<T>(obj: T): T {
+      Object.keys(obj).forEach(key => {
+        const value = obj[key];
+        switch (typeof value) {
+          case 'number':
+            obj[key] = isNaN(value) ? 0 : value;
+            break;
+          case 'boolean':
+            obj[key] = value ?? false;
+            break;
+          case 'string':
+            obj[key] = value ?? '';
+            break;
+          case 'object':
+            if (value instanceof Date) {
+              obj[key] = value ?? new Date();
+            }
+            else if (value instanceof Number || typeof value === 'object' && value !== null && value.hasOwnProperty('valueOf') && value.valueOf() instanceof Number) {
+               obj[key] = value ?? 0;
+             }
+            break;
+          default:
+            obj[key] = null;
+        }
+      });
+      return obj;
+    }
+    public setDefaultValues2<T>(obj: T, defaultObj: any): T {
+      const keys = Object.keys(obj);
+      keys.forEach(key => {
+        const value = obj[key];
+        if (defaultObj.hasOwnProperty(key) && value === null) {
+          obj[key] = defaultObj[key];
+        }
+      });
+      return obj;
+    }
 }

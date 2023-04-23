@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,20 @@ namespace ViewModel.catalog.Product
         public int Warranty { set; get; }
         public string Description { set; get; }
         public string Content { set; get; }
-        public string ProductInformation_Json { set; get; }
-        public IFormFile ImageDefault { get; set; }
+        public string Information { set; get; }
+        public bool IsActive { set; get; }
+        public int CreatedBy { set; get; }
+        public DateTime CreatedAt { set; get; }
+        public int ModifiedBy { set; get; }
+        public DateTime ModifiedAt { set; get; }
+        public string Image { set; get; }
+        public string ImageCation { set; get; }
 
+        public string ProductInformation_Json { set; get; }
+        public string ProductImg_Json { set; get; }
+
+
+        public IFormFile ImageDefault { get; set; }
         public List<IFormFile> ThumbnailImage { get; set; }
     }
 

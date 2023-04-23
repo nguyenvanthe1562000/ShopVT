@@ -1,0 +1,153 @@
+<ng-template pTemplate="header">
+
+</ng-template>
+<br>
+
+<!-- Content -->
+<form (ngSubmit)="Add(form2,false,addType); " #form2="ngForm" (keydown.enter)="$event.preventDefault()" style="height: 50vw;">
+    <h5 [style]="{'color':'Blue'}">Cập nhật trang chủ</h5>
+    <fieldset id="edit" [(disabled)]="displayAdd">
+        <div style="width: 100%; ">
+            <label style="font-weight: bold;">Tên:</label>
+            <input id="_Parent.name" name="_Parent.name" [(ngModel)]="_Parent.name" type="text" class="form-control">
+
+            <label style="font-weight: bold;">Banner :</label>
+            <input (change)="SelectFile($event,'BannerImage',false)" type="file" class="form-control">
+            <p-image *ngIf="_Parent.banner" [preview]="true" [src]="_Parent.banner ?_url+'/'+_Parent.banner: _Parent.banner" alt="Image"
+                width="70vw">
+                <ng-template pTemplate="indicator">
+                    <i class="mdi mdi-eye"></i>
+                </ng-template>
+            </p-image>
+            <p-image *ngIf="_Parent.bannerImage"  [preview]="true" [src]="_Parent.bannerImage" alt="Image" width="70vw">
+                <ng-template pTemplate="indicator">
+                    <i class="mdi mdi-eye"></i>
+                </ng-template>
+            </p-image>
+            <br>
+            <label style="font-weight: bold;">Url:</label>
+            <input id="_Parent.bannerUrl" name="_Parent.bannerUrl" [(ngModel)]="_Parent.bannerUrl" type="text" class="form-control">
+            <label style="font-weight: bold;">Nội dung:</label>
+            <input id="_Parent.bannerDescription" name="_Parent.bannerDescription" [(ngModel)]="_Parent.bannerDescription" type="text" class="form-control">
+            
+            <p-tabView >
+                <p-tabPanel  style="height: 20vw;" header="Danh sách sản phẩm">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã SP</th>
+                                <th>Tên SP</th>
+                                <th>Đơn vị tính</th>
+                                <th>Giá bán gốc</th>
+                                <th>% Sales</th>
+                                <th>Sales</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let field of _FieldArray; let i = index">
+                                <td>{{i+1}}</td>
+                                <td >
+                                    <p-autoComplete [suggestions]="lookupResponse"   [placeholder] ="field.productCode" 
+                                     [dropdown]="true"
+                                    (onSelect)="SelectProduct($event,i)" field="Code"
+                                    (completeMethod)="Lookup($event,'ProductPrice')"></p-autoComplete>
+                                </td>
+                                <td>
+                                    {{field.productName}}
+                                </td>
+                                <td>
+                                    {{field.unit}}
+                                </td>
+                                <td>
+                                    {{field.unitPrice}}
+                                </td>
+                                <td>
+                                    {{field.discountRate}}
+                                </td>
+                                <td>
+                                    {{field.standardPriceRetail}}
+                                </td>
+                                <td>
+                                    <button class="btn btn-default" type="button"
+                                        (click)="deleteFieldValue(i)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {{_FieldArray.length + 1}}
+                                </td>
+
+                                <td>
+                                    <p-autoComplete [suggestions]="lookupResponse" [dropdown]="true"
+                                    (onSelect)="SelectProduct($event)" field="Code"
+                                    (completeMethod)="Lookup($event,'ProductPrice')"></p-autoComplete>
+                                </td>
+                                <td>
+                                    {{_Child1.productName}}
+                                </td>
+                                <td>
+                                    {{_Child1.unit}}
+                                </td>
+                                <td>
+                                    {{_Child1.unitPrice}}
+                                </td>
+                                <td>
+                                    {{_Child1.discountRate}}
+                                </td>
+                                <td>
+                                    {{_Child1.standardPriceRetail}}
+                                </td>
+                                <td>
+                                    <button class="btn btn-default" type="button"
+                                        (click)="addFieldValue()">Thêm</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p-tabPanel>
+             
+            </p-tabView>
+
+            <!--  -->
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=0"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm bản sao mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và quay ra
+            </button>
+        </div>
+    </fieldset>
+</form>
+<ng-template pTemplate="footer">
+</ng-template>
+
+<p-toast position="top-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

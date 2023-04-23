@@ -1,7 +1,8 @@
 ﻿using Common.Interface;
 using Microsoft.AspNetCore.Hosting;
 using System;
-
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -32,10 +33,27 @@ namespace Common
                 Directory.CreateDirectory(_userContentFolder);
             }
             var filePath = Path.Combine(_userContentFolder, fileName);
-            using var output = new FileStream(filePath, FileMode.Create);
-            await mediaBinaryStream.CopyToAsync(output);
-        }
+            using var image = Image.FromStream(mediaBinaryStream);
+            var encoder = System.Drawing.Imaging.Encoder.Quality;
+            var encoderParameters = new EncoderParameters(1);
+            var encoderParameter = new EncoderParameter(encoder, 100L);
+            encoderParameters.Param[0] = encoderParameter;
+            var jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+            await Task.Run(() => image.Save(filePath, jpgEncoder, encoderParameters));
 
+        }
+        private  ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            var codecs = ImageCodecInfo.GetImageEncoders();
+            foreach (var codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
+        }
         public async Task DeleteFileAsync(string fileName)
         {
             var filePath = Path.Combine(_userContentFolder, fileName);

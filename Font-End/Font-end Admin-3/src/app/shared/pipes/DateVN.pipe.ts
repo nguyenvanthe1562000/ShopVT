@@ -19,3 +19,22 @@ export class DateVNPipe implements PipeTransform {
   }
 
 }
+@Pipe({
+  name: 'bytes'
+})
+export class BytesPipe implements PipeTransform {
+
+  transform(value: number, precision: number = 2): string {
+    if (value === 0) {
+      return '0 bytes';
+    }
+  
+    const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const exponent = Math.floor(Math.log(Math.abs(value)) / Math.log(1024));
+    const unit = units[exponent];
+    const formattedValue = parseFloat((value / Math.pow(1024, exponent)).toFixed(precision));
+  
+    return `${formattedValue} ${unit}`;
+  }
+
+}

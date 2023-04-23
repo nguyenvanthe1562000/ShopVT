@@ -1,0 +1,440 @@
+<ng-template pTemplate="header">
+</ng-template>
+<br>
+ 
+<!-- Content -->
+<form (ngSubmit)="Add(form2,false,addType); " #form2="ngForm"  (keydown.enter)="$event.preventDefault()">
+    <h5 [style]="{'color':'Blue'}">Cập nhật hóa đơn GTGT</h5>
+    <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=0"
+    class="btn btn-primary waves-effect waves-light mr-2">
+    Lấy đơn hàng
+</button>
+    <fieldset id="edit" [(disabled)]="displayAdd">
+        <div style="width:99%; margin-left: 1%;">
+            <div class="row">
+                <div class="col-md-2">
+                <label style="font-weight: bold;">Trạng thái:</label>
+                    <p-autoComplete [suggestions]="lookupResponse" [dropdown]="true" 
+                        [placeholder]="_Parent.docStatusName"
+                        (onSelect)="SelectDocStatus($event)" field="Name"
+                        (completeMethod)="Lookup3($event,'DocStatus');">
+                        <ng-template let-item pTemplate="item">
+                            <span style="width: 200%;">{{item.Name}}</span>
+                        </ng-template>
+                    </p-autoComplete>
+                </div>
+                <div class="col-md-2">
+                    <label style="font-weight: bold;">ngày:</label>
+                    <input id="_Parent.docDate" name="_Parent.docDate" (change)="setDueDate();"
+                   [ngModel]="_Parent.docDate| date:'yyyy-MM-dd'"  (ngModelChange)="_Parent.docDate = $event;"
+                     type="date" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <label style="font-weight: bold;">Số:</label>
+                    <input class="form-control" type="text" type="text" id="_Parent.docNo" name="_Parent.docNo"
+                        [(ngModel)]="_Parent.docNo">
+                </div>
+                <div class="col-md-2">
+                    <label style="font-weight: bold;">Tracking:</label>
+                    <input  id="_Parent.trackingNo" name="_Parent.trackingNo"
+                    [(ngModel)]="_Parent.trackingNo" type="text" class="form-control">
+                </div>
+                <div class="col-md-1">
+                <label style="font-weight: bold;">Vị trí:</label>
+                <p-autoComplete [suggestions]="lookupResponse" [dropdown]="true" 
+                    [placeholder]="_Parent.locationName"
+                    (onSelect)="SelectLocation($event)" field="Name"
+                    (completeMethod)="Lookup3($event,'Location');">
+                    <ng-template let-item pTemplate="item">
+                        <span style="width: 200%;">{{item.Name}}</span>
+                    </ng-template>
+                </p-autoComplete>
+            </div>
+                <div class="col-md-1">
+                    <label style="font-weight: bold;">Tỷ giá:</label>
+                    <p-autoComplete [placeholder]="_currency" [suggestions]="lookupResponse" [dropdown]="true" id="_Parent.currencyCode"
+                        name="_Parent.currencyCode" 
+                        (onSelect)="SelectCurrency($event)" field="Code"
+                        (completeMethod)="Lookup3($event,'Currency'); ">
+                        <ng-template let-item pTemplate="item">
+                            <span style="width: 200%;">{{item.Code}}|{{item.SellingExchangeRate}}</span>
+                        </ng-template>
+                    </p-autoComplete>
+                </div>
+                <div class="col-md-2">
+                    <label style="font-weight: bold;"> </label>
+                    <input class="form-control" type="text" type="text" id="_Parent.exchangeRate"
+                        name="_Parent.exchangeRate" (change)="setExchangeRate();" [(ngModel)]="_Parent.exchangeRate">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Đối tượng:</label>
+                    <br>
+                    <p-autoComplete [placeholder]="_Parent.customerCode" [style]="{'width':'100%'}" [suggestions]="lookupResponse" [dropdown]="true"
+                        id="_Parent.customerCode" name="_Parent.customerCode" [(ngModel)]="_Parent.customerCode"
+                        (onSelect)="SelectCustomer($event)" field="Code"
+                        (completeMethod)="Lookup3($event,'Customer'); ">
+                        <ng-template let-item pTemplate="item">
+                            <span style="width: 200%;">{{item.Code}}|{{item.Name}}|{{item.Email}}|{{item.Address}}</span>
+                        </ng-template>
+                    </p-autoComplete>
+                    <label style="font-weight: bold;">Tên:</label>
+                    <input class="form-control" type="text" type="text" id="_Parent.customerName"
+                    name="_Parent.customerName" [(ngModel)]="_Parent.customerName">
+                </div>
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Số điện thoại:</label>
+                    <input class="form-control" type="text" type="text" id="_Parent.phone"
+                    name="_Parent.phone" [(ngModel)]="_Parent.phone">
+                        <label style="font-weight: bold;">Địa chỉ:</label>
+                        <input class="form-control" type="text" type="text" id="_Parent.address"
+                        name="_Parent.address" [(ngModel)]="_Parent.address">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Email:</label>
+                    <input class="form-control" type="text" type="text" id="_Parent.email"
+                    name="_Parent.email" [(ngModel)]="_Parent.email">
+                </div>
+               
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Kho:</label>
+                    <input class="form-control" type="text" type="text" id="_Parent.address"
+                    name="_Parent.address" [(ngModel)]="_Parent.address">
+                </div>
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Cân nặng:</label>
+                    <input class="form-control" type="number"  id="_Parent.netWeight"
+                    name="_Parent.netWeight" [(ngModel)]="_Parent.netWeight">
+                </div>
+            </div>
+         
+            
+            <label style="font-weight: bold;">Ghi chú:</label>
+            <input class="form-control" type="text" type="text" id="_Parent.note"
+            name="_Parent.note" [(ngModel)]="_Parent.note">
+ 
+            <label style="font-weight: bold;">Chi tiết phiếu:</label>
+
+           
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th rowspan="2">TT</th>
+                        <th rowspan="2">Mã sản phẩm</th>
+                        <th rowspan="2">Tên sản phẩm</th>
+                        <th rowspan="2">Đơn vị tính</th>
+                        <th rowspan="2">% Chiết khấu</th>
+                        <th rowspan="2">Số lượng</th>
+                        <th rowspan="2">Đơn giá {{_Parent.currencyCode}}</th>
+                        <th rowspan="2" [hidden]="!(_Parent.currencyCode !=_currency)">Đơn giá {{_currency}}</th>
+                        <th rowspan="2">Thành tiền {{_Parent.currencyCode}}</th>
+                        <th rowspan="2" [hidden]="!(_Parent.currencyCode !=_currency)">Thành tiền {{_currency}}</th>
+                        <th rowspan="2">Ảnh</th>
+                        <th [colSpan]="!(_Parent.currencyCode !=_currency)?3:5" style="text-align: center;">Giá vốn</th>
+                        <th colspan="2" style="text-align: center;">Tồn tức thời</th>
+                    </tr>
+                    <tr>
+                        <th>Đơn giá {{_Parent.currencyCode}}</th>
+                        <th [hidden]="!(_Parent.currencyCode !=_currency)">Đơn giá {{_currency}}</th>
+                        <th>Thành tiền {{_Parent.currencyCode}}</th>
+                        <th [hidden]="!(_Parent.currencyCode !=_currency)">Thành tiền {{_currency}}</th>
+                        <th>Áp giá</th>
+                        <th>Tồn</th>
+                        <th>Còn lại</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let field of _FieldArray; let i = index">
+                        <td>
+                             {{i+1}} 
+                        </td>
+                        <td>
+                            <p-autoComplete [placeholder] ="field.productCode" [suggestions]="lookupResponse" [dropdown]="true"
+                                (onSelect)="SelectProduct($event,i)" field="Code"
+                                (completeMethod)="Lookup3($event,'Product')"></p-autoComplete>
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" [(ngModel)]="field.description"
+                                [value]="field.description" />
+                        </td>
+                        <td>
+                            <p-autoComplete  [placeholder] ="field.unit" [suggestions]="lookupResponse"  
+                            [dropdown]="true" (onSelect)="SelectUnit($event,i)" field="Unit"
+                            (completeMethod)="Lookup3($event,'Product_Unit','ProductCode =`'+field.productCode+'`')">
+                            <ng-template let-item pTemplate="item">
+                                <span style="width: 200%;">{{item.Unit}}|{{item.ConvertRate}}</span>
+                            </ng-template>
+                        </p-autoComplete>
+                        </td>
+                        <td>
+                            <input  min="0" max="100" class="form-control" type="number" (change)="setAmount(i);setAmount2(i);"  id="field.DiscountRate"
+                            [(ngModel)]="field.discountRate" name="field.discountRate"  />
+                            
+                        </td>
+
+                        <td>
+                            <input class="form-control" type="number" (change)="setAmount(i);setQuantity(i);setAmount2(i);"
+                                [(ngModel)]="field.quantity9" id="field.quantity9" name="field.quantity9" />
+                        </td>
+                        <td >
+                    
+                            <input class="form-control" type="number" (change)="setAmount(i);setAmount2(i);" pattern="^\d+(?:\.\d{1,2})?$"
+                                [(ngModel)]="field.originalUnitPrice" id="field.originalUnitPrice" name="_Parent.originalUnitPrice"
+                               />
+                        </td>
+
+                        <td [hidden]="!(_Parent.currencyCode !=_currency)">
+                                {{field.unitPrice|number}}
+                        </td>
+                        <td>
+                            {{field.originalAmount2|number}}
+                        </td>
+
+                        <td  [hidden]="!(_Parent.currencyCode !=_currency)">
+                            {{field.amount2|number}}
+                        </td>
+                      
+                        <td>
+                            <img width="50px" src="{{_url}}/{{field.imagePath}}" alt="">
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" (change)="setAmount(i)" pattern="^\d+(?:\.\d{1,2})?$"
+                                [(ngModel)]="field.originalUnitCost" id="field.originalUnitCost" name="_Parent.originalUnitCost"
+                                [readOnly]="field.gia_Tb_Tt"
+                               />
+                        </td>
+                        <td  [hidden]="!(_Parent.currencyCode !=_currency)">
+                            <input class="form-control" type="number" (change)="setAmount(i)" pattern="^\d+(?:\.\d{1,2})?$"
+                                [(ngModel)]="field.unitCost" id="field.unitCost" name="field.unitCost"
+                                readonly
+                                 />
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" (change)="setAmount(i)" pattern="^\d+(?:\.\d{1,2})?$"
+                                [(ngModel)]="field.originalAmount" id="field.originalAmount" name="field.originalAmount"
+                                [readOnly]="field.gia_Tb_Tt"
+                               />
+                        </td>
+                        <td  [hidden]="!(_Parent.currencyCode !=_currency)">
+                            <input class="form-control" type="number" (change)="setAmount(i)"
+                                [(ngModel)]="field.amount" id="field.amount" name="_Parent.amount"
+                               readonly />
+                        </td>
+                        <td>
+                            <input  type="checkbox"  
+                                [(ngModel)]="field.gia_Tb_Tt" (change)="setGiaTbTT(i)" id="field.gia_Tb_Tt" name="field.gia_Tb_Tt"
+                               />
+                        </td>
+                        <td>
+                               {{field.quantityBeforeTrans|number}}
+                        </td>
+                        <td>
+                            {{field.quantityAfterTrans|number}}
+                     </td>
+                        <td>
+                            <button class="btn btn-default" type="button" (click)="deleteFieldValue(i)">Delete</button>
+                        </td>
+                     
+                    </tr>
+                    <tr>
+                        <td>
+                            {{_FieldArray.length + 1}}
+                        </td>
+                        <td>
+                            <p-autoComplete [suggestions]="lookupResponse" [dropdown]="true"
+                                (onSelect)="SelectProduct($event,'productCode');tonTucThoi($event.Code)" field="Code"
+                                (completeMethod)="Lookup3($event,'Product');"></p-autoComplete>
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" [(ngModel)]="_Child.description"
+                                [value]="_Child.description" />
+                        </td>
+                        <td>
+                            <p-autoComplete  [suggestions]="lookupResponse" [placeholder]="_Child.unit"
+                                [dropdown]="true" (onSelect)="SelectUnit($event)" field="Unit"
+                                (completeMethod)="Lookup3($event,'Product_Unit','ProductCode =`'+_Child.productCode+'`')">
+                                <ng-template let-item pTemplate="item">
+                                    <span style="width: 200%;">{{item.Unit}}|{{item.ConvertRate}}</span>
+                                </ng-template>
+                            </p-autoComplete>
+                        </td>
+                        <td >
+                            <input  min="0" max="100" class="form-control" type="number" (change)="setAmount();setAmount2();"
+                                [(ngModel)]="_Child.discountRate"    id="_Child.discountRate" name="_Child.discountRate" />
+                        </td>
+
+                        <td>
+                            <input class="form-control" type="number" (change)="setAmount();setQuantity();setAmount2();"
+                                [(ngModel)]="_Child.quantity9" name="Quantity9" />
+                        </td>
+                        <td >
+                    
+                            <input class="form-control" type="number" (change)="setAmount();setAmount2();" pattern="^\d+(?:\.\d{1,2})?$"
+                                [(ngModel)]="_Child.originalUnitPrice" name="originalUnitPrice" />
+                        </td>
+                        <td [hidden]="!(_Parent.currencyCode !=_currency)">
+                                {{_Child.unitPrice|number}}
+                        </td>
+                        <td>
+                            {{_Child.originalAmount2|number}}
+                        </td>
+                        <td [hidden]="!(_Parent.currencyCode !=_currency)">
+                            {{_Child.amount2|number}}
+                        </td>
+                      
+                        <td>
+                            <img width="50px" src="{{_url}}/{{_Child.imagePath}}" alt="">
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" (change)="setAmount()" pattern="^\d+(?:\.\d{1,2})?$"
+                                [(ngModel)]="_Child.originalUnitCost" id="_Child.originalUnitCost" name="_Child.originalUnitCost"
+                                [readOnly]="_Child.gia_Tb_Tt"
+                               />
+                        </td>
+                        <td  [hidden]="!(_Parent.currencyCode !=_currency)">
+                            <input class="form-control" type="number" (change)="setAmount()" pattern="^\d+(?:\.\d{1,2})?$"
+                                [(ngModel)]="_Child.unitCost" id="_Child.unitCost" name="_Child.unitCost"
+                                readonly
+                                 />
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" (change)="setAmount()" pattern="^\d+(?:\.\d{1,2})?$"
+                                [(ngModel)]="_Child.originalAmount" id="_Child.originalAmount" name="_Child.originalAmount"
+                                [readOnly]="_Child.gia_Tb_Tt"
+                               />
+                        </td>
+                        <td  [hidden]="!(_Parent.currencyCode !=_currency)">
+                            <input class="form-control" type="number" (change)="setAmount()"
+                                [(ngModel)]="_Child.amount" id="_Child.amount" name="_Child.amount"
+                               readonly />
+                        </td>
+                        <td>
+                            <input  type="checkbox"  
+                                [(ngModel)]="_Child.gia_Tb_Tt" (change)="setGiaTbTT()" id="_Child.gia_Tb_Tt" name="_Child.gia_Tb_Tt"
+                               />
+                        </td>
+                        <td>
+                               {{_Child.quantityBeforeTrans|number}}
+                        </td>
+                        <td>
+                            {{_Child.quantityAfterTrans|number}}
+                     </td>
+                        <td>
+                            <button class="btn btn-default" type="button" (click)="addFieldValue()">Thêm</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+           
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label style="font-weight: bold;">Loại thuế :</label>
+                            <br>
+                            <p-autoComplete  [suggestions]="lookupResponse" [placeholder]="_Parent.taxCode"
+                            [dropdown]="true"  field="Name"
+                            (completeMethod)="Lookup3($event,'Tax','IsGroup = 0')" (onSelect)="setVAT($event)">
+                            <ng-template let-item pTemplate="item">
+                                <span style="width: 200%;">{{item.Name}}|{{item.Rate}}</span>
+                            </ng-template>
+                            </p-autoComplete>
+                        </div>
+                        <div class="col-md-6">
+                            <label style="font-weight: bold;">Hạn TT : {{_Parent.dateDue|date:"dd/MM/yy"}}</label>
+                            <br>
+                            <input class="form-control" type="number" (change)="setDueDate();"
+                            [(ngModel)]="_Parent.dueDate" name="dueDate" id="_Parent.dueDate" />
+                        </div>
+                        
+                    </div>
+                  
+                    
+                </div>
+                <div class="col-md-2">
+                    <label style="font-weight: bold;">Tiền hàng:</label>
+                    <input class="form-control" type="text" type="text" id="_Parent.totalOriginalAmount0"
+                    name="_Parent.totalOriginalAmount0" [ngModel]="_Parent.totalOriginalAmount0|number" readonly>
+                    <input [hidden]="!(_Parent.currencyCode !=_currency)" class="form-control" type="text" type="text" id="_Parent.totalAmount0"
+                    name="_Parent.totalAmount0" [ngModel]="_Parent.totalAmount0|number" readonly>
+
+                </div>
+                
+                <div class="col-md-2">
+                    <label style="font-weight: bold;">VAT:</label>
+                    <input class="form-control" type="text" type="text" id="_Parent.totalOriginalAmount3"
+                    name="_Parent.totalOriginalAmount3" [ngModel]="_Parent.totalOriginalAmount3|number" readonly>
+                    <input [hidden]="!(_Parent.currencyCode !=_currency)" class="form-control" type="text" type="text" id="_Parent.totalAmount3"
+                    name="_Parent.totalAmount3" [ngModel]="_Parent.totalAmount3|number" readonly>
+                    
+                </div>
+                <div class="col-md-2">
+                    <label style="font-weight: bold;">Tổng Tiền:</label>
+                    <input class="form-control" type="text" type="text" id="_Parent.totalOriginalAmount"
+                    name="_Parent.totalOriginalAmount" [ngModel]="_Parent.totalOriginalAmount|number" readonly>
+                    <input [hidden]="!(_Parent.currencyCode !=_currency)" class="form-control" type="text" type="text" id="_Parent.totalAmount"
+                    name="_Parent.totalAmount" [ngModel]="_Parent.totalAmount|number" readonly>
+                
+                </div>
+            </div>
+        
+
+            <!--  -->
+            <br>
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=0"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm bản sao mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và quay ra
+            </button>
+            <button type="button"  [style]="{'margin-top': '2px','margin-left': '2px'}"   (click)="showConfirm()" class="btn btn-danger waves-effect waves-light mr-2"> <i
+                class="mdi mdi-window-close"></i>
+            Huỷ</button>
+        </div>
+    </fieldset>
+    
+</form>
+<ng-template pTemplate="footer">
+    
+</ng-template>
+<p-toast position="top-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+
+
+
+<p-dialog [(visible)]="displayAdd" [style]="{width: '80vw'}" [dismissableMask]="false" [modal]="true">
+
+</p-dialog>

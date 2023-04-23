@@ -59,6 +59,9 @@ export class PostComponent extends BaseComponent implements OnInit {
     this.listItem = new PagedResult<B10Post>();
     this.groupData = new GroupData();
     this.selectItem = new B10Post();
+    setTimeout(() => {
+      this.loadScripts();
+    });
   }
 
   ngOnInit(): void {
@@ -109,9 +112,7 @@ export class PostComponent extends BaseComponent implements OnInit {
         this.listItem.PageCount = res.pageCount;
         this.listItem.TotalRecords = res.totalRecords;
         this.listItem.Items = res.items;
-        setTimeout(() => {
-          this.loadScripts();
-        });
+       
       }, err => { console.log(err) });
     });
   }

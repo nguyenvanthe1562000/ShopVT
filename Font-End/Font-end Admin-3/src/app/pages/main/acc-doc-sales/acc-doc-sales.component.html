@@ -1,0 +1,96 @@
+<div class="top">
+    <div class="left">
+    <p-button (click)="showAdd()" icon="pi pi-external-link" label="Thêm"></p-button>
+    <p-button (click)="IsActive()" [style]="{'margin-left': '5px','class':'p-button-danger'}"
+        label="Dữ liệu đẫ đình chỉ"></p-button>
+</div>
+</div>
+<!--explore data -->
+<p-panel header="Tìm kiếm" [style]="{'margin-top': '2px'}" [hidden]="filter.FilterColumn==null?true:false">
+<form class="form-horizontal" (ngSubmit)="search(form)" #form="ngForm">
+    <div class="form-group">
+        <div class="col-sm-11">
+            <input type="text" (change)="InitValueFormFilter()" [(ngModel)]="filter.FilterValue"
+                class="form-control" placeholder="nhập giá trị tìm kiếm" name="FilterValue">
+
+            <p-dropdown [options]="filterTypeColumn" placeholder="Tùy chọn cột" optionLabel="viewValue"
+                optionValue="value" (onChange)="InitValueFormFilter()" [(ngModel)]="filter.FilterColumn"
+                name="FilterColumn" ngModel #FilterColumn="ngModel">
+            </p-dropdown>
+
+            <p-dropdown [options]="filterTypeValue" (onChange)="InitValueFormFilter()"
+                [(ngModel)]="filter.FilterType" placeholder="Tùy chọn so sánh" editable="true"
+                optionLabel="viewValue" optionValue="value" [showClear]="true" name="FilterValue" ngModel
+                #FilterValue="ngModel"></p-dropdown>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-11">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Tìm</button>
+        </div>
+    </div>
+</form>
+</p-panel>
+
+
+<div class="bot">
+<p-table id="Refresh" [scrollable]="true"  selectionMode="single" scrollHeight="30vw" [value]="listItem.Items"
+styleClass="p-datatable-gridlines"  [style]="{'margin-top': '2px'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="max-width:3vw">STT</th>    
+            <th  style="max-width:3vw" id="locationName" (dblclick)="ChangeColorColumnIsClick('locationName')" (click)="OrderBy('locationName')">Vị trí</th>
+            <th style="max-width:7vw" id="docDate" (dblclick)="ChangeColorColumnIsClick('docDate')" (click)="OrderBy('docDate')">Ngày</th>
+            <th id="docNo" (dblclick)="ChangeColorColumnIsClick('docNo')" (click)="OrderBy('docNo')">Số</th>
+            <th id="customerCode" (dblclick)="ChangeColorColumnIsClick('customerCode')"
+                (click)="OrderBy('customerCode')">Nhà cung cấp</th>
+            <th style="max-width:5vw" id="currencyCode" (dblclick)="ChangeColorColumnIsClick('currencyCode')" (click)="OrderBy('currencyCode')">Tiền</th>
+
+            <th id="totalOriginalAmount0" (dblclick)="ChangeColorColumnIsClick('totalOriginalAmount0')" (click)="OrderBy('totalOriginalAmount0')">Tiền hàng</th>
+            <th id="totalOriginalAmount3" (dblclick)="ChangeColorColumnIsClick('totalOriginalAmount3')" (click)="OrderBy('totalOriginalAmount3')">Thuế</th>
+            <th id="amount" (dblclick)="ChangeColorColumnIsClick('amount')" (click)="OrderBy('amount')">Tổng tiền</th>
+            <th id="description" (dblclick)="ChangeColorColumnIsClick('description')"
+                (click)="OrderBy('description')">Ghi chú</th>
+            <th id="DocStatusName" (dblclick)="ChangeColorColumnIsClick('DocStatusName')"
+            (click)="OrderBy('DocStatusName')">Trạng thái</th>
+            <th style="max-width:10vw">Cập nhật</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-i="rowIndex">
+        <tr [style.Color]="item.isGroup == true  ? 'Blue' : ''" (dblclick)="nodeSelect(undefined,item)">
+            <td style="text-align: center;max-width:3vw;">{{i+1}}</td>
+            <td style="text-align: center;max-width:3vw;">{{item.locationName}}</td>
+
+            <td style="max-width:7vw">{{item.docDate|date:'dd/MM/yy'}}</td>
+            <td>{{item.docNo}}</td>
+            <td [style]="{'white-space': 'nowrap','overflow':'hidden','text-overflow':'ellipsis'
+        }">{{item.customerName}}</td>
+            <td style="max-width:5vw">{{item.currencyCode}}</td>
+            <td>{{item.totalOriginalAmount0|currency:'VND':true}}</td>
+            <td>{{item.totalOriginalAmount3|currency:'VND':true}}</td>
+            <td>{{item.totalOriginalAmount|currency:'VND':true}}</td>
+            <td>{{item.description}}</td>
+            <td [style.Color]="item.DocStatus == 0  ? 'Red' : ''">{{item.docStatusName}}</td>
+            <td style="text-align: center;  max-width:10vw;">
+                <div [hidden]="item.isActive">
+                    <button (click)="Restore(item.id)" pButton type="button" title="Khôi phục"
+                        class="p-button-secondary"><i class="fas fa-edit"></i></button>
+                </div>
+                <div [hidden]="!item.isActive">
+                    <button (click)="showEdit(item.id)" pButton type="button" title="Sửa" class="p-button-secondary"><i
+                            class="fas fa-edit"></i></button>
+                    <button (click)="Delete(item.id)" pButton type="button" title="Xóa" class="p-button-danger"><i
+                            class="fas fa-trash"></i></button>
+                    
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<div class="mt-5" style="position: relative;margin-left: 40%;">
+    <ngb-pagination [collectionSize]="listItem.TotalRecords" [pageSize]="listItem.PageSize"
+        [(page)]="listItem.PageIndex" [maxSize]="10" [rotate]="true" (pageChange)="loadPage($event)">
+    </ngb-pagination>
+</div>
+</div>
+<!--end explore data -->

@@ -572,7 +572,7 @@ body[data-sidebar="dark"] #sidebar-menu ul li ul.sub-menu li a {
 
 body[data-sidebar="dark"] #sidebar-menu ul > li > a.mm-active {
   background-color: #33424c; }
-
+  
 body[data-sidebar="dark"].vertical-collpsed {
   min-height: 1200px; }
   body[data-sidebar="dark"].vertical-collpsed .vertical-menu #sidebar-menu > ul > li:hover > a {

@@ -15,6 +15,7 @@ import { vB10Product} from '../../../shared/models/B10Product';
 import { B10ProductCategory } from '../../../shared/models/B10ProductCategory';
 import { B10ProductCategoryInf } from '../../../shared/models/B10ProductCategoryInf';
 import { GroupData } from '../../../shared/models/GroupData';
+import {MenuItem} from 'primeng/api';
 
 import { css } from 'jquery';
 import { stringify } from 'querystring';
@@ -28,7 +29,7 @@ interface FilterTypeValue { value: FilterType, viewValue: string }
 })
 export class ProductComponent extends BaseComponent implements OnInit {
   //exploredata
-  public tintuc: any;
+  items: MenuItem[];
   public page = 1;
   public pageSize = 20;
   public totalItems: any;
@@ -48,6 +49,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
   public addType: number = 0; //thao tác lưu dữ liệu vd 0: lưu và thêm mới
   public lookupRows: number = 10;
   public lookupProductCategoryData: B10ProductCategory;
+
   //editordata
   public displayUpdate: boolean = false;
   public displayConvert: boolean = false;// chuyển nhóm dữ liệu
@@ -64,10 +66,12 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.filter.PageIndex = this.page;
     this.filter.PageSize = this.pageSize;
     this.filter.DataIsActive = true;
+    this.filter.OrderBy ='IsGroup'
+    this.filter.OrderDesc = true;
     this.Filter(this.filter);
     this.ShowViewDataGroup();
-
   }
+   
   //start //explore
 
   InitValueFormFilter(value: string = null) {
@@ -170,7 +174,14 @@ export class ProductComponent extends BaseComponent implements OnInit {
      
     });
   }
+  myMethod(event: any) {
+    console.log('Selected item:', event.item);
+    // Do something with the selected item
+  }
+  
+  
   nodeSelect(event?, item?: any) {
+    debugger;
     this.filter.DataIsActive = true;
     if (item != undefined) {
       if (item.isGroup == true) {
@@ -187,134 +198,21 @@ export class ProductComponent extends BaseComponent implements OnInit {
   //end  //explore
 
   /// DataEditor
-
   showAdd() {
-    this.displayAdd = true;
-    this.displayEditChild = true;
-    this.displayEditGroup=false;
+    this.router.navigate(['/product-edit']);
+    
   }
   showEdit(item: any) {
-    this.selectItem = item;
-    this.displayUpdate = true;
-   this.GetById(item.id)
-    if (item.isGroup == true) {
-      this.displayEditGroup = true;
-      this.displayEditChild = false;
-    }
-    else {
-      this.displayEditGroup = false;
-      this.displayEditChild = true;
-    }
-
+    this.router.navigate(['/product-edit/'+item.id]);
+ 
   }
-  displayEditGroup: boolean = false;
-  showAddGroup() {
-    this.displayEditGroup = true;
-    this.displayEditChild = false;
-  }
-  displayEditChild: boolean = false;
-  showAddChild() {
-    this.displayEditGroup = false;
-    this.displayEditChild = true;
-  }
-
-  SelectForeignKey(event:any,foreignKey: string)
-  {
-    this.formData.append(foreignKey, event.code);
-    this.LookupInfo(event.code);
-  }
-  //grid
-  fieldArray: Array<any> = [];
-  newAttribute: any = {};
-  newAttributeChild: any = {};
-  addFieldValue() {
-      this.fieldArray.push(this.newAttribute)
-      this.newAttribute = {};
-  }
-  deleteFieldValue(index) {
-    this.fieldArray.splice(index, 1);
-  }
-  //end grid
-
-  SelectFile(event: any, name: string, isMultiple: boolean) {
-    if (isMultiple) {
-      event.target.files.forEach(element => {
-        this.formData.append(name, element);
-      });
-    }
-    else {
-      this.formData.append(name, event.target.files[0]);
-    }
-  }
-  //data editor
-  Add(form: NgForm, addDataIsGroup: boolean, addType: number) {
-
-    if (addDataIsGroup) {
-      if (this.selectGroup) {
-        this.formData.append('ParentId', `${this.selectGroup.data}`);
-      }
-      else { this.formData.append('ParentId', `-1`); }
-      this.formData.append('IsGroup', `${true}`);
-    }
-    else
-    {
-      if (this.selectGroup) {
-        this.formData.append('parentId', `${this.selectGroup.data}`);
-      }
-    }
   
-    this.formData.append('ProductInformation_Json', JSON.stringify(this.fieldArray));
-    this.ConvertNgFormToFormData(form,this.formData);
-    
-    this._api.postFormData(`${this.api}/add`, this.formData).takeUntil(this.unsubscribe).subscribe(res => {
-      alert(res.messages[0].message)
-      this.formData = new FormData();
-      this.Filter(this.filter);
-    });
-    if (addType == 0) {
-      form.resetForm();
-      this.fieldArray=[];
-    }
-    else if (addType == 1) {
-      form.control['code'].setValue('');
-    }
-    else {
-      form.resetForm();
-      this.displayAdd = false;
-      this.fieldArray=[];
-    }
-  }
-
-  Update(form: NgForm, addType: number) {
-    
-    this.selectItem.b10ProductInformation_Json = this.fieldArray;
-    this.formData.append('ProductInformation_Json', JSON.stringify(this.fieldArray));
-    this.ConvertObjectToFormData(this.selectItem, this.formData);  
-    this._api.putFormData(`${this.api}/update`, this.formData).takeUntil(this.unsubscribe).subscribe(res => {
-      this.Filter(this.filter);
-      this.formData = new FormData();
-      alert(res.messages[0].message)
-    });
-    if (addType == 0) {
-      form.resetForm();
-    }
-    else if (addType == 1) {
-      if( form.control['code'])
-        {form.control['code'].setValue('');}
-       
-    }
-    else {
-      form.resetForm();
-      this.displayUpdate = false;
-      this.fieldArray=[];
-    }
-  }
   ConvertGroupToGroup(event: any) {
     this.selectGroup = event;
   }
   Transfer() {
     this.selectItem.parentId = this.selectGroup.node.data;
-debugger;
+    debugger;
     this._api.put(`${this.api}/tranfer`, this.selectItem).takeUntil(this.unsubscribe).subscribe(res => {
       this.Filter(this.filter);
       alert(res.messages[0].message)
@@ -329,22 +227,7 @@ debugger;
       });
     }
   }
-  GetById(id: number) {   
  
-      this._api.get(`${this.api}/${id}`,).takeUntil(this.unsubscribe).subscribe(res => {
-        this.selectItem =res;
-        this.selectItem.b10ProductInformation_Json=res.b10ProductInformation_Json;
-        this.selectItem.b10ProductImg_Json=res.b10ProductImg_Json;
-        this.fieldArray = this.selectItem.b10ProductInformation_Json;
-       //check fieldarray is null
-       if(this.fieldArray==null)
-       {
-         this.fieldArray= [];;
-       }
-      });    
-  }
-
-
   Restore(id: number) {
     if (confirm("Bạn có chắc chắn muốn khôi phục?")) {
       this._api.putParamUrl(`${this.api}/restore`, id).takeUntil(this.unsubscribe).subscribe(res => {
@@ -354,37 +237,6 @@ debugger;
     }
     
   }
-
-  LookupCategory(str: any) {
-    this._api.getLookup(`product-category`,str.query).takeUntil(this.unsubscribe).subscribe(res => {
-      this.lookupProductCategoryData = res;
-    });
-  }
-  lookupManufacturer:any;
-  LookupManufacturer(str: any) {
-    this._api.getLookup(`manufacturer`,str.query).takeUntil(this.unsubscribe).subscribe(res => {
-      this.lookupManufacturer = res;
-    });
-  }
-  LookupInfo(str: any) {   
-    this._api.get(`${this.api}/look-up-product-info?v=${str}`,).takeUntil(this.unsubscribe).subscribe(res => {
-      this.fieldArray=[];
-     
-      res.forEach(element => {
-       
-        if(element.description)
-        {
-          console.log(element.description);
-          this.fieldArray.push({name:element.name,description:element.description});
-        }
-        else
-        {
-          this.fieldArray.push({name:element.name,description:` `});
-        }          
-      });
-    });
-  }
-  
   //end data editor
 
 }

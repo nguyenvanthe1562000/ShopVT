@@ -1,0 +1,174 @@
+<ng-template pTemplate="header">
+
+</ng-template>
+<br>
+<button type="button"  [style]="{'margin-top': '2px','margin-left': '2px'}"   (click)="changeForm(1)" class="btn btn-danger waves-effect waves-light mr-2"> <i
+    class="mdi mdi-window-close"></i>
+thêm menu mẹ</button>
+<button type="button"  [style]="{'margin-top': '2px','margin-left': '2px'}"   (click)="changeForm(0)" class="btn btn-danger waves-effect waves-light mr-2"> <i
+    class="mdi mdi-window-close"></i>
+thêm con</button>
+<!-- Content -->
+<form *ngIf="!_Parent.isGroup" (ngSubmit)="Add(form2,false,addType); " #form2="ngForm" (keydown.enter)="$event.preventDefault()" ngNativeValidate>
+    <h5 [style]="{'color':'Blue'}">Cập nhật menu</h5>
+    <fieldset id="edit" [(disabled)]="displayAdd">
+        <div style="width: 100%; ">
+            <div class="row">
+                <div class="col-md-3" *ngIf="_TypeMenu==''">
+                    <label style="font-weight: bold;">Menu mẹ:</label>
+                    <p-autoComplete  [suggestions]="lookupResponse" [placeholder]="_Parent.menuType"
+                    [dropdown]="true"  field="Name"
+                    (completeMethod)="Lookup3($event,'Class','ParentCode=`'+'MENUTYPE'+'`')" (onSelect)="setMenuType($event)">
+                    <ng-template let-item pTemplate="item">
+                        <span style="width: 200%;">{{item.Code}}|{{item.Name}}</span>
+                    </ng-template>
+                </p-autoComplete>
+                </div>
+                <div class="col-md-3" *ngIf="_ParentId==0">
+                    <p-autoComplete  [suggestions]="lookupResponse" [placeholder]="_Parent.menuParentName"
+                    [dropdown]="true"  field="Name"
+                    (completeMethod)="Lookup3($event,'Menu','IsGroup=1 AND Type=`'+ _Parent.type +'`')" (onSelect)="setMenuParent($event)">
+                    <ng-template let-item pTemplate="item">
+                        <span style="width: 200%;">{{item.Code}}|{{item.Name}}</span>
+                    </ng-template>
+                </p-autoComplete>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label style="font-weight: bold;">Mã:</label>
+                    <input id="_Parent.code" name="_Parent.code" [(ngModel)]="_Parent.code" type="text"
+                        class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label style="font-weight: bold;"></label>
+                    <input type="button" (click)="RandomString()"
+                    class="form-control" value="Tạo mã" />
+                </div>
+
+            </div>
+           
+            <div class="row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Tiêu đề:</label>
+                    <input type="text" (change)="convertNameToSlug()"  id="_Parent.name" name="_Parent.name" [(ngModel)]="_Parent.name" type="text"
+                        class="form-control" required/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Tên 2:</label>
+                    <input type="text" id="_Parent.name2" name="_Parent.name2" [(ngModel)]="_Parent.name2" type="text"
+                        class="form-control"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Alias 2:</label>
+                    <input type="text" id="_Parent.alias" name="_Parent.alias" [(ngModel)]="_Parent.alias" type="text"
+                        class="form-control"/>
+                </div>
+            </div>
+            <!--  -->
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=0"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm bản sao mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và quay ra
+            </button>
+            <button type="button"  [style]="{'margin-top': '2px','margin-left': '2px'}"   (click)="showConfirm()" class="btn btn-danger waves-effect waves-light mr-2"> <i
+                class="mdi mdi-window-close"></i>
+            Huỷ</button>
+          
+        </div>
+    </fieldset>
+</form>
+<ng-template pTemplate="footer">
+</ng-template>
+
+<form  *ngIf="_Parent.isGroup"  (ngSubmit)="Add(form2,false,addType); " #form2="ngForm" (keydown.enter)="$event.preventDefault()" ngNativeValidate>
+    <h5 [style]="{'color':'Blue'}">Cập nhật menu mẹ</h5>
+    <fieldset id="edit" [(disabled)]="displayAdd">
+        <div style="width: 100%; ">
+          
+            <div class="row">
+                <div class="col-md-4">
+                    <label style="font-weight: bold;">Mã:</label>
+                    <input id="_Parent.code" name="_Parent.code" [(ngModel)]="_Parent.code" type="text"
+                        class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label style="font-weight: bold;"></label>
+                    <input type="button" (click)="RandomString()"
+                    class="form-control" value="Tạo mã" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Tiêu đề:</label>
+                    <input type="text" (change)="convertNameToSlug()"  id="_Parent.name" name="_Parent.name" [(ngModel)]="_Parent.name" type="text"
+                        class="form-control" required/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold;">Tên 2:</label>
+                    <input type="text" id="_Parent.name2" name="_Parent.name2" [(ngModel)]="_Parent.name2" type="text"
+                        class="form-control"/>
+                </div>
+            </div>
+          
+            <!--  -->
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=0"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px' ,'margin-left': '2px'}" (click)="addType=1"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và thêm bản sao mới
+            </button>
+            <button type="submit" [style]="{'margin-top': '2px','margin-left': '2px'}" (click)="addType=2"
+                class="btn btn-primary waves-effect waves-light mr-2">
+                <i class="mdi mdi-check"></i>
+                Lưu và quay ra
+            </button>
+            <button type="button"  [style]="{'margin-top': '2px','margin-left': '2px'}"   (click)="showConfirm()" class="btn btn-danger waves-effect waves-light mr-2"> <i
+                class="mdi mdi-window-close"></i>
+            Huỷ</button>
+          
+        </div>
+    </fieldset>
+</form>
+<ng-template pTemplate="footer">
+</ng-template>
+
+<p-toast position="top-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

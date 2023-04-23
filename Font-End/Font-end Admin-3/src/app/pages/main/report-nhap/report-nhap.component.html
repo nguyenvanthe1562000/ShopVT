@@ -34,7 +34,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-item let-i="rowIndex">
-            <tr >
+            <tr [style.Color]="item.isGroup == true  ? 'Blue' : ''" (dblclick)="nodeSelect(undefined,item)">
                 <td style="text-align: center;">{{i+1}}</td>
                 <td>{{item.productCode}}</td>
                 <td>{{item.name}}</td>

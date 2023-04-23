@@ -1,0 +1,52 @@
+export class vB20AccDocSales {
+    id: number;
+    parentId: number;
+    isGroup: boolean;
+    branchCode: string;
+    stt: string;
+    rowId: string;
+    builtinOrder: number;
+    docGroup: string;
+    docCode: string;
+    docDate: Date;
+    rowId_PriceTable: string;
+    customerCode: string;
+    warehouseCode: string;
+    productCode: string;
+    unit: string;
+    quantity: number;
+    originalUnitCost: number;
+    unitCost: number;
+    originalUnitPrice: number;
+    unitPrice: number;
+    originalAmount: number;
+    amount: number;
+    originalAmount2: number;
+    amount2: number;
+    taxCode: string;
+    taxRate: number;
+    originalAmount3: number;
+    amount3: number;
+    convertRate9: number;
+    quantity9: number;
+    originalAmount9: number;
+    amount9: number;
+    envTaxLevel: number;
+    discountRate: number;
+    originalDiscountAmount: number;
+    discountAmount: number;
+    gia_Tb_Tt: boolean;
+    description: string;
+    remark: string;
+    netWeight: number;
+    isActive: boolean;
+    createdBy: number;
+    createdAt: Date;
+    modifiedBy: number;
+    modifiedAt: Date;
+    imagePath: string;
+    quantityBeforeTrans: number;
+    quantityAfterTrans: number;
+ 
+   
+  }

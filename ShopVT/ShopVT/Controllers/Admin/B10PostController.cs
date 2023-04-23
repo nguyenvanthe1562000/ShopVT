@@ -186,7 +186,7 @@ namespace ShopVT.Controllers.Admin
         {
             try
             {
-                return BadRequest();
+              
                 var result = await _explore.GetGroup<GroupData>(_table, "Name", "id", false, GetCurrentUserId());
                 if (result.Count() == 0)
                 {

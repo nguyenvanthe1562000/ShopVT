@@ -36,16 +36,6 @@
             ],
             "scripts": [
 
-              "src/assets/libs/jquery/jquery.min.js",
-              "src/assets/libs/popper/popper.min.js",
-              "src/assets/libs/bootstrap/js/bootstrap.min.js",
-              "src/assets/libs/nivo-slider/js/jquery.nivo.slider.js",
-              "src/assets/libs/owl-carousel/owl.carousel.min.js",
-              "src/assets/libs/slider-range/js/tmpl.js",
-              "src/assets/libs/slider-range/js/jquery.dependClass-0.1.js",
-              "src/assets/libs/slider-range/js/draggable-0.1.js",
-              "src/assets/libs/slider-range/js/jquery.slider.js",
-              "src/assets/js/theme.js"
               
             ]
           },

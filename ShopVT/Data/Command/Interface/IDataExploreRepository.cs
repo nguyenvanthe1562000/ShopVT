@@ -25,7 +25,12 @@ namespace Data.Command
         public Task<DataTable> GetDataLookUp2(DataExploreLookup2RequestModel model);
         //exec store và fuction trả về table
  
-        public Task<DataTable> ServerConstraintFunction(ServerConstraintRequestModel function);
-        public Task<DataTable> ServerConstraintStoreProcedure(ServerConstraintRequestModel model);
+        public Task<DataTable> ServerConstraintFunction(string function);
+        public Task<DataTable> ServerConstraintStoreProcedure(string store);
+        public Task<DataSet> ServerConstraintStoreProcedureMultipleTable(string store);
+
+
+        public Task<DataSet> Report(string store);
+
     }
 }
